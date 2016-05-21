@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+ http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+
+
+    <jaxrs:server id="releaseTracker" address="http://localhost:8183/service">
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs:providers>
+        <jaxrs:serviceBeans>
+            <ref bean="releaseEndPoint"/>
+        </jaxrs:serviceBeans>
+    </jaxrs:server>
+
+    <cxf:bus>
+        <cxf:features>
+            <cxf:logging/>
+        </cxf:features>
+    </cxf:bus>
+
+    <bean id="dataSource"
+          class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="org.h2.Driver"/>
+        <property name="jdbcUrl" value="jdbc:h2:~/test"/>
+        <property name="user" value="sa"/>
+        <property name="password" value=""/>
+
+        <property name="maxPoolSize" value="20"/>
+        <property name="minPoolSize" value="5"/>
+        <property name="maxIdleTime" value="500"/>
+        <property name="maxStatements" value="50"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="release-tracker"/>
+        <property name="persistenceUnitManager">
+            <bean class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+                <property name="defaultDataSource" ref="dataSource"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="releaseDao" class="com.github.joelws.release.tracker.dao.ReleaseDaoImpl"/>
+
+    <bean id="artifactDao" class="com.github.joelws.release.tracker.dao.ArtifactDaoImpl"/>
+
+    <bean id="releaseService" class="com.github.joelws.release.tracker.service.ReleaseServiceImpl">
+        <constructor-arg index="0" ref="releaseDao"/>
+    </bean>
+
+    <bean id="releaseEndPoint" class="com.github.joelws.release.tracker.endpoint.ReleaseEndPointImpl">
+        <constructor-arg index="0" ref="releaseService"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <context:annotation-config/>
+
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+</beans>
