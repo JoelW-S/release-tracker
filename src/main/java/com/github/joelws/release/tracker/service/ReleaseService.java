@@ -1,25 +1,24 @@
 package com.github.joelws.release.tracker.service;
 
-import com.github.joelws.release.tracker.exception.DatabaseException;
 import com.github.joelws.release.tracker.model.Artifact;
 import com.github.joelws.release.tracker.model.Release;
 
 public interface ReleaseService
 {
-    Release create(final Release release) throws DatabaseException;
+    Release create(final Release release);
 
-    Release read(final String releaseName) throws DatabaseException;
+    Release read(final String releaseName);
 
-    Release update(final Release release) throws DatabaseException;
+    Release update(final Release release);
 
-    void delete(final String releaseName) throws DatabaseException;
+    void delete(final String releaseName);
 
-    Release addArtifact(final Artifact artifact, final String releaseName) throws DatabaseException;
+    Release addArtifact(final Artifact artifact, final String releaseName);
 
-    Release deleteArtifact(final String artifactId, final String releaseName) throws DatabaseException;
+    Release deleteArtifact(final String artifactId, final String releaseName);
 
-    Release addHotfixRelease(final Release hotfix, final String releaseName) throws DatabaseException;
+    Release addHotfixRelease(final Release hotfix, final String releaseName);
 
-    Release removeHotfixRelease(final Release hotfix, final String releaseName) throws DatabaseException;
+    Release removeHotfixRelease(final Release hotfix, final String releaseName);
 
 }

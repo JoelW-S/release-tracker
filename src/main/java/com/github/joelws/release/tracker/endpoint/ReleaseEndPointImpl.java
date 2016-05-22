@@ -1,7 +1,6 @@
 package com.github.joelws.release.tracker.endpoint;
 
 import com.github.joelws.release.tracker.common.GenericEndPointImpl;
-import com.github.joelws.release.tracker.exception.DatabaseException;
 import com.github.joelws.release.tracker.model.Release;
 import com.github.joelws.release.tracker.service.ReleaseService;
 import org.apache.log4j.Logger;
@@ -26,16 +25,10 @@ import javax.ws.rs.core.Response;
     {
         if (type != null)
         {
-            try
-            {
-                LOGGER.info("Creating release: " + type.getName());
+
+            LOGGER.info("Starting create process: " + type.getName());
                 return Response.ok(service.create(type)).build();
-            }
-            catch (DatabaseException de)
-            {
-                LOGGER.error("Failed to create " + type.getName() + " reason: ", de.getCause());
-                return Response.status(Response.Status.BAD_REQUEST).build();
-            }
+
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
@@ -44,16 +37,9 @@ import javax.ws.rs.core.Response;
     {
         if (type != null)
         {
-            try
-            {
-                LOGGER.info("Updating release: " + type.getName());
+
+            LOGGER.info("Starting update process: " + type.getName());
                 return Response.ok(service.update(type)).build();
-            }
-            catch (DatabaseException de)
-            {
-                LOGGER.error("Failed to update " + type.getName() + " reason: ", de.getCause());
-                return Response.status(Response.Status.BAD_REQUEST).build();
-            }
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
@@ -62,36 +48,21 @@ import javax.ws.rs.core.Response;
     {
         if (identifier != null)
         {
-            try
-            {
-                LOGGER.info("Deleting release " + identifier);
+            LOGGER.info("Starting delete process " + identifier);
                 service.delete(identifier);
                 return Response.ok().build();
-            }
-            catch (DatabaseException de)
-            {
-                LOGGER.error("Failed to delete " + identifier + " reason: ", de.getCause());
-                return Response.status(Response.Status.BAD_REQUEST).build();
-            }
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
-    @Override public Release read(String identifier)
+    @Override
+    public Response read(String identifier)
     {
         if (identifier != null)
         {
-            try
-            {
-                LOGGER.info("Finding release " + identifier);
-                return service.read(identifier);
-            }
-            catch (DatabaseException de)
-            {
-                LOGGER.error("Failed to delete " + identifier + " reason: ", de.getCause());
-                return null;
-            }
+            LOGGER.info("Starting search " + identifier);
+            return Response.ok().entity(service.read(identifier)).build();
         }
-        return null;
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 }

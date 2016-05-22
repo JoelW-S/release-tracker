@@ -16,7 +16,7 @@ public interface GenericEndPoint<T, PK>
     @GET
     @Path("/{identifier}")
     @Produces(MediaType.APPLICATION_JSON)
-    T read(@PathParam("identifier") PK identifier);
+    Response read(@PathParam("identifier") PK identifier);
 
     @PUT
     @Path("/")
