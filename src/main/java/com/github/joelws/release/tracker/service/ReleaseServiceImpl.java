@@ -76,14 +76,14 @@ public class ReleaseServiceImpl implements ReleaseService {
     @Override
     public Release addArtifact(Artifact artifact, String releaseName) {
         try {
-            LOGGER.info(String.format("Adding artifact %s to %s", artifact.getArtifactId(), releaseName));
+            LOGGER.info(String.format("Adding artifact %s to %s", artifact.getId().getArtifactId(), releaseName));
             Release release = releaseDao.read(releaseName);
 
             release.getArtifacts().add(artifact);
 
             return update(release);
         } catch (final DataAccessException e) {
-            LOGGER.error("Failed to add artifact " + artifact.getArtifactId());
+            LOGGER.error("Failed to add artifact " + artifact.getId().getArtifactId());
             throw new ServiceException(Response.Status.BAD_REQUEST, e);
         }
     }
@@ -96,7 +96,7 @@ public class ReleaseServiceImpl implements ReleaseService {
             Release release = read(releaseName);
             for (Iterator<Artifact> it = release.getArtifacts().iterator(); it.hasNext(); ) {
                 Artifact artifactInQuestion = it.next();
-                if (artifactInQuestion.getArtifactId().equals(artifactId)) {
+                if (artifactInQuestion.getId().getArtifactId().equals(artifactId)) {
                     it.remove();
                 }
             }
