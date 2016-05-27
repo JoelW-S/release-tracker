@@ -17,10 +17,9 @@
     <jaxrs:server id="releaseTracker" address="${rest.service.url}">
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
-            <bean class="com.github.joelws.release.tracker.exception.ServiceExceptionhandler"/>
         </jaxrs:providers>
         <jaxrs:serviceBeans>
-            <ref bean="releaseEndPoint"/>
+            <ref bean="releaseEndpoint"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
@@ -52,23 +51,38 @@
             </bean>
         </property>
     </bean>
-
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="releaseDao" class="com.github.joelws.release.tracker.dao.ReleaseDaoImpl"/>
+    <bean id="releaseDao" class="com.github.joelws.release.tracker.dao.release.ReleaseDaoImpl"/>
 
-    <bean id="artifactDao" class="com.github.joelws.release.tracker.dao.ArtifactDaoImpl"/>
+    <bean id="restResponseBuilder" class="com.github.joelws.release.tracker.interfaces.RestResponseBuilder"/>
+    <bean id="jsonAdapter" class="com.github.joelws.release.tracker.util.JsonAdapterImpl"/>
+    <bean id="releaseTrackerFactory" class="com.github.joelws.release.tracker.factory.ReleaseTrackerFactory"/>
 
-    <bean id="releaseService" class="com.github.joelws.release.tracker.service.ReleaseServiceImpl">
+    <bean id="serviceHelper" class="com.github.joelws.release.tracker.service.ServiceHelperImpl">
+        <constructor-arg index="0" ref="restResponseBuilder"/>
+        <constructor-arg index="1" ref="jsonAdapter"/>
+        <constructor-arg index="2" ref="releaseTrackerFactory"/>
+    </bean>
+
+    <bean id="createReleaseServiceExecution"
+          class="com.github.joelws.release.tracker.service.release.CreateReleaseServiceExecution">
         <constructor-arg index="0" ref="releaseDao"/>
     </bean>
 
-    <bean id="releaseEndPoint" class="com.github.joelws.release.tracker.endpoint.ReleaseEndPointImpl">
+    <bean id="createReleaseServiceOperation"
+          class="com.github.joelws.release.tracker.service.release.CreateReleaseServiceOperation">
+        <constructor-arg index="0" ref="serviceHelper"/>
+        <constructor-arg index="1" ref="createReleaseServiceExecution"/>
+    </bean>
+    <bean id="releaseService" class="com.github.joelws.release.tracker.service.release.ReleaseService">
+        <constructor-arg index="0" ref="createReleaseServiceOperation"/>
+    </bean>
+    <bean id="releaseEndpoint" class="com.github.joelws.release.tracker.endpoint.release.ReleaseEndpoint">
         <constructor-arg index="0" ref="releaseService"/>
     </bean>
-
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <context:annotation-config/>
