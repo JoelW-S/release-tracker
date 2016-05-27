@@ -11,10 +11,7 @@ import java.util.Set;
     @Id @Column(name = "NAME") private String name;
 
     @ManyToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER) @JoinTable(name = "RELEASE_ARTIFACTS",
-            joinColumns = @JoinColumn(name = "NAME"),
-            inverseJoinColumns = @JoinColumn(name = "ARTIFACT_ID"))
+            fetch = FetchType.EAGER)
     private List<Artifact> artifacts = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL,
