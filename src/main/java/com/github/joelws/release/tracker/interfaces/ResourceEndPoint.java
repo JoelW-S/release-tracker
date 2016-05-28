@@ -1,6 +1,9 @@
 package com.github.joelws.release.tracker.interfaces;
 
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 abstract public class ResourceEndPoint<I>
 {
@@ -11,12 +14,34 @@ abstract public class ResourceEndPoint<I>
         this.service = service;
     }
 
-    public abstract Response create(String json);
+    @POST
+    @Path("/")
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
+    public Response create(String json) {
+        return service.create(json);
+    }
 
-    public abstract Response read(I identifier);
+    @GET
+    @Path("/{identifier}")
+    @Produces(APPLICATION_JSON)
+    public Response read(@PathParam("identifier") I identifier) {
+        return service.read(identifier);
+    }
 
-    public abstract Response update(String json);
+    @PUT
+    @Path("/")
+    @Produces(APPLICATION_JSON)
+    @Consumes(APPLICATION_JSON)
+    public Response update(String json) {
+        return service.update(json);
+    }
 
-    public abstract Response delete(I identifier);
+    @DELETE
+    @Path("/{identifier}")
+    @Produces(APPLICATION_JSON)
+    public Response delete(@PathParam("identifier") I identifier) {
+        return service.delete(identifier);
+    }
 
 }

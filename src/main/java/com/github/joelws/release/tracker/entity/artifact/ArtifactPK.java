@@ -1,14 +1,18 @@
 package com.github.joelws.release.tracker.entity.artifact;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable public class ArtifactPK implements Serializable
 {
+    @Column(name = "group_id")
     private String groupId;
 
+    @Column(name = "artifact_id")
     private String artifactId;
 
+    @Column(name = "version")
     private String version;
 
     public ArtifactPK()

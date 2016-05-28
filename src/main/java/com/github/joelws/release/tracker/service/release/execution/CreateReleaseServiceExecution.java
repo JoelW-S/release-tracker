@@ -1,10 +1,10 @@
-package com.github.joelws.release.tracker.service.release;
+package com.github.joelws.release.tracker.service.release.execution;
 
 import com.github.joelws.release.tracker.dao.release.ReleaseDao;
 import com.github.joelws.release.tracker.entity.release.Release;
 import com.github.joelws.release.tracker.service.ServiceExecution;
 
-public class CreateReleaseServiceExecution implements ServiceExecution<Release>
+public class CreateReleaseServiceExecution implements ServiceExecution<Release, Release>
 {
     private final ReleaseDao releaseDao;
 

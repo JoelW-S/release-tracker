@@ -51,13 +51,16 @@
             </bean>
         </property>
     </bean>
+
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
+    <!-- Daos -->
     <bean id="releaseDao" class="com.github.joelws.release.tracker.dao.release.ReleaseDaoImpl"/>
 
-    <bean id="restResponseBuilder" class="com.github.joelws.release.tracker.interfaces.RestResponseBuilder"/>
+    <!-- Helpers -->
+    <bean id="restResponseBuilder" class="com.github.joelws.release.tracker.response.RestRestResponse"/>
     <bean id="jsonAdapter" class="com.github.joelws.release.tracker.util.JsonAdapterImpl"/>
     <bean id="releaseTrackerFactory" class="com.github.joelws.release.tracker.factory.ReleaseTrackerFactory"/>
 
@@ -67,25 +70,59 @@
         <constructor-arg index="2" ref="releaseTrackerFactory"/>
     </bean>
 
+    <!-- Executions -->
     <bean id="createReleaseServiceExecution"
-          class="com.github.joelws.release.tracker.service.release.CreateReleaseServiceExecution">
+          class="com.github.joelws.release.tracker.service.release.execution.CreateReleaseServiceExecution">
         <constructor-arg index="0" ref="releaseDao"/>
     </bean>
 
+    <bean id="updateReleaseServiceExecution"
+          class="com.github.joelws.release.tracker.service.release.execution.UpdateReleaseServiceExecution">
+        <constructor-arg index="0" ref="releaseDao"/>
+    </bean>
+
+    <bean id="readReleaseServiceExecution"
+          class="com.github.joelws.release.tracker.service.release.execution.ReadReleaseServiceExecution">
+        <constructor-arg index="0" ref="releaseDao"/>
+    </bean>
+
+
+    <!-- Operations -->
     <bean id="createReleaseServiceOperation"
-          class="com.github.joelws.release.tracker.service.release.CreateReleaseServiceOperation">
+          class="com.github.joelws.release.tracker.service.release.operation.CreateReleaseServiceOperation">
         <constructor-arg index="0" ref="serviceHelper"/>
         <constructor-arg index="1" ref="createReleaseServiceExecution"/>
     </bean>
+
+    <bean id="updateReleaseServiceOperation"
+          class="com.github.joelws.release.tracker.service.release.operation.UpdateReleaseServiceOperation">
+        <constructor-arg index="0" ref="serviceHelper"/>
+        <constructor-arg index="1" ref="updateReleaseServiceExecution"/>
+    </bean>
+
+    <bean id="readReleaseServiceOperation"
+          class="com.github.joelws.release.tracker.service.release.operation.ReadReleaseServiceOperation">
+        <constructor-arg index="0" ref="serviceHelper"/>
+        <constructor-arg index="1" ref="readReleaseServiceExecution"/>
+    </bean>
+
+    <!-- Services -->
     <bean id="releaseService" class="com.github.joelws.release.tracker.service.release.ReleaseService">
         <constructor-arg index="0" ref="createReleaseServiceOperation"/>
+        <constructor-arg index="1" ref="updateReleaseServiceOperation"/>
+        <constructor-arg index="2" ref="readReleaseServiceOperation"/>
     </bean>
+
+    <!-- Endpoints -->
     <bean id="releaseEndpoint" class="com.github.joelws.release.tracker.endpoint.release.ReleaseEndpoint">
         <constructor-arg index="0" ref="releaseService"/>
     </bean>
+
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <context:annotation-config/>
 
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
 </beans>

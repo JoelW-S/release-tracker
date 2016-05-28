@@ -1,11 +1,16 @@
 package com.github.joelws.release.tracker.dto.artifact;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ArtifactDTO
 {
+    @JsonProperty("groupid")
     private String groupId;
 
+    @JsonProperty("artifactid")
     private String artifactId;
 
+    @JsonProperty("version")
     private String version;
 
     public ArtifactDTO()

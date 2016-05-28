@@ -1,6 +1,6 @@
 package com.github.joelws.release.tracker.service;
 
-public interface ServiceExecution<T>
+public interface ServiceExecution<In, Out>
 {
-    T execute(T param);
+    Out execute(In param);
 }

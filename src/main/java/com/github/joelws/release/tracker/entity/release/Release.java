@@ -10,13 +10,17 @@ import java.util.Set;
 
 @Entity public class Release
 {
-    @Id @Column(name = "NAME") private String name;
+    @Id
+    @Column(name = "name")
+    private String name;
 
     @ManyToMany(
             fetch = FetchType.EAGER) private List<Artifact> artifacts = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER) @JoinTable(name = "RELEASE_HOTFIX") @JoinColumn(name = "HOTFIX_NAME")
+    @ManyToMany(
+            fetch = FetchType.EAGER)
+    @JoinTable(name = "release_hotfix")
+    @JoinColumn(name = "hotfix_name")
     private Set<Release> hotfixes = new HashSet<>();
 
     public Release(final String name)
