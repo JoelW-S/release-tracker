@@ -2,11 +2,11 @@ package com.github.joelws.release.tracker.service;
 
 import com.github.joelws.release.tracker.factory.Factory;
 import com.github.joelws.release.tracker.interfaces.JsonAdapter;
-import com.github.joelws.release.tracker.response.JsonResponse;
+import com.github.joelws.release.tracker.response.RestResponseImpl;
 
 public interface ServiceHelper
 {
-    JsonResponse getRestResponseBuilder();
+    RestResponseImpl getRestResponseBuilder();
 
     JsonAdapter getJsonAdapter();
 
