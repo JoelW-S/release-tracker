@@ -20,6 +20,7 @@
         </jaxrs:providers>
         <jaxrs:serviceBeans>
             <ref bean="releaseEndpoint"/>
+            <ref bean="artifactEndpoint"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
@@ -58,7 +59,7 @@
 
     <!-- Daos -->
     <bean id="releaseDao" class="com.github.joelws.release.tracker.dao.release.ReleaseDaoImpl"/>
-
+    <bean id="artifactDao" class="com.github.joelws.release.tracker.dao.artifact.ArtifactDaoImpl"/>
     <!-- Helpers -->
     <bean id="restResponseBuilder" class="com.github.joelws.release.tracker.response.RestResponseImpl"/>
     <bean id="jsonAdapter" class="com.github.joelws.release.tracker.util.JsonAdapterImpl"/>
@@ -86,6 +87,11 @@
         <constructor-arg index="0" ref="releaseDao"/>
     </bean>
 
+    <bean id="readArtifactServiceExecution"
+          class="com.github.joelws.release.tracker.service.artifact.execution.ReadArtifactServiceExecution">
+        <constructor-arg index="0" ref="artifactDao"/>
+    </bean>
+
 
     <!-- Operations -->
     <bean id="createReleaseServiceOperation"
@@ -106,6 +112,12 @@
         <constructor-arg index="1" ref="readReleaseServiceExecution"/>
     </bean>
 
+    <bean id="readArtifactServiceOperation"
+          class="com.github.joelws.release.tracker.service.artifact.operation.ReadArtifactServiceOperation">
+        <constructor-arg index="0" ref="serviceHelper"/>
+        <constructor-arg index="1" ref="readArtifactServiceExecution"/>
+    </bean>
+
     <!-- Services -->
     <bean id="releaseService" class="com.github.joelws.release.tracker.service.release.ReleaseService">
         <constructor-arg index="0" ref="createReleaseServiceOperation"/>
@@ -113,9 +125,16 @@
         <constructor-arg index="2" ref="readReleaseServiceOperation"/>
     </bean>
 
+    <bean id="artifactService" class="com.github.joelws.release.tracker.service.artifact.ArtifactService">
+        <constructor-arg index="0" ref="readArtifactServiceOperation"/>
+    </bean>
+
     <!-- Endpoints -->
     <bean id="releaseEndpoint" class="com.github.joelws.release.tracker.endpoint.release.ReleaseEndpoint">
         <constructor-arg index="0" ref="releaseService"/>
+    </bean>
+    <bean id="artifactEndpoint" class="com.github.joelws.release.tracker.endpoint.artifact.ArtifactEndpoint">
+        <constructor-arg index="0" ref="artifactService"/>
     </bean>
 
 
