@@ -1,7 +1,7 @@
 package com.github.joelws.release.tracker.service.artifact.operation;
 
-import com.github.joelws.release.tracker.conversion.ArtifactAdapter;
-import com.github.joelws.release.tracker.conversion.ArtifactDtoAdapter;
+import com.github.joelws.release.tracker.conversion.ArtifactDtoToArtifactAdapter;
+import com.github.joelws.release.tracker.conversion.ArtifactToArtifactDtoAdapter;
 import com.github.joelws.release.tracker.dto.artifact.ArtifactDto;
 import com.github.joelws.release.tracker.entity.artifact.Artifact;
 import com.github.joelws.release.tracker.handler.JsonResponse;
@@ -13,8 +13,7 @@ import org.apache.log4j.Logger;
 
 import javax.ws.rs.core.Response;
 
-public class ReadArtifactServiceOperation extends ServiceOperation<String>
-{
+public class ReadArtifactServiceOperation extends ServiceOperation<String> {
     private static final Logger LOGGER = Logger.getLogger(ReadArtifactServiceOperation.class);
 
     private final ServiceHelper helper;
@@ -22,30 +21,26 @@ public class ReadArtifactServiceOperation extends ServiceOperation<String>
     private final ReadArtifactServiceExecution readArtifactServiceExecution;
 
     public ReadArtifactServiceOperation(final ServiceHelper helper,
-            final ReadArtifactServiceExecution readArtifactServiceExecution)
-    {
+                                        final ReadArtifactServiceExecution readArtifactServiceExecution) {
         this.helper = helper;
         this.readArtifactServiceExecution = readArtifactServiceExecution;
     }
 
-    @Override protected Response delegate(String param)
-    {
-        ArtifactAdapter toArtifactAdapter = helper.getFactory().getImpl(ArtifactAdapter.class);
+    @Override
+    protected Response delegate(String param) {
+        final ArtifactDtoToArtifactAdapter toArtifactDtoToArtifactAdapter = helper.getFactory().getImpl(ArtifactDtoToArtifactAdapter.class);
 
-        ArtifactDto artifactDto = helper.getJsonAdapter().getObjectFromJson(param, ArtifactDto.class);
+        final ArtifactDto artifactDto = helper.getJsonAdapter().getObjectFromJson(param, ArtifactDto.class);
 
-        Artifact result = readArtifactServiceExecution.execute(toArtifactAdapter.adapt(artifactDto));
+        final Artifact result = readArtifactServiceExecution.execute(toArtifactDtoToArtifactAdapter.adapt(artifactDto));
 
         Response response = null;
 
-        if (result != null)
-        {
-            ArtifactDtoAdapter toArtifactDtoAdapter = helper.getFactory().getImpl(ArtifactDtoAdapter.class);
-            ArtifactDto adaptedResult = toArtifactDtoAdapter.adapt(result);
+        if (result != null) {
+            final ArtifactToArtifactDtoAdapter toArtifactToArtifactDtoAdapter = helper.getFactory().getImpl(ArtifactToArtifactDtoAdapter.class);
+            final ArtifactDto adaptedResult = toArtifactToArtifactDtoAdapter.adapt(result);
             response = helper.getRestResponseBuilder().build(200, adaptedResult);
-        }
-        else
-        {
+        } else {
             response = helper.getRestResponseBuilder().build(new JsonResponse(404, "Artifact doesn't exist."));
         }
         return response;

@@ -23,11 +23,12 @@
     </build>
     <properties>
         <java.version>1.8</java.version>
+        <slf4j.version>1.7.21</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
         <cxf.version>3.1.6</cxf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
         <spring.version>4.2.5.RELEASE</spring.version>
         <h2.version>1.4.191</h2.version>
@@ -76,6 +77,11 @@
             <version>${h2.version}</version>
         </dependency>
         <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>

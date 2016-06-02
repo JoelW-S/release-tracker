@@ -1,7 +1,7 @@
 package com.github.joelws.release.tracker.service.artifact.operation;
 
-import com.github.joelws.release.tracker.conversion.ArtifactAdapter;
-import com.github.joelws.release.tracker.conversion.ArtifactDtoAdapter;
+import com.github.joelws.release.tracker.conversion.ArtifactDtoToArtifactAdapter;
+import com.github.joelws.release.tracker.conversion.ArtifactToArtifactDtoAdapter;
 import com.github.joelws.release.tracker.dto.artifact.ArtifactDto;
 import com.github.joelws.release.tracker.entity.artifact.Artifact;
 import com.github.joelws.release.tracker.handler.JsonResponse;
@@ -25,17 +25,17 @@ public class CreateArtifactServiceOperation extends ServiceOperation<String> {
 
     @Override
     protected Response delegate(String json) {
-        ArtifactAdapter toArtifactAdapter = helper.getFactory().getImpl(ArtifactAdapter.class);
+        final ArtifactDtoToArtifactAdapter toArtifactDtoToArtifactAdapter = helper.getFactory().getImpl(ArtifactDtoToArtifactAdapter.class);
 
-        Artifact result = createArtifactServiceExecution
-                .execute(toArtifactAdapter.adapt(helper.getJsonAdapter().getObjectFromJson(json, ArtifactDto.class)));
+        final Artifact result = createArtifactServiceExecution
+                .execute(toArtifactDtoToArtifactAdapter.adapt(helper.getJsonAdapter().getObjectFromJson(json, ArtifactDto.class)));
 
 
         Response response = null;
 
         if (result != null) {
-            ArtifactDtoAdapter toArtifactDtoAdapter = helper.getFactory().getImpl(ArtifactDtoAdapter.class);
-            ArtifactDto adaptedResult = toArtifactDtoAdapter.adapt(result);
+            final ArtifactToArtifactDtoAdapter toArtifactToArtifactDtoAdapter = helper.getFactory().getImpl(ArtifactToArtifactDtoAdapter.class);
+            final ArtifactDto adaptedResult = toArtifactToArtifactDtoAdapter.adapt(result);
             response = helper.getRestResponseBuilder().build(200, adaptedResult);
         } else {
             response = helper.getRestResponseBuilder().build(new JsonResponse(422, "Artifact already exists"));

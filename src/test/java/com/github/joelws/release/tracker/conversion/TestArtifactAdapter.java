@@ -8,33 +8,36 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class) public class TestArtifactAdapter
 {
     @Mock
     private ArtifactDto from;
 
-    private ArtifactAdapter adapter;
+    private ArtifactDtoToArtifactAdapter adapter;
 
     @Before public void setUp() throws Exception
     {
-        adapter = new ArtifactAdapter();
+        adapter = new ArtifactDtoToArtifactAdapter();
 
     }
 
     @Test public void testAdapt() throws Exception
     {
-        Mockito.when(from.getArtifactId()).thenReturn("artifactId");
-        Mockito.when(from.getGroupId()).thenReturn("groupId");
-        Mockito.when(from.getVersion()).thenReturn("version");
+        when(from.getArtifactId()).thenReturn("artifactId");
+        when(from.getGroupId()).thenReturn("groupId");
+        when(from.getVersion()).thenReturn("version");
 
         Artifact result = adapter.adapt(from);
 
-        Mockito.verify(from, Mockito.times(1)).getArtifactId();
-        Mockito.verify(from, Mockito.times(1)).getGroupId();
-        Mockito.verify(from, Mockito.times(1)).getVersion();
+        verify(from, times(1)).getArtifactId();
+        verify(from, times(1)).getGroupId();
+        verify(from, times(1)).getVersion();
 
         Assert.assertEquals(result.getId().getArtifactId(), "artifactId");
         Assert.assertEquals(result.getId().getGroupId(), "groupId");

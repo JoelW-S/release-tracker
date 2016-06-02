@@ -1,6 +1,7 @@
 package com.github.joelws.release.tracker.service.release.operation;
 
-import com.github.joelws.release.tracker.conversion.ReleaseAdapter;
+import com.github.joelws.release.tracker.conversion.ReleaseDtoToReleaseAdapter;
+import com.github.joelws.release.tracker.conversion.ReleaseToReleaseDtoAdapter;
 import com.github.joelws.release.tracker.dto.release.ReleaseDto;
 import com.github.joelws.release.tracker.entity.release.Release;
 import com.github.joelws.release.tracker.handler.JsonResponse;
@@ -22,15 +23,17 @@ public class UpdateReleaseServiceOperation extends ServiceOperation<String> {
 
     @Override
     protected Response delegate(String json) {
-        ReleaseAdapter adapter = helper.getFactory().getImpl(ReleaseAdapter.class);
+        final ReleaseDtoToReleaseAdapter adapter = helper.getFactory().getImpl(ReleaseDtoToReleaseAdapter.class);
 
-        Release result = updateReleaseServiceExecution
+        final Release result = updateReleaseServiceExecution
                 .execute(adapter.adapt(helper.getJsonAdapter().getObjectFromJson(json, ReleaseDto.class)));
 
         Response response = null;
 
         if (result != null) {
-            response = helper.getRestResponseBuilder().build(200, result);
+            final ReleaseToReleaseDtoAdapter adapterForResponse = helper.getFactory().getImpl(ReleaseToReleaseDtoAdapter.class);
+            final ReleaseDto adaptedResult = adapterForResponse.adapt(result);
+            response = helper.getRestResponseBuilder().build(200, adaptedResult);
         } else {
             response = helper.getRestResponseBuilder().build(new JsonResponse(404, "Release doesn't exist"));
         }

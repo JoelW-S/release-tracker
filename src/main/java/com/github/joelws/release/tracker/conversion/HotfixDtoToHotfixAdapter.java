@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class HotfixAdapter implements Adapter<ReleaseDto, Release> {
+public class HotfixDtoToHotfixAdapter implements Adapter<ReleaseDto, Release> {
 
-    private static final Logger LOGGER = Logger.getLogger(HotfixAdapter.class);
+    private static final Logger LOGGER = Logger.getLogger(HotfixDtoToHotfixAdapter.class);
 
     @Override
     public Release adapt(ReleaseDto releaseDto) {
         LOGGER.info("Adapt - in: " + releaseDto.getClass());
 
-        ArtifactAdapter artifactAdapter = new ArtifactAdapter();
+        ArtifactDtoToArtifactAdapter artifactDtoToArtifactAdapter = new ArtifactDtoToArtifactAdapter();
         Release out = new Release();
         List<ArtifactDto> inArtifactList = releaseDto.getArtifacts();
 
@@ -28,7 +28,7 @@ public class HotfixAdapter implements Adapter<ReleaseDto, Release> {
 
         out.setArtifacts(inArtifactList
                 .stream()
-                .map(artifactAdapter::adapt)
+                .map(artifactDtoToArtifactAdapter::adapt)
                 .collect(Collectors.toList()));
 
         LOGGER.info("Adapt - out: " + out.getClass());

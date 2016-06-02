@@ -1,9 +1,10 @@
 package com.github.joelws.release.tracker.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 public class GenericDaoImpl<T, PK> implements GenericDao<T, PK>
 {
@@ -36,7 +37,7 @@ public class GenericDaoImpl<T, PK> implements GenericDao<T, PK>
 
     @Override public void delete(PK identifier)
     {
-        entityManager.getReference(klass, identifier);
+        entityManager.remove(entityManager.getReference(klass, identifier));
     }
 
     public EntityManager getEntityManager()

@@ -6,8 +6,8 @@ import com.github.joelws.release.tracker.interfaces.Adapter;
 
 import org.apache.log4j.Logger;
 
-public class ArtifactDtoAdapter implements Adapter<Artifact, ArtifactDto> {
-    private static final Logger LOGGER = Logger.getLogger(ArtifactDtoAdapter.class);
+public class ArtifactToArtifactDtoAdapter implements Adapter<Artifact, ArtifactDto> {
+    private static final Logger LOGGER = Logger.getLogger(ArtifactToArtifactDtoAdapter.class);
 
     @Override
     public ArtifactDto adapt(Artifact artifact) {

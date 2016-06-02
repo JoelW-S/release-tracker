@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ReleaseAdapter implements Adapter<ReleaseDto, Release> {
-    private static final Logger LOGGER = Logger.getLogger(ReleaseAdapter.class);
+public class ReleaseDtoToReleaseAdapter implements Adapter<ReleaseDto, Release> {
+    private static final Logger LOGGER = Logger.getLogger(ReleaseDtoToReleaseAdapter.class);
 
     @Override
     public Release adapt(ReleaseDto releaseDto) {
         LOGGER.info("Adapt - in: " + releaseDto.getClass());
 
-        ArtifactAdapter artifactAdapter = new ArtifactAdapter();
-        HotfixAdapter hotfixAdapter = new HotfixAdapter();
+        ArtifactDtoToArtifactAdapter artifactDtoToArtifactAdapter = new ArtifactDtoToArtifactAdapter();
+        HotfixDtoToHotfixAdapter hotfixDtoToHotfixAdapter = new HotfixDtoToHotfixAdapter();
 
         List<ArtifactDto> inArtifactList = releaseDto.getArtifacts();
         Set<ReleaseDto> inHotfixSet = releaseDto.getHotfixes();
@@ -30,13 +30,13 @@ public class ReleaseAdapter implements Adapter<ReleaseDto, Release> {
 
         out.setArtifacts(inArtifactList
                 .stream()
-                .map(artifactAdapter::adapt)
+                .map(artifactDtoToArtifactAdapter::adapt)
                 .collect(Collectors.toList()));
 
 
         out.setHotfixes(inHotfixSet
                 .stream()
-                .map(hotfixAdapter::adapt)
+                .map(hotfixDtoToHotfixAdapter::adapt)
                 .collect(Collectors.toSet()));
 
         LOGGER.info("Adapt - out: " + out.getClass());

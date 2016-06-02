@@ -97,6 +97,11 @@
         <constructor-arg index="0" ref="artifactDao"/>
     </bean>
 
+    <bean id="deleteReleaseServiceExecution"
+          class="com.github.joelws.release.tracker.service.release.execution.DeleteReleaseServiceExecution">
+        <constructor-arg index="0" ref="releaseDao"/>
+    </bean>
+
 
     <!-- Operations -->
     <bean id="createReleaseServiceOperation"
@@ -129,11 +134,18 @@
         <constructor-arg index="1" ref="readArtifactServiceExecution"/>
     </bean>
 
+    <bean id="deleteReleaseServiceOperation"
+          class="com.github.joelws.release.tracker.service.release.operation.DeleteReleaseServiceOperation">
+        <constructor-arg index="0" ref="serviceHelper"/>
+        <constructor-arg index="1" ref="deleteReleaseServiceExecution"/>
+    </bean>
+
     <!-- Services -->
     <bean id="releaseService" class="com.github.joelws.release.tracker.service.release.ReleaseService">
         <constructor-arg index="0" ref="createReleaseServiceOperation"/>
         <constructor-arg index="1" ref="updateReleaseServiceOperation"/>
         <constructor-arg index="2" ref="readReleaseServiceOperation"/>
+        <constructor-arg index="3" ref="deleteReleaseServiceOperation"/>
     </bean>
 
     <bean id="artifactService" class="com.github.joelws.release.tracker.service.artifact.ArtifactService">

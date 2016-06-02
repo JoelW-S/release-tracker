@@ -9,11 +9,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class) public class TestHotfixAdapter
 {
@@ -23,11 +27,11 @@ import java.util.List;
     @Mock
     private ArtifactDto mockArtifactDto;
 
-    private HotfixAdapter adapter;
+    private HotfixDtoToHotfixAdapter adapter;
 
     @Before public void setUp() throws Exception
     {
-        adapter = new HotfixAdapter();
+        adapter = new HotfixDtoToHotfixAdapter();
 
     }
 
@@ -36,14 +40,14 @@ import java.util.List;
         List<ArtifactDto> artifactList = new ArrayList<>();
         artifactList.add(mockArtifactDto);
 
-        Mockito.when(from.getArtifacts()).thenReturn(artifactList);
-        Mockito.when(from.getName()).thenReturn("R1-HF1");
+        when(from.getArtifacts()).thenReturn(artifactList);
+        when(from.getName()).thenReturn("R1-HF1");
 
         Release result = adapter.adapt(from);
 
-        Mockito.verify(from, Mockito.times(1)).getArtifacts();
-        Mockito.verify(from, Mockito.never()).getHotfixes();
-        Mockito.verify(from, Mockito.times(1)).getName();
+        verify(from, times(1)).getArtifacts();
+        verify(from, never()).getHotfixes();
+        verify(from, times(1)).getName();
 
         Assert.assertEquals(result.getName(), "R1-HF1");
 

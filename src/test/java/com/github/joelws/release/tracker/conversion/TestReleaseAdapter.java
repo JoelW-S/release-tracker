@@ -9,13 +9,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class) public class TestReleaseAdapter
 {
@@ -28,11 +31,11 @@ import java.util.Set;
     @Mock
     private ReleaseDto mockHotfixReleaseDto;
 
-    private ReleaseAdapter adapter;
+    private ReleaseDtoToReleaseAdapter adapter;
 
     @Before public void setUp() throws Exception
     {
-        adapter = new ReleaseAdapter();
+        adapter = new ReleaseDtoToReleaseAdapter();
 
     }
 
@@ -44,14 +47,14 @@ import java.util.Set;
         Set<ReleaseDto> hotfixSet = new HashSet<>();
         hotfixSet.add(mockHotfixReleaseDto);
 
-        Mockito.when(mockReleaseDto.getArtifacts()).thenReturn(artifactList);
-        Mockito.when(mockReleaseDto.getName()).thenReturn("R1");
-        Mockito.when(mockReleaseDto.getHotfixes()).thenReturn(hotfixSet);
+        when(mockReleaseDto.getArtifacts()).thenReturn(artifactList);
+        when(mockReleaseDto.getName()).thenReturn("R1");
+        when(mockReleaseDto.getHotfixes()).thenReturn(hotfixSet);
         Release result = adapter.adapt(mockReleaseDto);
 
-        Mockito.verify(mockReleaseDto, Mockito.times(1)).getArtifacts();
-        Mockito.verify(mockReleaseDto, Mockito.times(1)).getHotfixes();
-        Mockito.verify(mockReleaseDto, Mockito.times(1)).getName();
+        verify(mockReleaseDto, times(1)).getArtifacts();
+        verify(mockReleaseDto, times(1)).getHotfixes();
+        verify(mockReleaseDto, times(1)).getName();
 
         Assert.assertEquals(result.getName(), "R1");
 
