@@ -1,7 +1,7 @@
 package com.github.joelws.release.tracker.service.release.operation;
 
 import com.github.joelws.release.tracker.conversion.ReleaseAdapter;
-import com.github.joelws.release.tracker.dto.release.ReleaseDTO;
+import com.github.joelws.release.tracker.dto.release.ReleaseDto;
 import com.github.joelws.release.tracker.entity.release.Release;
 import com.github.joelws.release.tracker.handler.JsonResponse;
 import com.github.joelws.release.tracker.service.ServiceHelper;
@@ -25,14 +25,14 @@ public class UpdateReleaseServiceOperation extends ServiceOperation<String> {
         ReleaseAdapter adapter = helper.getFactory().getImpl(ReleaseAdapter.class);
 
         Release result = updateReleaseServiceExecution
-                .execute(adapter.adapt(helper.getJsonAdapter().getObjectFromJson(json, ReleaseDTO.class)));
+                .execute(adapter.adapt(helper.getJsonAdapter().getObjectFromJson(json, ReleaseDto.class)));
 
         Response response = null;
 
         if (result != null) {
             response = helper.getRestResponseBuilder().build(200, result);
         } else {
-            response = helper.getRestResponseBuilder().build(new JsonResponse(442, "Release doesn't exist"));
+            response = helper.getRestResponseBuilder().build(new JsonResponse(404, "Release doesn't exist"));
         }
         return response;
     }

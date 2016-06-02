@@ -1,7 +1,8 @@
 package com.github.joelws.release.tracker.conversion;
 
-import com.github.joelws.release.tracker.dto.artifact.ArtifactDTO;
+import com.github.joelws.release.tracker.dto.artifact.ArtifactDto;
 import com.github.joelws.release.tracker.entity.artifact.Artifact;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class) public class TestArtifactAdapter
 {
-    @Mock private ArtifactDTO from;
+    @Mock
+    private ArtifactDto from;
 
     private ArtifactAdapter adapter;
 

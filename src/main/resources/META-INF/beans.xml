@@ -77,6 +77,11 @@
         <constructor-arg index="0" ref="releaseDao"/>
     </bean>
 
+    <bean id="createArtifactServiceExecution"
+          class="com.github.joelws.release.tracker.service.artifact.execution.CreateArtifactServiceExecution">
+        <constructor-arg index="0" ref="artifactDao"/>
+    </bean>
+
     <bean id="updateReleaseServiceExecution"
           class="com.github.joelws.release.tracker.service.release.execution.UpdateReleaseServiceExecution">
         <constructor-arg index="0" ref="releaseDao"/>
@@ -98,6 +103,12 @@
           class="com.github.joelws.release.tracker.service.release.operation.CreateReleaseServiceOperation">
         <constructor-arg index="0" ref="serviceHelper"/>
         <constructor-arg index="1" ref="createReleaseServiceExecution"/>
+    </bean>
+
+    <bean id="createArtifactServiceOperation"
+          class="com.github.joelws.release.tracker.service.artifact.operation.CreateArtifactServiceOperation">
+        <constructor-arg index="0" ref="serviceHelper"/>
+        <constructor-arg index="1" ref="createArtifactServiceExecution"/>
     </bean>
 
     <bean id="updateReleaseServiceOperation"
@@ -126,7 +137,8 @@
     </bean>
 
     <bean id="artifactService" class="com.github.joelws.release.tracker.service.artifact.ArtifactService">
-        <constructor-arg index="0" ref="readArtifactServiceOperation"/>
+        <constructor-arg index="0" ref="createArtifactServiceOperation"/>
+        <constructor-arg index="1" ref="readArtifactServiceOperation"/>
     </bean>
 
     <!-- Endpoints -->

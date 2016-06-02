@@ -27,7 +27,7 @@ public class ReadReleaseServiceOperation extends ServiceOperation<String> {
         if (result != null) {
             response = helper.getRestResponseBuilder().build(200, result);
         } else {
-            response = helper.getRestResponseBuilder().build(new JsonResponse(442, "Release doesn't exist"));
+            response = helper.getRestResponseBuilder().build(new JsonResponse(404, "Release doesn't exist"));
         }
         return response;
     }

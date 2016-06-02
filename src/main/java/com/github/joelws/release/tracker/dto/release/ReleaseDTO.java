@@ -1,26 +1,26 @@
 package com.github.joelws.release.tracker.dto.release;
 
-import com.github.joelws.release.tracker.dto.artifact.ArtifactDTO;
+import com.github.joelws.release.tracker.dto.artifact.ArtifactDto;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ReleaseDTO
+public class ReleaseDto
 {
     private String name;
 
-    private List<ArtifactDTO> artifacts = new ArrayList<>();
+    private List<ArtifactDto> artifacts = new ArrayList<>();
 
-    private Set<ReleaseDTO> hotfixes = new HashSet<>();
+    private Set<ReleaseDto> hotfixes = new HashSet<>();
 
-    public ReleaseDTO(final String name)
+    public ReleaseDto(final String name)
     {
         this.name = name;
     }
 
-    public ReleaseDTO()
+    public ReleaseDto()
     {
     }
 
@@ -34,21 +34,21 @@ public class ReleaseDTO
         this.name = name;
     }
 
-    public List<ArtifactDTO> getArtifacts()
+    public List<ArtifactDto> getArtifacts()
     {
         return artifacts;
     }
 
-    public void setArtifacts(List<ArtifactDTO> artifacts)
+    public void setArtifacts(List<ArtifactDto> artifacts)
     {
         this.artifacts = artifacts;
     }
 
-    public Set<ReleaseDTO> getHotfixes() {
+    public Set<ReleaseDto> getHotfixes() {
         return hotfixes;
     }
 
-    public void setHotfixes(Set<ReleaseDTO> hotfixes) {
+    public void setHotfixes(Set<ReleaseDto> hotfixes) {
         this.hotfixes = hotfixes;
     }
 }

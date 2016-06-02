@@ -2,8 +2,7 @@ package com.github.joelws.release.tracker.dto.artifact;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ArtifactDTO
-{
+public class ArtifactDto {
     @JsonProperty("groupid")
     private String groupId;
 
@@ -13,37 +12,30 @@ public class ArtifactDTO
     @JsonProperty("version")
     private String version;
 
-    public ArtifactDTO()
-    {
+    public ArtifactDto() {
     }
 
-    public String getGroupId()
-    {
+    public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId)
-    {
+    public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 
-    public String getArtifactId()
-    {
+    public String getArtifactId() {
         return artifactId;
     }
 
-    public void setArtifactId(String artifactId)
-    {
+    public void setArtifactId(String artifactId) {
         this.artifactId = artifactId;
     }
 
-    public String getVersion()
-    {
+    public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version)
-    {
+    public void setVersion(String version) {
         this.version = version;
     }
 }

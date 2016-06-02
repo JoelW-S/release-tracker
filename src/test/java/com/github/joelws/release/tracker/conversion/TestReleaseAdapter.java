@@ -1,8 +1,9 @@
 package com.github.joelws.release.tracker.conversion;
 
-import com.github.joelws.release.tracker.dto.artifact.ArtifactDTO;
-import com.github.joelws.release.tracker.dto.release.ReleaseDTO;
+import com.github.joelws.release.tracker.dto.artifact.ArtifactDto;
+import com.github.joelws.release.tracker.dto.release.ReleaseDto;
 import com.github.joelws.release.tracker.entity.release.Release;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,11 +19,14 @@ import java.util.Set;
 
 @RunWith(MockitoJUnitRunner.class) public class TestReleaseAdapter
 {
-    @Mock private ReleaseDTO mockReleaseDTO;
+    @Mock
+    private ReleaseDto mockReleaseDto;
 
-    @Mock private ArtifactDTO mockArtifactDTO;
+    @Mock
+    private ArtifactDto mockArtifactDto;
 
-    @Mock private ReleaseDTO mockHotfixReleaseDTO;
+    @Mock
+    private ReleaseDto mockHotfixReleaseDto;
 
     private ReleaseAdapter adapter;
 
@@ -34,20 +38,20 @@ import java.util.Set;
 
     @Test public void testAdapter() throws Exception
     {
-        List<ArtifactDTO> artifactList = new ArrayList<>();
-        artifactList.add(mockArtifactDTO);
+        List<ArtifactDto> artifactList = new ArrayList<>();
+        artifactList.add(mockArtifactDto);
 
-        Set<ReleaseDTO> hotfixSet = new HashSet<>();
-        hotfixSet.add(mockHotfixReleaseDTO);
+        Set<ReleaseDto> hotfixSet = new HashSet<>();
+        hotfixSet.add(mockHotfixReleaseDto);
 
-        Mockito.when(mockReleaseDTO.getArtifacts()).thenReturn(artifactList);
-        Mockito.when(mockReleaseDTO.getName()).thenReturn("R1");
-        Mockito.when(mockReleaseDTO.getHotfixes()).thenReturn(hotfixSet);
-        Release result = adapter.adapt(mockReleaseDTO);
+        Mockito.when(mockReleaseDto.getArtifacts()).thenReturn(artifactList);
+        Mockito.when(mockReleaseDto.getName()).thenReturn("R1");
+        Mockito.when(mockReleaseDto.getHotfixes()).thenReturn(hotfixSet);
+        Release result = adapter.adapt(mockReleaseDto);
 
-        Mockito.verify(mockReleaseDTO, Mockito.times(1)).getArtifacts();
-        Mockito.verify(mockReleaseDTO, Mockito.times(1)).getHotfixes();
-        Mockito.verify(mockReleaseDTO, Mockito.times(1)).getName();
+        Mockito.verify(mockReleaseDto, Mockito.times(1)).getArtifacts();
+        Mockito.verify(mockReleaseDto, Mockito.times(1)).getHotfixes();
+        Mockito.verify(mockReleaseDto, Mockito.times(1)).getName();
 
         Assert.assertEquals(result.getName(), "R1");
 
