@@ -3,7 +3,7 @@ package com.github.joelws.release.tracker.interfaces;
 
 import javax.ws.rs.core.Response;
 
-abstract public class ResourceEndpoint<I> {
+public abstract class ResourceEndpoint<I> {
 
     protected final BusinessService<I> service;
 
