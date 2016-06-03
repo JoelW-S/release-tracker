@@ -12,7 +12,6 @@ public class DeleteReleaseServiceExecution implements ServiceExecution<String, V
 
     @Override
     public Void execute(String identifier) {
-        System.out.println(identifier);
         releaseDao.delete(identifier);
         return null;
     }
