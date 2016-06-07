@@ -1,7 +1,10 @@
 package com.github.joelws.release.tracker.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.joelws.release.tracker.exception.ReleaseTrackerException;
+import com.github.joelws.release.tracker.handler.JsonResponse;
 import com.github.joelws.release.tracker.interfaces.JsonAdapter;
+
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -20,7 +23,7 @@ public class JsonAdapterImpl implements JsonAdapter
         catch (Exception e)
         {
             LOGGER.info("Unable to map object to JSON");
-            throw new RuntimeException(e);
+            throw new ReleaseTrackerException(new JsonResponse(400, "Invalid format"));
         }
     }
 
@@ -36,7 +39,7 @@ public class JsonAdapterImpl implements JsonAdapter
         catch (IOException e)
         {
             LOGGER.info("Unable to map JSON to object");
-            throw new RuntimeException(e);
+            throw new ReleaseTrackerException(new JsonResponse(400, "Invalid format"));
         }
     }
 }

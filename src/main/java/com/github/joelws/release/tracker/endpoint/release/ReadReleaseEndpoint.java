@@ -1,6 +1,7 @@
 package com.github.joelws.release.tracker.endpoint.release;
 
 
+import com.github.joelws.release.tracker.dto.release.ReleaseDto;
 import com.github.joelws.release.tracker.interfaces.BusinessService;
 import com.github.joelws.release.tracker.interfaces.ResourceEndpoint;
 
@@ -10,9 +11,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
-@Path("releases")
+@Path("/release")
+@Api(value = "/release", description = "Endpoint to interact with releases")
 public class ReadReleaseEndpoint extends ResourceEndpoint<String> {
 
     public ReadReleaseEndpoint(BusinessService<String> service) {
@@ -22,8 +29,11 @@ public class ReadReleaseEndpoint extends ResourceEndpoint<String> {
     @GET
     @Path("/{name}")
     @Produces(APPLICATION_JSON)
+    @ApiOperation(value = "Find release based on name",
+            response = ReleaseDto.class)
+    @ApiResponse(code = 404, message = "Release doesn't exist")
     @Override
-    public Response method(@PathParam("name") final String name) {
+    public Response method(@ApiParam(required = true) @PathParam("name") final String name) {
         return service.read(name);
     }
 }

@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiResponse;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/artifact")
-@Api(value = "artifact", description = "Endpoint to interact with artifacts")
+@Api(value = "/artifact", description = "Endpoint to interact with artifacts")
 public class CreateArtifactEndpoint extends ResourceEndpoint<String> {
 
     public CreateArtifactEndpoint(final BusinessService<String> service) {

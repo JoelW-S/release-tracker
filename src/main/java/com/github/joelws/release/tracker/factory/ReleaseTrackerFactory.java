@@ -1,5 +1,8 @@
 package com.github.joelws.release.tracker.factory;
 
+import com.github.joelws.release.tracker.exception.ReleaseTrackerException;
+import com.github.joelws.release.tracker.handler.JsonResponse;
+
 import org.apache.log4j.Logger;
 
 public class ReleaseTrackerFactory implements Factory
@@ -15,7 +18,7 @@ public class ReleaseTrackerFactory implements Factory
         catch (InstantiationException | IllegalAccessException e)
         {
             LOGGER.error("Failed to instantiate object: " + klazz);
-            throw new RuntimeException();
+            throw new ReleaseTrackerException(new JsonResponse(500, "Failed to instantiate object"));
         }
     }
 }

@@ -30,6 +30,7 @@
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
             <bean class="io.swagger.jaxrs.listing.SwaggerSerializers"/>
+            <bean class="com.github.joelws.release.tracker.handler.ReleaseTrackerExceptionHandler"/>
         </jaxrs:providers>
         <jaxrs:serviceBeans>
             <ref bean="createArtifactEndpoint"/>
@@ -148,6 +149,11 @@
         <constructor-arg index="1" ref="updateReleaseServiceExecution"/>
     </bean>
 
+    <bean id="updateArtifactServiceOperation"
+          class="com.github.joelws.release.tracker.service.artifact.operation.UpdateArtifactServiceOperation">
+        <constructor-arg index="0" ref="serviceHelper"/>
+    </bean>
+
     <bean id="readReleaseServiceOperation"
           class="com.github.joelws.release.tracker.service.release.operation.ReadReleaseServiceOperation">
         <constructor-arg index="0" ref="serviceHelper"/>
@@ -183,6 +189,7 @@
         <constructor-arg index="0" ref="createArtifactServiceOperation"/>
         <constructor-arg index="1" ref="readArtifactServiceOperation"/>
         <constructor-arg index="2" ref="deleteArtifactServiceOperation"/>
+        <constructor-arg index="3" ref="updateArtifactServiceOperation"/>
     </bean>
 
     <!-- Endpoints -->

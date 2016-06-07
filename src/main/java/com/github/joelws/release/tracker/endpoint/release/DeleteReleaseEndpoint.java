@@ -6,12 +6,14 @@ import com.github.joelws.release.tracker.interfaces.ResourceEndpoint;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
-@Path("releases")
+@Path("/release")
+@Api(value = "/release", description = "Endpoint to interact with releases")
 public class DeleteReleaseEndpoint extends ResourceEndpoint<String> {
 
     public DeleteReleaseEndpoint(BusinessService<String> service) {
@@ -20,9 +22,9 @@ public class DeleteReleaseEndpoint extends ResourceEndpoint<String> {
 
     @DELETE
     @Path("/{name}")
-    @Produces(APPLICATION_JSON)
+    @ApiOperation(value = "Delete Release")
     @Override
-    public Response method(@PathParam("name") final String name) {
+    public Response method(@ApiParam(required = true) @PathParam("name") final String name) {
         return service.delete(name);
     }
 }

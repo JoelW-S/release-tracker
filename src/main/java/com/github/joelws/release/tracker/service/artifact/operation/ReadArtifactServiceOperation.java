@@ -41,7 +41,7 @@ public class ReadArtifactServiceOperation extends ServiceOperation<String> {
             final ArtifactDto adaptedResult = toArtifactToArtifactDtoAdapter.adapt(result);
             response = helper.getRestResponseBuilder().build(200, adaptedResult);
         } else {
-            response = helper.getRestResponseBuilder().build(new JsonResponse(404, "Artifact doesn't exist."));
+            response = helper.getRestResponseBuilder().build(new JsonResponse(404, "Artifact doesn't exist"));
         }
         return response;
     }
