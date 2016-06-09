@@ -27,14 +27,14 @@ public class ReadArtifactServiceOperation extends ServiceOperation<String> {
     }
 
     @Override
-    protected Response delegate(String param) {
+    protected Response delegate(final String param) {
         final ArtifactDtoToArtifactAdapter toArtifactDtoToArtifactAdapter = helper.getFactory().getImpl(ArtifactDtoToArtifactAdapter.class);
 
         final ArtifactDto artifactDto = helper.getJsonAdapter().getObjectFromJson(param, ArtifactDto.class);
 
         final Artifact result = readArtifactServiceExecution.execute(toArtifactDtoToArtifactAdapter.adapt(artifactDto));
 
-        Response response = null;
+        Response response;
 
         if (result != null) {
             final ArtifactToArtifactDtoAdapter toArtifactToArtifactDtoAdapter = helper.getFactory().getImpl(ArtifactToArtifactDtoAdapter.class);

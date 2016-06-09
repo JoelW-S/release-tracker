@@ -24,14 +24,14 @@ public class CreateArtifactServiceOperation extends ServiceOperation<String> {
     }
 
     @Override
-    protected Response delegate(String json) {
+    protected Response delegate(final String json) {
         final ArtifactDtoToArtifactAdapter toArtifactDtoToArtifactAdapter = helper.getFactory().getImpl(ArtifactDtoToArtifactAdapter.class);
 
         final Artifact result = createArtifactServiceExecution
                 .execute(toArtifactDtoToArtifactAdapter.adapt(helper.getJsonAdapter().getObjectFromJson(json, ArtifactDto.class)));
 
 
-        Response response = null;
+        Response response;
 
         if (result != null) {
             final ArtifactToArtifactDtoAdapter toArtifactToArtifactDtoAdapter = helper.getFactory().getImpl(ArtifactToArtifactDtoAdapter.class);

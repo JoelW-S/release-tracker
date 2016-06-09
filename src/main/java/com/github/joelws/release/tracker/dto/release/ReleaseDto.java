@@ -7,40 +7,33 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ReleaseDto
-{
+public class ReleaseDto {
     private String name;
 
     private List<ArtifactDto> artifacts = new ArrayList<>();
 
     private Set<ReleaseDto> hotfixes = new HashSet<>();
 
-    public ReleaseDto(final String name)
-    {
+    public ReleaseDto(final String name) {
         this.name = name;
     }
 
-    public ReleaseDto()
-    {
+    public ReleaseDto() {
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public List<ArtifactDto> getArtifacts()
-    {
+    public List<ArtifactDto> getArtifacts() {
         return artifacts;
     }
 
-    public void setArtifacts(List<ArtifactDto> artifacts)
-    {
+    public void setArtifacts(List<ArtifactDto> artifacts) {
         this.artifacts = artifacts;
     }
 

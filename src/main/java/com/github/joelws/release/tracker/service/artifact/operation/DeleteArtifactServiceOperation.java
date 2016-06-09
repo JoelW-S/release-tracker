@@ -23,7 +23,7 @@ public class DeleteArtifactServiceOperation extends ServiceOperation<String> {
     }
 
     @Override
-    protected Response delegate(String json) {
+    protected Response delegate(final String json) {
 
         ArtifactDtoToArtifactAdapter artifactDtoToArtifactAdapter = helper.getFactory().getImpl(ArtifactDtoToArtifactAdapter.class);
 
