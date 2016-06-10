@@ -9,35 +9,28 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
-public class JsonAdapterImpl implements JsonAdapter
-{
+public class JsonAdapterImpl implements JsonAdapter {
     private static final Logger LOGGER = Logger.getLogger(JsonAdapterImpl.class);
 
-    @Override public String getJsonFromObject(Object obj)
-    {
-        try
-        {
+    @Override
+    public String getJsonFromObject(Object obj) {
+        try {
             final ObjectMapper mapper = new ObjectMapper();
             return mapper.writeValueAsString(obj);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             LOGGER.info("Unable to map object to JSON");
             throw new ReleaseTrackerException(new JsonResponse(400, "Invalid format"));
         }
     }
 
-    @Override public <T> T getObjectFromJson(String jsonString, Class<T> klazz)
-    {
-        try
-        {
+    @Override
+    public <T> T getObjectFromJson(String jsonString, Class<T> klazz) {
+        try {
             final ObjectMapper mapper = new ObjectMapper();
             final T obj = mapper.readValue(jsonString, klazz);
             return obj;
 
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             LOGGER.info("Unable to map JSON to object");
             throw new ReleaseTrackerException(new JsonResponse(400, "Invalid format"));
         }

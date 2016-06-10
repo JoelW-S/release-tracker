@@ -6,7 +6,6 @@ import com.github.joelws.release.tracker.entity.artifact.ArtifactPK;
 
 import java.util.List;
 
-public interface ArtifactDao extends GenericDao<Artifact, ArtifactPK>
-{
+public interface ArtifactDao extends GenericDao<Artifact, ArtifactPK> {
     List<Artifact> list();
 }

@@ -11,37 +11,32 @@ import com.github.joelws.release.tracker.service.release.execution.CreateRelease
 
 import javax.ws.rs.core.Response;
 
-public class CreateReleaseServiceOperation extends ServiceOperation<String>
-{
+public class CreateReleaseServiceOperation extends ServiceOperation<String> {
     private final ServiceHelper helper;
 
     private final CreateReleaseServiceExecution createReleaseServiceExecution;
 
     public CreateReleaseServiceOperation(ServiceHelper helper,
-            CreateReleaseServiceExecution createReleaseServiceExecution)
-    {
+                                         CreateReleaseServiceExecution createReleaseServiceExecution) {
         this.helper = helper;
         this.createReleaseServiceExecution = createReleaseServiceExecution;
     }
 
-    @Override protected Response delegate(String json)
-    {
+    @Override
+    protected Response delegate(String json) {
 
         final ReleaseDtoToReleaseAdapter adapter = helper.getFactory().getImpl(ReleaseDtoToReleaseAdapter.class);
 
         final Release result = createReleaseServiceExecution
                 .execute(adapter.adapt(helper.getJsonAdapter().getObjectFromJson(json, ReleaseDto.class)));
 
-        Response response = null;
+        Response response;
 
-        if (result != null)
-        {
+        if (result != null) {
             final ReleaseToReleaseDtoAdapter adapterForResponse = helper.getFactory().getImpl(ReleaseToReleaseDtoAdapter.class);
             final ReleaseDto adaptedResult = adapterForResponse.adapt(result);
             response = helper.getRestResponseBuilder().build(200, adaptedResult);
-        }
-        else
-        {
+        } else {
             response = helper.getRestResponseBuilder().build(new JsonResponse(442, "Release already exists"));
         }
         return response;

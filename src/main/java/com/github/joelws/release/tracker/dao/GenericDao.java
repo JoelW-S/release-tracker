@@ -1,7 +1,6 @@
 package com.github.joelws.release.tracker.dao;
 
-public interface GenericDao<T, PK>
-{
+public interface GenericDao<T, PK> {
 
     T create(final T entity);
 

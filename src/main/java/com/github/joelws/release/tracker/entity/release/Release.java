@@ -2,20 +2,28 @@ package com.github.joelws.release.tracker.entity.release;
 
 import com.github.joelws.release.tracker.entity.artifact.Artifact;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity public class Release
-{
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+@Entity
+public class Release {
     @Id
     @Column(name = "name")
     private String name;
 
     @ManyToMany(
-            fetch = FetchType.EAGER) private List<Artifact> artifacts = new ArrayList<>();
+            fetch = FetchType.EAGER)
+    private List<Artifact> artifacts = new ArrayList<>();
 
     @ManyToMany(
             fetch = FetchType.EAGER)
@@ -23,42 +31,34 @@ import java.util.Set;
     @JoinColumn(name = "hotfix_name")
     private Set<Release> hotfixes = new HashSet<>();
 
-    public Release(final String name)
-    {
+    public Release(final String name) {
         this.name = name;
     }
 
-    public Release()
-    {
+    public Release() {
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public List<Artifact> getArtifacts()
-    {
+    public List<Artifact> getArtifacts() {
         return artifacts;
     }
 
-    public void setArtifacts(List<Artifact> artifacts)
-    {
+    public void setArtifacts(List<Artifact> artifacts) {
         this.artifacts = artifacts;
     }
 
-    public Set<Release> getHotfixes()
-    {
+    public Set<Release> getHotfixes() {
         return hotfixes;
     }
 
-    public void setHotfixes(Set<Release> hotfixes)
-    {
+    public void setHotfixes(Set<Release> hotfixes) {
         this.hotfixes = hotfixes;
     }
 }

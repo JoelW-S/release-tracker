@@ -42,6 +42,8 @@
             <ref bean="readReleaseEndpoint"/>
             <ref bean="updateReleaseEndpoint"/>
             <ref bean="deleteReleaseEndpoint"/>
+            <ref bean="listReleaseEndpoint"/>
+
             <ref bean="swaggerResource"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
@@ -129,6 +131,15 @@
         <constructor-arg index="0" ref="artifactDao"/>
     </bean>
 
+    <bean id="listReleaseServiceExecution"
+          class="com.github.joelws.release.tracker.service.release.execution.ListReleaseServiceExecution">
+        <constructor-arg index="0" ref="releaseDao"/>
+    </bean>
+
+    <bean id="listArtifactServiceExecution"
+          class="com.github.joelws.release.tracker.service.artifact.execution.ListArtifactServiceExecution">
+        <constructor-arg index="0" ref="artifactDao"/>
+    </bean>
 
     <!-- Operations -->
     <bean id="createReleaseServiceOperation"
@@ -177,12 +188,26 @@
         <constructor-arg index="0" ref="serviceHelper"/>
         <constructor-arg index="1" ref="deleteArtifactServiceExecution"/>
     </bean>
+
+    <bean id="listReleaseServiceOperation"
+          class="com.github.joelws.release.tracker.service.release.operation.ListReleaseServiceOperation">
+        <constructor-arg index="0" ref="serviceHelper"/>
+        <constructor-arg index="1" ref="listReleaseServiceExecution"/>
+    </bean>
+
+    <bean id="listArtifactServiceOperation"
+          class="com.github.joelws.release.tracker.service.artifact.operation.ListArtifactServiceOperation">
+        <constructor-arg index="0" ref="serviceHelper"/>
+        <constructor-arg index="1" ref="listArtifactServiceExecution"/>
+    </bean>
+
     <!-- Services -->
     <bean id="releaseService" class="com.github.joelws.release.tracker.service.release.ReleaseService">
         <constructor-arg index="0" ref="createReleaseServiceOperation"/>
         <constructor-arg index="1" ref="updateReleaseServiceOperation"/>
         <constructor-arg index="2" ref="readReleaseServiceOperation"/>
         <constructor-arg index="3" ref="deleteReleaseServiceOperation"/>
+        <constructor-arg index="4" ref="listReleaseServiceOperation"/>
     </bean>
 
     <bean id="artifactService" class="com.github.joelws.release.tracker.service.artifact.ArtifactService">
@@ -190,6 +215,7 @@
         <constructor-arg index="1" ref="readArtifactServiceOperation"/>
         <constructor-arg index="2" ref="deleteArtifactServiceOperation"/>
         <constructor-arg index="3" ref="updateArtifactServiceOperation"/>
+        <constructor-arg index="4" ref="listArtifactServiceOperation"/>
     </bean>
 
     <!-- Endpoints -->
@@ -219,6 +245,10 @@
         <constructor-arg index="0" ref="releaseService"/>
     </bean>
     <bean id="deleteReleaseEndpoint" class="com.github.joelws.release.tracker.endpoint.release.DeleteReleaseEndpoint">
+        <constructor-arg index="0" ref="releaseService"/>
+    </bean>
+    <bean id="listReleaseEndpoint"
+          class="com.github.joelws.release.tracker.endpoint.release.ListReleaseEndpoint">
         <constructor-arg index="0" ref="releaseService"/>
     </bean>
 

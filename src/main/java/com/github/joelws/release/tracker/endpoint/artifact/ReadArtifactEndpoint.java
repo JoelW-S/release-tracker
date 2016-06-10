@@ -5,7 +5,6 @@ import com.github.joelws.release.tracker.interfaces.BusinessService;
 import com.github.joelws.release.tracker.interfaces.ResourceEndpoint;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -14,8 +13,8 @@ import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
@@ -33,9 +32,19 @@ public class ReadArtifactEndpoint extends ResourceEndpoint<String> {
     @Consumes(APPLICATION_JSON)
     @ApiOperation(value = "Find artifact based on query",
             response = ArtifactDto.class)
-    @ApiResponse(code = 404, message = "Artifact doesn't exist")
+    @ApiResponses({@ApiResponse(code = 404, message = "Artifact doesn't exist"),
+            @ApiResponse(code = 404, message = "No artifacts exist")})
     @Override
-    public Response method(@ApiParam(required = true) @QueryParam("query") @DefaultValue("") final String query) {
-        return service.read(query);
+    public Response method(@QueryParam("query") final String query) {
+
+        Response response;
+
+        if (query == null) {
+            response = service.list();
+        } else {
+            response = service.read(query);
+        }
+
+        return response;
     }
 }
