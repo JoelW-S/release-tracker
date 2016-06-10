@@ -7,9 +7,9 @@ import javax.ws.rs.core.Response;
 
 public interface RestResponse {
 
-    Response build(Integer status, Object entity);
+    Response build(final Integer status, final Object entity);
 
-    Response build(Integer status);
+    Response build(final Integer status);
 
     Response build(final JsonResponse jsonResponse);
 }

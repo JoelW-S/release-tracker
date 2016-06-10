@@ -12,8 +12,8 @@ public class ServiceHelperImpl implements ServiceHelper {
 
     private final Factory factory;
 
-    public ServiceHelperImpl(RestResponseImpl responseBuilder, JsonAdapter jsonAdapter,
-                             ReleaseTrackerFactory factory) {
+    public ServiceHelperImpl(final RestResponseImpl responseBuilder, final JsonAdapter jsonAdapter,
+                             final ReleaseTrackerFactory factory) {
         this.responseBuilder = responseBuilder;
         this.jsonAdapter = jsonAdapter;
         this.factory = factory;
