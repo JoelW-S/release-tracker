@@ -9,10 +9,11 @@ import org.apache.log4j.Logger;
 
 class ArtifactDtoToArtifactAdapter : Adapter<ArtifactDto, Artifact> {
 
-    val LOGGER = Logger.getLogger(ArtifactDtoToArtifactAdapter::class.java)
+    companion object {
+        private val LOGGER = Logger.getLogger(ArtifactDtoToArtifactAdapter::class.java)
+    }
 
-
-    override fun adapt(artifactDto: ArtifactDto): Artifact? {
+    override fun adapt(artifactDto: ArtifactDto): Artifact {
 
         LOGGER.info("Adapt - in: ${artifactDto.javaClass}")
 
