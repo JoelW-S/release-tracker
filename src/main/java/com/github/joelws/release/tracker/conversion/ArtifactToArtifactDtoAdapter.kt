@@ -12,13 +12,13 @@ class ArtifactToArtifactDtoAdapter : Adapter<Artifact, ArtifactDto> {
         private val LOGGER = Logger.getLogger(ArtifactToArtifactDtoAdapter::class.java)
     }
 
-    override fun adapt(In: Artifact): ArtifactDto {
-        LOGGER.info("Adapt - in: ${In.javaClass}")
+    override fun adapt(incoming: Artifact): ArtifactDto {
+        LOGGER.info("Adapt - in: ${incoming.javaClass}")
         val out = ArtifactDto()
 
-        out.artifactId = In.id?.artifactId
-        out.groupId = In.id?.groupId
-        out.version = In.id?.version
+        out.artifactId = incoming.id?.artifactId
+        out.groupId = incoming.id?.groupId
+        out.version = incoming.id?.version
 
         LOGGER.info("Adapt - out: ${out.javaClass}")
         return out

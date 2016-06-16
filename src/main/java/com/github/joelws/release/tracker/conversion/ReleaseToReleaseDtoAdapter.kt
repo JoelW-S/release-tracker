@@ -13,18 +13,18 @@ class ReleaseToReleaseDtoAdapter : Adapter<Release, ReleaseDto> {
     }
 
 
-    override fun adapt(release: Release): ReleaseDto {
-        LOGGER.info("Adapt - in: ${release.javaClass}")
+    override fun adapt(incoming: Release): ReleaseDto {
+        LOGGER.info("Adapt - in: ${incoming.javaClass}")
 
         val artifactToArtifactDtoAdapter = ArtifactToArtifactDtoAdapter()
         val hotfixToHotfixDtoAdapter = HotfixToHotfixDtoAdapter()
 
-        val inArtifactList = release.artifacts
-        val inHotfixSet = release.hotfixes
+        val inArtifactList = incoming.artifacts
+        val inHotfixSet = incoming.hotfixes
 
         val out = ReleaseDto()
 
-        out.name = release.name
+        out.name = incoming.name
 
         out.artifacts = inArtifactList.mapNotNull { artifactToArtifactDtoAdapter.adapt(it) }
 

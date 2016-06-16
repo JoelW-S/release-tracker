@@ -12,14 +12,14 @@ class HotfixToHotfixDtoAdapter : Adapter<Release, ReleaseDto> {
         private var LOGGER = Logger.getLogger(HotfixToHotfixDtoAdapter::class.java)
     }
 
-    override fun adapt(release: Release): ReleaseDto {
-        LOGGER.info("Adapt - in: ${release.javaClass}")
+    override fun adapt(incoming: Release): ReleaseDto {
+        LOGGER.info("Adapt - in: ${incoming.javaClass}")
 
         val artifactToArtifactDtoAdapter = ArtifactToArtifactDtoAdapter()
         val out = ReleaseDto()
-        val inArtifactList = release.artifacts
+        val inArtifactList = incoming.artifacts
 
-        out.name = release.name
+        out.name = incoming.name
 
         out.artifacts = inArtifactList.mapNotNull { artifactToArtifactDtoAdapter.adapt(it) }
 
