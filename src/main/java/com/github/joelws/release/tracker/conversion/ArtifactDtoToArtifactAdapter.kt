@@ -1,4 +1,4 @@
-package com.github.joelws.release.tracker.conversion;
+package com.github.joelws.release.tracker.conversion
 
 
 import com.github.joelws.release.tracker.dto.artifact.ArtifactDto
@@ -13,16 +13,16 @@ class ArtifactDtoToArtifactAdapter : Adapter<ArtifactDto, Artifact> {
         private val LOGGER = Logger.getLogger(ArtifactDtoToArtifactAdapter::class.java)
     }
 
-    override fun adapt(artifactDto: ArtifactDto): Artifact {
+    override fun adapt(In: ArtifactDto): Artifact {
 
-        LOGGER.info("Adapt - in: ${artifactDto.javaClass}")
+        LOGGER.info("Adapt - in: ${In.javaClass}")
 
         val out = Artifact()
         val artifactPK = ArtifactPK()
 
-        artifactPK.groupId = artifactDto.groupId
-        artifactPK.artifactId = artifactDto.artifactId
-        artifactPK.version = artifactDto.version
+        artifactPK.groupId = In.groupId
+        artifactPK.artifactId = In.artifactId
+        artifactPK.version = In.version
         out.id = artifactPK
 
         LOGGER.info("Adapt - out: ${out.javaClass}")

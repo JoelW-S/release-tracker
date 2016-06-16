@@ -89,7 +89,7 @@
     <bean id="jsonAdapter" class="com.github.joelws.release.tracker.util.JsonAdapterImpl"/>
     <bean id="releaseTrackerFactory" class="com.github.joelws.release.tracker.factory.ReleaseTrackerFactory"/>
 
-    <bean id="serviceHelper" class="com.github.joelws.release.tracker.service.ServiceHelperImpl">
+    <bean id="serviceHelper" class="com.github.joelws.release.tracker.service.ServiceHelper">
         <constructor-arg index="0" ref="restResponseBuilder"/>
         <constructor-arg index="1" ref="jsonAdapter"/>
         <constructor-arg index="2" ref="releaseTrackerFactory"/>
