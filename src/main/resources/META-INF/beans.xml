@@ -85,14 +85,12 @@
     <bean id="releaseDao" class="com.github.joelws.release.tracker.dao.release.ReleaseDaoImpl"/>
     <bean id="artifactDao" class="com.github.joelws.release.tracker.dao.artifact.ArtifactDaoImpl"/>
     <!-- Helpers -->
-    <bean id="restResponseBuilder" class="com.github.joelws.release.tracker.response.RestResponseImpl"/>
     <bean id="jsonAdapter" class="com.github.joelws.release.tracker.util.JsonAdapterImpl"/>
     <bean id="releaseTrackerFactory" class="com.github.joelws.release.tracker.factory.ReleaseTrackerFactory"/>
 
     <bean id="serviceHelper" class="com.github.joelws.release.tracker.service.ServiceHelper">
-        <constructor-arg index="0" ref="restResponseBuilder"/>
-        <constructor-arg index="1" ref="jsonAdapter"/>
-        <constructor-arg index="2" ref="releaseTrackerFactory"/>
+        <constructor-arg index="0" ref="jsonAdapter"/>
+        <constructor-arg index="1" ref="releaseTrackerFactory"/>
     </bean>
 
     <!-- Executions -->
@@ -204,8 +202,8 @@
     <!-- Services -->
     <bean id="releaseService" class="com.github.joelws.release.tracker.service.release.ReleaseService">
         <constructor-arg index="0" ref="createReleaseServiceOperation"/>
-        <constructor-arg index="1" ref="updateReleaseServiceOperation"/>
-        <constructor-arg index="2" ref="readReleaseServiceOperation"/>
+        <constructor-arg index="1" ref="readReleaseServiceOperation"/>
+        <constructor-arg index="2" ref="updateReleaseServiceOperation"/>
         <constructor-arg index="3" ref="deleteReleaseServiceOperation"/>
         <constructor-arg index="4" ref="listReleaseServiceOperation"/>
     </bean>
@@ -213,8 +211,8 @@
     <bean id="artifactService" class="com.github.joelws.release.tracker.service.artifact.ArtifactService">
         <constructor-arg index="0" ref="createArtifactServiceOperation"/>
         <constructor-arg index="1" ref="readArtifactServiceOperation"/>
-        <constructor-arg index="2" ref="deleteArtifactServiceOperation"/>
-        <constructor-arg index="3" ref="updateArtifactServiceOperation"/>
+        <constructor-arg index="2" ref="updateArtifactServiceOperation"/>
+        <constructor-arg index="3" ref="deleteArtifactServiceOperation"/>
         <constructor-arg index="4" ref="listArtifactServiceOperation"/>
     </bean>
 

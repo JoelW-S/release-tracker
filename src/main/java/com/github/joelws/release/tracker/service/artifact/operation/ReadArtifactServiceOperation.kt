@@ -13,17 +13,17 @@ import org.apache.log4j.Logger
 import javax.ws.rs.core.Response
 
 open class ReadArtifactServiceOperation(val helper: ServiceHelper,
-                                        val readArtifactServiceExecution: ReadArtifactServiceExecution) : ServiceOperation<String>() {
+                                        val readArtifactServiceExecution: ReadArtifactServiceExecution) : ServiceOperation<String> {
     companion object {
         private val LOGGER = Logger.getLogger(ReadArtifactServiceOperation::class.java)
     }
 
-    override fun delegate(query: String): Response {
+    override fun delegate(param: String?): Response {
 
         LOGGER.info("Starting read artifact operation: ")
         val fromArtifactDtoToArtifactAdapter = helper.factory.getImpl(ArtifactDtoToArtifactAdapter::class.java)
 
-        val artifactDto = helper.jsonAdapter.getObjectFromJson(query, ArtifactDto::class.java)
+        val artifactDto = helper.jsonAdapter.getObjectFromJson(param, ArtifactDto::class.java)
 
         val result = readArtifactServiceExecution.execute(fromArtifactDtoToArtifactAdapter.adapt(artifactDto))
 

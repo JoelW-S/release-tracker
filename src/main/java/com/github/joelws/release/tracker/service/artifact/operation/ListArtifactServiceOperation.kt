@@ -10,17 +10,17 @@ import com.github.joelws.release.tracker.service.artifact.execution.ListArtifact
 import org.apache.log4j.Logger
 import javax.ws.rs.core.Response
 
-class ListArtifactServiceOperation(val helper: ServiceHelper,
-                                   val listArtifactServiceExecution: ListArtifactServiceExecution) : ServiceOperation<Nothing>() {
+class ListArtifactServiceOperation(private val helper: ServiceHelper,
+                                   private val listArtifactServiceExecution: ListArtifactServiceExecution) : ServiceOperation<Nothing> {
 
     companion object {
         private val LOGGER = Logger.getLogger(ListArtifactServiceOperation::class.java)
     }
 
-    override fun delegate(nothing: Nothing?): Response {
+    override fun delegate(param: Nothing?): Response {
         LOGGER.info("Starting List service operation:")
 
-        val result = listArtifactServiceExecution.execute(nothing)
+        val result = listArtifactServiceExecution.execute(param)
 
         return if (!result.isEmpty()) {
             LOGGER.info("Starting adaption process: ")

@@ -10,11 +10,11 @@ import com.github.joelws.release.tracker.service.artifact.execution.DeleteArtifa
 import javax.ws.rs.core.Response
 
 open class DeleteArtifactServiceOperation(val helper: ServiceHelper,
-                                          val deleteArtifactServiceExecution: DeleteArtifactServiceExecution) : ServiceOperation<String>() {
-    override fun delegate(json: String?): Response {
+                                          val deleteArtifactServiceExecution: DeleteArtifactServiceExecution) : ServiceOperation<String> {
+    override fun delegate(param: String?): Response {
         val artifactDtoToArtifactAdapter = helper.factory.getImpl(ArtifactDtoToArtifactAdapter::class.java)
 
-        val artifactInQuestion = artifactDtoToArtifactAdapter.adapt(helper.jsonAdapter.getObjectFromJson(json, ArtifactDto::class.java))
+        val artifactInQuestion = artifactDtoToArtifactAdapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ArtifactDto::class.java))
 
         deleteArtifactServiceExecution.execute(artifactInQuestion)
         return Success().build()

@@ -9,13 +9,13 @@ import org.apache.log4j.Logger
 
 import javax.ws.rs.core.Response
 
-open class UpdateArtifactServiceOperation(val helper: ServiceHelper) : ServiceOperation<String>() {
+open class UpdateArtifactServiceOperation(private val helper: ServiceHelper) : ServiceOperation<String> {
 
     companion object {
         private val LOGGER = Logger.getLogger(UpdateArtifactServiceOperation::class.java)
     }
 
-    override fun delegate(param: String): Response {
+    override fun delegate(param: String?): Response {
 
         LOGGER.info("Exiting with response: " + "unsupported operation")
 

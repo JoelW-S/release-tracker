@@ -5,7 +5,7 @@ import com.github.joelws.release.tracker.entity.artifact.Artifact
 import com.github.joelws.release.tracker.service.ServiceExecution
 import org.apache.log4j.Logger
 
-open class CreateArtifactServiceExecution(val artifactDao: ArtifactDao) : ServiceExecution<Artifact, Artifact?> {
+open class CreateArtifactServiceExecution(private val artifactDao: ArtifactDao) : ServiceExecution<Artifact, Artifact?> {
 
     companion object {
         private val LOGGER = Logger.getLogger(CreateArtifactServiceExecution::class.java)

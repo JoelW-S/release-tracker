@@ -1,4 +1,4 @@
-package com.github.joelws.release.tracker.conversion;
+package com.github.joelws.release.tracker.conversion
 
 import com.github.joelws.release.tracker.dto.release.ReleaseDto
 import com.github.joelws.release.tracker.entity.release.Release
@@ -19,16 +19,16 @@ class ReleaseDtoToReleaseAdapter : Adapter<ReleaseDto, Release> {
         val hotfixDtoToHotfixAdapter = HotfixDtoToHotfixAdapter()
 
         val inArtifactList = incoming.artifacts
-        val inHotfixSet = incoming.hotfixes;
+        val inHotfixSet = incoming.hotfixes
 
         val out = Release();
 
         out.name = incoming.name
 
-        out.artifacts = inArtifactList.map { artifactDtoToArtifactAdapter.adapt(it) }
+        out.artifacts = inArtifactList.map { artifactDtoToArtifactAdapter.adapt(it) }.toMutableList()
 
 
-        out.hotfixes = inHotfixSet.map { hotfixDtoToHotfixAdapter.adapt(it) }.toSet()
+        out.hotfixes = inHotfixSet.map { hotfixDtoToHotfixAdapter.adapt(it) }.toMutableSet()
 
         LOGGER.info("Adapt - out: ${out.javaClass}");
 

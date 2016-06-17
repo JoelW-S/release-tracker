@@ -13,15 +13,14 @@ import com.github.joelws.release.tracker.service.artifact.execution.CreateArtifa
 import javax.ws.rs.core.Response
 
 
-open class CreateArtifactServiceOperation(val helper: ServiceHelper,
-                                          val createArtifactServiceExecution: CreateArtifactServiceExecution) : ServiceOperation<String>() {
-    override fun delegate(json: String?): Response {
+open class CreateArtifactServiceOperation(private val helper: ServiceHelper,
+                                          private val createArtifactServiceExecution: CreateArtifactServiceExecution) : ServiceOperation<String> {
+    override fun delegate(param: String?): Response {
 
         val fromArtifactDtoToArtifactAdapter = helper.factory.getImpl(ArtifactDtoToArtifactAdapter::class.java)
 
         val result = createArtifactServiceExecution
-                .execute(fromArtifactDtoToArtifactAdapter.adapt(helper.jsonAdapter.getObjectFromJson(json, ArtifactDto::class.java)))
-
+                .execute(fromArtifactDtoToArtifactAdapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ArtifactDto::class.java)))
 
         return if (result != null) {
 
@@ -34,5 +33,6 @@ open class CreateArtifactServiceOperation(val helper: ServiceHelper,
             BadRequest("Artifact already exists").build()
         }
     }
+
 
 }

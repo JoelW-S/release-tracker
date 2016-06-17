@@ -5,7 +5,8 @@ import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Embeddable
 
-open @Embeddable class ArtifactPK(@Column(name = "group_id")
+@Embeddable
+open class ArtifactPK(@Column(name = "group_id")
                                   var groupId: String? = null,
                                   @Column(name = "artifact_id")
                                   var artifactId: String? = null,

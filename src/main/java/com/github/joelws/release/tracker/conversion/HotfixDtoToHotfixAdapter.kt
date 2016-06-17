@@ -21,7 +21,7 @@ class HotfixDtoToHotfixAdapter : Adapter<ReleaseDto, Release> {
 
         out.name = incoming.name
 
-        out.artifacts = inArtifactList.map { artifactDtoToArtifactAdapter.adapt(it) }
+        out.artifacts = inArtifactList.map { artifactDtoToArtifactAdapter.adapt(it) }.toMutableList()
 
         LOGGER.info("Adapt - out: ${out.javaClass}")
         return out
