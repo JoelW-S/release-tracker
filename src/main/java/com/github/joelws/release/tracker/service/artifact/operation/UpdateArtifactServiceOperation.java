@@ -18,7 +18,8 @@ public class UpdateArtifactServiceOperation extends ServiceOperation<String> {
     }
 
     @Override
-    protected Response delegate(String param) {
+    protected Response delegate(final String param) {
+        LOGGER.info("Exiting with response: " + "unsupported operation");
         return helper.getRestResponseBuilder().build(new JsonResponse(400, "Unsupported operation"));
     }
 }
