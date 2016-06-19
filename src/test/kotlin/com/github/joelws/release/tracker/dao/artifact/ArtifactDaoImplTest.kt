@@ -5,25 +5,18 @@ import com.github.joelws.release.tracker.entity.artifact.ArtifactPK
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito.*
-import org.mockito.runners.MockitoJUnitRunner
 import javax.persistence.EntityManager
 import javax.persistence.EntityTransaction
 import javax.persistence.Query
 
-@RunWith(MockitoJUnitRunner::class)
 class ArtifactDaoImplTest {
 
-    @Mock
-    private var mockEntityManager: EntityManager? = null
+    private lateinit var mockEntityManager: EntityManager
 
-    @Mock
-    private var mockEntityTransaction: EntityTransaction? = null
+    private lateinit var mockEntityTransaction: EntityTransaction
 
-    @Mock
-    private var mockQuery: Query? = null
+    private lateinit var mockQuery: Query
 
     private var subject = ArtifactDaoImpl()
 
@@ -31,6 +24,10 @@ class ArtifactDaoImplTest {
 
     @Before
     fun setUp() {
+
+        mockEntityManager = mock(EntityManager::class.java)
+        mockEntityTransaction = mock(EntityTransaction::class.java)
+        mockQuery = mock(Query::class.java)
 
         subject.entityManager = mockEntityManager
 
@@ -46,15 +43,15 @@ class ArtifactDaoImplTest {
     fun testList() {
         val mockedResultList: List<Artifact> = arrayListOf(testArtifact)
 
-        `when`(mockEntityManager?.transaction).thenReturn(mockEntityTransaction)
+        `when`(mockEntityManager.transaction).thenReturn(mockEntityTransaction)
 
-        `when`(mockEntityManager?.createQuery(anyString())).thenReturn(mockQuery)
+        `when`(mockEntityManager.createQuery(anyString())).thenReturn(mockQuery)
 
-        `when`(mockQuery?.resultList).thenReturn(mockedResultList)
+        `when`(mockQuery.resultList).thenReturn(mockedResultList)
 
         val result = subject.list()
 
-        verify(mockEntityManager)?.createQuery(anyString())?.resultList
+        verify(mockEntityManager).createQuery(anyString())
 
         assertEquals(mockedResultList, result)
 

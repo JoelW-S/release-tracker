@@ -11,6 +11,6 @@ open class ArtifactDaoImpl : GenericDaoImpl<Artifact, ArtifactPK>(), ArtifactDao
     @SuppressWarnings("unchecked")
     override fun list(): List<Artifact> {
         val query = "SELECT a FROM Artifact a"
-        return entityManager!!.createQuery(query).getResultList() as List<Artifact>
+        return entityManager!!.createQuery(query).resultList as List<Artifact>
     }
 }
