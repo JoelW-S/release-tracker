@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository
 @Repository
 open class ReleaseDaoImpl : GenericDaoImpl<Release, String>(), ReleaseDao {
 
-    @SuppressWarnings("unchecked")
     override fun list(): List<Release> {
         val query = "SELECT r FROM Release r"
-        return entityManager!!.createQuery(query).resultList as List<Release>
+        @Suppress("UNCHECKED_CAST")
+        return entityManager.createQuery(query).resultList as List<Release>
     }
 }

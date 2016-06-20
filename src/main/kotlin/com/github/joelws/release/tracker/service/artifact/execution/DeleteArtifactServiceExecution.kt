@@ -14,8 +14,9 @@ open class DeleteArtifactServiceExecution(private val artifactDao: ArtifactDao) 
 
     override fun execute(param: Artifact) {
 
-        artifactDao.read(param.id).let {
-            LOGGER.info("Deleting artifact with the following: ${param.id?.groupId}, ${param.id?.artifactId}, ${param.id?.version}")
+        val result = artifactDao.read(param.id)
+        if (result != null) {
+            LOGGER.info("Deleting artifact with the following: $param")
             artifactDao.delete(param.id)
         }
     }

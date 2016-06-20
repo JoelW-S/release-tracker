@@ -13,7 +13,7 @@ open class CreateArtifactServiceExecution(private val artifactDao: ArtifactDao) 
 
     override fun execute(param: Artifact): Artifact? {
 
-        LOGGER.info("Creating artifact: ${param.id}")
+        LOGGER.info("Creating artifact: ${param}")
 
         return when {
             artifactDao.read(param.id) == null -> artifactDao.create(param)
