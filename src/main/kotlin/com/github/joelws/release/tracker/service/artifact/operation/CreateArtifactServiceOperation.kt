@@ -10,12 +10,19 @@ import com.github.joelws.release.tracker.response.build
 import com.github.joelws.release.tracker.service.ServiceHelper
 import com.github.joelws.release.tracker.service.ServiceOperation
 import com.github.joelws.release.tracker.service.artifact.execution.CreateArtifactServiceExecution
+import org.apache.log4j.Logger
 import javax.ws.rs.core.Response
 
 
 open class CreateArtifactServiceOperation(private val helper: ServiceHelper,
                                           private val createArtifactServiceExecution: CreateArtifactServiceExecution) : ServiceOperation<String> {
+    companion object {
+        private val LOGGER = Logger.getLogger(CreateArtifactServiceOperation::class.java)
+    }
+
     override fun delegate(param: String?): Response {
+
+        LOGGER.info("Starting CreateArtifactServiceOperation, In: $param")
 
         val fromArtifactDtoToArtifactAdapter = helper.factory.getImpl(ArtifactDtoToArtifactAdapter::class.java)
 

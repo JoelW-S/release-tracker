@@ -18,7 +18,7 @@ class ListArtifactServiceOperation(private val helper: ServiceHelper,
     }
 
     override fun delegate(param: Nothing?): Response {
-        LOGGER.info("Starting List service operation:")
+        LOGGER.info("Starting ListArtifactServiceOperation:")
 
         val result = listArtifactServiceExecution.execute(param)
 
