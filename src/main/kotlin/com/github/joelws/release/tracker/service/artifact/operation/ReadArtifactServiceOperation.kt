@@ -20,7 +20,7 @@ open class ReadArtifactServiceOperation(val helper: ServiceHelper,
 
     override fun delegate(param: String?): Response {
 
-        LOGGER.info("Starting read artifact operation: ")
+        LOGGER.info("Starting ReadArtifactServiceOperation, In: $param")
         val fromArtifactDtoToArtifactAdapter = helper.factory.getImpl(ArtifactDtoToArtifactAdapter::class.java)
 
         val artifactDto = helper.jsonAdapter.getObjectFromJson(param, ArtifactDto::class.java)

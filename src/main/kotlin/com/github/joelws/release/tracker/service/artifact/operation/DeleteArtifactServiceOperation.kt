@@ -7,11 +7,20 @@ import com.github.joelws.release.tracker.response.build
 import com.github.joelws.release.tracker.service.ServiceHelper
 import com.github.joelws.release.tracker.service.ServiceOperation
 import com.github.joelws.release.tracker.service.artifact.execution.DeleteArtifactServiceExecution
+import org.apache.log4j.Logger
 import javax.ws.rs.core.Response
 
 open class DeleteArtifactServiceOperation(val helper: ServiceHelper,
                                           val deleteArtifactServiceExecution: DeleteArtifactServiceExecution) : ServiceOperation<String> {
+
+    companion object {
+        private val LOGGER = Logger.getLogger(DeleteArtifactServiceOperation::class.java)
+    }
+
     override fun delegate(param: String?): Response {
+
+        LOGGER.info("Starting DeleteArtifactServiceOperation, In: $param")
+
         val artifactDtoToArtifactAdapter = helper.factory.getImpl(ArtifactDtoToArtifactAdapter::class.java)
 
         val artifactInQuestion = artifactDtoToArtifactAdapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ArtifactDto::class.java))

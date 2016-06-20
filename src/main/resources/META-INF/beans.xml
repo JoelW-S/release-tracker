@@ -17,6 +17,7 @@
     <jaxrs:server id="releaseTracker" address="${rest.service.url}">
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+            <bean class="com.github.joelws.release.tracker.handler.RuntimeExceptionHandler"/>
             <bean class="com.github.joelws.release.tracker.handler.ReleaseTrackerExceptionHandler"/>
         </jaxrs:providers>
         <jaxrs:serviceBeans>
@@ -144,9 +145,7 @@
     </bean>
 
     <bean id="updateArtifactServiceOperation"
-          class="com.github.joelws.release.tracker.service.artifact.operation.UpdateArtifactServiceOperation">
-        <constructor-arg index="0" ref="serviceHelper"/>
-    </bean>
+          class="com.github.joelws.release.tracker.service.artifact.operation.UpdateArtifactServiceOperation"/>
 
     <bean id="readReleaseServiceOperation"
           class="com.github.joelws.release.tracker.service.release.operation.ReadReleaseServiceOperation">
