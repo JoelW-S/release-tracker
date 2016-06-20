@@ -14,22 +14,9 @@
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
     <context:property-placeholder location="release-tracker.properties"/>
 
-    <bean id="swaggerResource"
-          class="io.swagger.jaxrs.listing.ApiListingResource"/>
-
-
-    <bean id="swaggerConfig" class="io.swagger.jaxrs.config.BeanConfig">
-        <property name="resourcePackage" value="com.github.joelws.release.tracker.endpoint"/>
-        <property name="version" value="1.0.0"/>
-        <property name="basePath" value="/"/>
-        <property name="title" value="Release Tracker"/>
-        <property name="scan" value="true"/>
-    </bean>
-
     <jaxrs:server id="releaseTracker" address="${rest.service.url}">
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
-            <bean class="io.swagger.jaxrs.listing.SwaggerSerializers"/>
             <bean class="com.github.joelws.release.tracker.handler.ReleaseTrackerExceptionHandler"/>
         </jaxrs:providers>
         <jaxrs:serviceBeans>
@@ -43,8 +30,6 @@
             <ref bean="updateReleaseEndpoint"/>
             <ref bean="deleteReleaseEndpoint"/>
             <ref bean="listReleaseEndpoint"/>
-
-            <ref bean="swaggerResource"/>
         </jaxrs:serviceBeans>
     </jaxrs:server>
 
@@ -85,14 +70,12 @@
     <bean id="releaseDao" class="com.github.joelws.release.tracker.dao.release.ReleaseDaoImpl"/>
     <bean id="artifactDao" class="com.github.joelws.release.tracker.dao.artifact.ArtifactDaoImpl"/>
     <!-- Helpers -->
-    <bean id="restResponseBuilder" class="com.github.joelws.release.tracker.response.RestResponseImpl"/>
     <bean id="jsonAdapter" class="com.github.joelws.release.tracker.util.JsonAdapterImpl"/>
     <bean id="releaseTrackerFactory" class="com.github.joelws.release.tracker.factory.ReleaseTrackerFactory"/>
 
-    <bean id="serviceHelper" class="com.github.joelws.release.tracker.service.ServiceHelperImpl">
-        <constructor-arg index="0" ref="restResponseBuilder"/>
-        <constructor-arg index="1" ref="jsonAdapter"/>
-        <constructor-arg index="2" ref="releaseTrackerFactory"/>
+    <bean id="serviceHelper" class="com.github.joelws.release.tracker.service.ServiceHelper">
+        <constructor-arg index="0" ref="jsonAdapter"/>
+        <constructor-arg index="1" ref="releaseTrackerFactory"/>
     </bean>
 
     <!-- Executions -->
@@ -204,8 +187,8 @@
     <!-- Services -->
     <bean id="releaseService" class="com.github.joelws.release.tracker.service.release.ReleaseService">
         <constructor-arg index="0" ref="createReleaseServiceOperation"/>
-        <constructor-arg index="1" ref="updateReleaseServiceOperation"/>
-        <constructor-arg index="2" ref="readReleaseServiceOperation"/>
+        <constructor-arg index="1" ref="readReleaseServiceOperation"/>
+        <constructor-arg index="2" ref="updateReleaseServiceOperation"/>
         <constructor-arg index="3" ref="deleteReleaseServiceOperation"/>
         <constructor-arg index="4" ref="listReleaseServiceOperation"/>
     </bean>
@@ -213,8 +196,8 @@
     <bean id="artifactService" class="com.github.joelws.release.tracker.service.artifact.ArtifactService">
         <constructor-arg index="0" ref="createArtifactServiceOperation"/>
         <constructor-arg index="1" ref="readArtifactServiceOperation"/>
-        <constructor-arg index="2" ref="deleteArtifactServiceOperation"/>
-        <constructor-arg index="3" ref="updateArtifactServiceOperation"/>
+        <constructor-arg index="2" ref="updateArtifactServiceOperation"/>
+        <constructor-arg index="3" ref="deleteArtifactServiceOperation"/>
         <constructor-arg index="4" ref="listArtifactServiceOperation"/>
     </bean>
 
