@@ -13,10 +13,10 @@ open class CreateReleaseServiceExecution(private val releaseDao: ReleaseDao) : S
 
     override fun execute(param: Release): Release? {
         LOGGER.info("Starting CreateReleaseServiceExecution, In: $param")
-        return if (releaseDao.read(param.name) == null) {
-            releaseDao.create(param)
-        } else {
-            null
+
+        return when {
+            releaseDao.read(param.name) == null -> releaseDao.create(param)
+            else -> null
         }
     }
 }
