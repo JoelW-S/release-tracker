@@ -16,12 +16,8 @@ class HotfixToHotfixDtoAdapter : Adapter<Release, ReleaseDto> {
         LOGGER.info("Adapt - in: ${incoming.javaClass}")
 
         val artifactToArtifactDtoAdapter = ArtifactToArtifactDtoAdapter()
-        val out = ReleaseDto()
-        val inArtifactList = incoming.artifacts
 
-        out.name = incoming.name
-
-        out.artifacts = inArtifactList.mapNotNull { artifactToArtifactDtoAdapter.adapt(it) }
+        val out = ReleaseDto(name = incoming.name, artifacts = incoming.artifacts.mapNotNull { artifactToArtifactDtoAdapter.adapt(it) })
 
         LOGGER.info("Adapt - out: ${out.javaClass}")
         return out

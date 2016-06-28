@@ -10,7 +10,7 @@ import java.util.*
 
 class ReleaseDtoToReleaseAdapterTest {
 
-    private val mockReleaseDto = ReleaseDto()
+    private lateinit var mockReleaseDto: ReleaseDto
 
     private val mockArtifactDto = ArtifactDto()
 
@@ -30,11 +30,9 @@ class ReleaseDtoToReleaseAdapterTest {
             add(mockHotfixReleaseDto)
         }
 
-        mockReleaseDto.apply {
-            name = "R1"
-            artifacts = artifactList
-            hotfixes = hotfixSet
-        }
+        mockReleaseDto = ReleaseDto(name = "R1",
+                artifacts = artifactList,
+                hotfixes = hotfixSet)
 
         val result = adapter.adapt(mockReleaseDto)
 

@@ -1,6 +1,6 @@
 package com.github.joelws.release.tracker.util
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.github.joelws.release.tracker.exception.ReleaseTrackerException
 import com.github.joelws.release.tracker.interfaces.JsonAdapter
 import com.github.joelws.release.tracker.response.RestResponse.BadRequest
@@ -14,7 +14,7 @@ open class JsonAdapterImpl : JsonAdapter {
     }
 
     override fun getJsonFromObject(any: Any) = try {
-        ObjectMapper().writeValueAsString(any)
+        jacksonObjectMapper().writeValueAsString(any)
     } catch (e: Exception) {
         LOGGER.info("Unable to map object to JSON")
         throw ReleaseTrackerException(BadRequest())
@@ -22,7 +22,7 @@ open class JsonAdapterImpl : JsonAdapter {
 
 
     override fun <T> getObjectFromJson(jsonString: String?, klazz: Class<T>) = try {
-        ObjectMapper().readValue(jsonString, klazz)
+        jacksonObjectMapper().readValue(jsonString, klazz)
     } catch (e: IOException) {
         LOGGER.info("Unable to map JSON to object")
         throw ReleaseTrackerException(BadRequest())

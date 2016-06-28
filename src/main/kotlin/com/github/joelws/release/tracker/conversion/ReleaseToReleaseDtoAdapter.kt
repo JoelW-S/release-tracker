@@ -19,17 +19,8 @@ class ReleaseToReleaseDtoAdapter : Adapter<Release, ReleaseDto> {
         val artifactToArtifactDtoAdapter = ArtifactToArtifactDtoAdapter()
         val hotfixToHotfixDtoAdapter = HotfixToHotfixDtoAdapter()
 
-        val inArtifactList = incoming.artifacts
-        val inHotfixSet = incoming.hotfixes
-
-        val out = ReleaseDto()
-
-        out.name = incoming.name
-
-        out.artifacts = inArtifactList.mapNotNull { artifactToArtifactDtoAdapter.adapt(it) }
-
-
-        out.hotfixes = inHotfixSet.map { hotfixToHotfixDtoAdapter.adapt(it) }.toSet()
+        val out = ReleaseDto(name = incoming.name, artifacts = incoming.artifacts.mapNotNull { artifactToArtifactDtoAdapter.adapt(it) },
+                hotfixes = incoming.hotfixes.map { hotfixToHotfixDtoAdapter.adapt(it) }.toSet())
 
         LOGGER.info("Adapt - out: ${out.javaClass}")
 

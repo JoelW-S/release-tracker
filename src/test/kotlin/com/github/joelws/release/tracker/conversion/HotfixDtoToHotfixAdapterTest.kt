@@ -9,7 +9,7 @@ import java.util.*
 
 
 class HotfixDtoToHotfixAdapterTest {
-    private val from = ReleaseDto()
+    private lateinit var from: ReleaseDto
 
     private val mockArtifactDto = ArtifactDto()
 
@@ -22,10 +22,8 @@ class HotfixDtoToHotfixAdapterTest {
             add(mockArtifactDto)
         }
 
-        from.apply {
-            name = "R1-HF1"
-            artifacts = artifactList
-        }
+        from = ReleaseDto(name = "R1-HF1",
+                artifacts = artifactList)
 
         val result = adapter.adapt(from)
 
