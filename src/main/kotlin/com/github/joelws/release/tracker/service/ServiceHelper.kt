@@ -1,4 +1,4 @@
-package com.github.joelws.release.tracker.service;
+package com.github.joelws.release.tracker.service
 
 import com.github.joelws.release.tracker.factory.Factory
 import com.github.joelws.release.tracker.interfaces.JsonAdapter

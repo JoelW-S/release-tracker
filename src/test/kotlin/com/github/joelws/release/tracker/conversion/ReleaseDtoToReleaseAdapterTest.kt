@@ -6,13 +6,14 @@ import com.github.joelws.release.tracker.entity.release.Release
 import org.hamcrest.CoreMatchers.hasItem
 import org.junit.Assert.*
 import org.junit.Test
-import java.util.*
 
 class ReleaseDtoToReleaseAdapterTest {
 
     private lateinit var mockReleaseDto: ReleaseDto
 
-    private val mockArtifactDto = ArtifactDto()
+    private val mockArtifactDto = ArtifactDto(artifactId = "artifactId",
+            groupId = "groupId",
+            version = "version")
 
     private val mockHotfixReleaseDto = ReleaseDto(name = "R1-HF1")
 
@@ -21,14 +22,10 @@ class ReleaseDtoToReleaseAdapterTest {
 
     @Test
     fun testAdapt() {
-        val artifactList = ArrayList<ArtifactDto>().apply {
-            add(mockArtifactDto)
-        }
+        val artifactList = mutableListOf(mockArtifactDto)
 
 
-        val hotfixSet = HashSet<ReleaseDto>().apply {
-            add(mockHotfixReleaseDto)
-        }
+        val hotfixSet = mutableSetOf(mockHotfixReleaseDto)
 
         mockReleaseDto = ReleaseDto(name = "R1",
                 artifacts = artifactList,

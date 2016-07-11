@@ -5,22 +5,21 @@ import com.github.joelws.release.tracker.dto.release.ReleaseDto
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.util.*
 
 
 class HotfixDtoToHotfixAdapterTest {
     private lateinit var from: ReleaseDto
 
-    private val mockArtifactDto = ArtifactDto()
+    private val mockArtifactDto = ArtifactDto(artifactId = "artifactId",
+            groupId = "groupId",
+            version = "version")
 
     private val adapter = HotfixDtoToHotfixAdapter()
 
     @Test
     fun testAdapt() {
 
-        val artifactList = ArrayList<ArtifactDto>().apply {
-            add(mockArtifactDto)
-        }
+        val artifactList = mutableListOf(mockArtifactDto)
 
         from = ReleaseDto(name = "R1-HF1",
                 artifacts = artifactList)
