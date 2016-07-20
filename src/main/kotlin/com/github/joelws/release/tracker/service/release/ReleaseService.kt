@@ -2,13 +2,13 @@ package com.github.joelws.release.tracker.service.release
 
 
 import com.github.joelws.release.tracker.interfaces.BusinessService
-import com.github.joelws.release.tracker.service.release.operation.*
+import com.github.joelws.release.tracker.service.ServiceOperation
 
-open class ReleaseService(private val createReleaseServiceOperation: CreateReleaseServiceOperation,
-                          private val readReleaseServiceOperation: ReadReleaseServiceOperation,
-                          private val updateReleaseServiceOperation: UpdateReleaseServiceOperation,
-                          private val deleteReleaseServiceOperation: DeleteReleaseServiceOperation,
-                          private val listReleaseServiceOperation: ListReleaseServiceOperation) : BusinessService<String> {
+open class ReleaseService(private val createReleaseServiceOperation: ServiceOperation<String>,
+                          private val readReleaseServiceOperation: ServiceOperation<String>,
+                          private val updateReleaseServiceOperation: ServiceOperation<String>,
+                          private val deleteReleaseServiceOperation: ServiceOperation<String>,
+                          private val listReleaseServiceOperation: ServiceOperation<Nothing?>) : BusinessService<String> {
 
     override fun create(json: String) = createReleaseServiceOperation.execute(json)
 
