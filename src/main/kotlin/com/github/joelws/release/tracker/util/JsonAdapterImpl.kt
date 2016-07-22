@@ -16,7 +16,7 @@ open class JsonAdapterImpl : JsonAdapter {
     override fun getJsonFromObject(any: Any) = try {
         jacksonObjectMapper().writeValueAsString(any)
     } catch (e: Exception) {
-        LOGGER.info("Unable to map object to JSON")
+        LOGGER.info("Unable to map object to JSON: $any")
         throw ReleaseTrackerException(BadRequest())
     }
 
@@ -24,7 +24,7 @@ open class JsonAdapterImpl : JsonAdapter {
     override fun <T> getObjectFromJson(jsonString: String?, klazz: Class<T>) = try {
         jacksonObjectMapper().readValue(jsonString, klazz)
     } catch (e: IOException) {
-        LOGGER.info("Unable to map JSON to object")
+        LOGGER.info("Unable to map JSON to object: $jsonString")
         throw ReleaseTrackerException(BadRequest())
     }
 }

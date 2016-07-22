@@ -1,9 +1,9 @@
 package com.github.joelws.release.tracker.service.release.operation;
 
-import com.github.joelws.release.tracker.conversion.ReleaseDtoToReleaseAdapter
-import com.github.joelws.release.tracker.conversion.ReleaseToReleaseDtoAdapter
-import com.github.joelws.release.tracker.dto.release.ReleaseDto
+import com.github.joelws.release.tracker.conversion.ReleaseAdapter
+import com.github.joelws.release.tracker.conversion.ReleaseModelAdapter
 import com.github.joelws.release.tracker.entity.release.Release
+import com.github.joelws.release.tracker.model.release.ReleaseModel
 import com.github.joelws.release.tracker.response.RestResponse.BadRequest
 import com.github.joelws.release.tracker.response.RestResponse.SuccessWithEntity
 import com.github.joelws.release.tracker.response.build
@@ -17,15 +17,19 @@ open class CreateReleaseServiceOperation(private val helper: ServiceHelper,
 
     override fun delegate(param: String?): Response {
 
-        val adapter = helper.factory.getImpl(ReleaseDtoToReleaseAdapter::class.java)
+        val releaseModeladapter = helper.factory.getImpl(ReleaseModelAdapter::class.java)
 
         val result = createReleaseServiceExecution
-                .execute(adapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ReleaseDto::class.java)))
+                .execute(releaseModeladapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ReleaseModel::class.java)))
 
         return if (result != null) {
-            val adapterForResponse = helper.factory.getImpl(ReleaseToReleaseDtoAdapter::class.java)
+
+            val adapterForResponse = helper.factory.getImpl(ReleaseAdapter::class.java)
+
             val adaptedResult = adapterForResponse.adapt(result)
+
             SuccessWithEntity(adaptedResult).build()
+
         } else {
             BadRequest("Release already exists").build()
         }

@@ -1,6 +1,6 @@
 package com.github.joelws.release.tracker.service.release.operation
 
-import com.github.joelws.release.tracker.conversion.ReleaseToReleaseDtoAdapter
+import com.github.joelws.release.tracker.conversion.ReleaseAdapter
 import com.github.joelws.release.tracker.entity.release.Release
 import com.github.joelws.release.tracker.response.RestResponse.NotFound
 import com.github.joelws.release.tracker.response.RestResponse.SuccessWithEntity
@@ -19,7 +19,7 @@ open class ListReleaseServiceOperation(private val helper: ServiceHelper,
         val resultList = listReleaseServiceExecution.execute(null)
 
         return if (resultList.isNotEmpty()) {
-            val adapter = helper.factory.getImpl(ReleaseToReleaseDtoAdapter::class.java)
+            val adapter = helper.factory.getImpl(ReleaseAdapter::class.java)
             val adaptedResultList = resultList.map { adapter.adapt(it) }
             SuccessWithEntity(adaptedResultList).build()
         } else {

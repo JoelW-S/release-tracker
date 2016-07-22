@@ -1,27 +1,27 @@
 package com.github.joelws.release.tracker.conversion
 
-import com.github.joelws.release.tracker.dto.artifact.ArtifactDto
-import com.github.joelws.release.tracker.dto.release.ReleaseDto
+import com.github.joelws.release.tracker.model.artifact.ArtifactModel
+import com.github.joelws.release.tracker.model.release.ReleaseModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 
-class HotfixDtoToHotfixAdapterTest {
-    private lateinit var from: ReleaseDto
+class HotfixModelAdapterTest {
+    private lateinit var from: ReleaseModel
 
-    private val mockArtifactDto = ArtifactDto(artifactId = "artifactId",
+    private val mockArtifactModel = ArtifactModel(artifactId = "artifactId",
             groupId = "groupId",
             version = "version")
 
-    private val adapter = HotfixDtoToHotfixAdapter()
+    private val adapter = HotfixModelAdapter()
 
     @Test
     fun testAdapt() {
 
-        val artifactList = mutableListOf(mockArtifactDto)
+        val artifactList = mutableListOf(mockArtifactModel)
 
-        from = ReleaseDto(name = "R1-HF1",
+        from = ReleaseModel(name = "R1-HF1",
                 artifacts = artifactList)
 
         val result = adapter.adapt(from)

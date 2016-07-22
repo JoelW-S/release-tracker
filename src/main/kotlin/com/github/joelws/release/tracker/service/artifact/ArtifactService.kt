@@ -1,13 +1,13 @@
 package com.github.joelws.release.tracker.service.artifact
 
 import com.github.joelws.release.tracker.interfaces.BusinessService
-import com.github.joelws.release.tracker.service.artifact.operation.*
+import com.github.joelws.release.tracker.service.ServiceOperation
 
-open class ArtifactService(private val createArtifactServiceOperation: CreateArtifactServiceOperation,
-                           private val readArtifactServiceOperation: ReadArtifactServiceOperation,
-                           private val updateArtifactServiceOperation: UpdateArtifactServiceOperation,
-                           private val deleteArtifactServiceOperation: DeleteArtifactServiceOperation,
-                           private val listArtifactServiceOperation: ListArtifactServiceOperation) : BusinessService<String> {
+open class ArtifactService(private val createArtifactServiceOperation: ServiceOperation<String>,
+                           private val readArtifactServiceOperation: ServiceOperation<String>,
+                           private val updateArtifactServiceOperation: ServiceOperation<String>,
+                           private val deleteArtifactServiceOperation: ServiceOperation<String>,
+                           private val listArtifactServiceOperation: ServiceOperation<Nothing>) : BusinessService<String> {
 
     override fun create(json: String) = createArtifactServiceOperation.execute(json)
 

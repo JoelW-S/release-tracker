@@ -1,18 +1,18 @@
 package com.github.joelws.release.tracker.conversion
 
-import com.github.joelws.release.tracker.dto.artifact.ArtifactDto
 import com.github.joelws.release.tracker.entity.artifact.Artifact
 import com.github.joelws.release.tracker.entity.artifact.ArtifactPK
+import com.github.joelws.release.tracker.model.artifact.ArtifactModel
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ArtifactDtoToArtifactAdapterTest {
+class ArtifactModelAdapterTest {
 
-    private val from = ArtifactDto(artifactId = "artifactId",
+    private val from = ArtifactModel(artifactId = "artifactId",
             groupId = "groupId",
             version = "version")
 
-    private val adapter = ArtifactDtoToArtifactAdapter()
+    private val adapter = ArtifactModelAdapter()
 
     @Test
     fun testAdapt() {

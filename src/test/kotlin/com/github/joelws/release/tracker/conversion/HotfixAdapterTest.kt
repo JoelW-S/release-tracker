@@ -7,7 +7,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class HotfixToHotfixDtoAdapterTest {
+class HotfixAdapterTest {
 
     private val from = Release()
 
@@ -15,7 +15,7 @@ class HotfixToHotfixDtoAdapterTest {
             groupId = "groupId",
             version = "version"))
 
-    private val adapter = HotfixToHotfixDtoAdapter()
+    private val adapter = HotfixAdapter()
 
     @Test
     fun testAdapt() {

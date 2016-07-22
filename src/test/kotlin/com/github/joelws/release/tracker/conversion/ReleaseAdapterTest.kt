@@ -1,14 +1,14 @@
 package com.github.joelws.release.tracker.conversion
 
-import com.github.joelws.release.tracker.dto.release.ReleaseDto
 import com.github.joelws.release.tracker.entity.artifact.Artifact
 import com.github.joelws.release.tracker.entity.artifact.ArtifactPK
 import com.github.joelws.release.tracker.entity.release.Release
+import com.github.joelws.release.tracker.model.release.ReleaseModel
 import org.hamcrest.CoreMatchers.hasItem
 import org.junit.Assert.*
 import org.junit.Test
 
-class ReleaseToReleaseDtoAdapterTest {
+class ReleaseAdapterTest {
 
 
     private val mockRelease = Release()
@@ -19,7 +19,7 @@ class ReleaseToReleaseDtoAdapterTest {
 
     private val mockHotfixRelease = Release(name = "R1-HF1")
 
-    private val adapter = ReleaseToReleaseDtoAdapter()
+    private val adapter = ReleaseAdapter()
 
     @Test
     fun testAdapt() {
@@ -41,6 +41,6 @@ class ReleaseToReleaseDtoAdapterTest {
 
         assertTrue(result.hotfixes.size == 1)
 
-        assertThat(result.hotfixes, hasItem(ReleaseDto(name = "R1-HF1")))
+        assertThat(result.hotfixes, hasItem(ReleaseModel(name = "R1-HF1")))
     }
 }

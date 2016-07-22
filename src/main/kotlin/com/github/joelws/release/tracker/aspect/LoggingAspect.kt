@@ -23,15 +23,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */@Aspect class LoggingAspect {
 
-    val logger = Logger.getLogger(LoggingAspect::class.java)
+    private val logger = Logger.getLogger(LoggingAspect::class.java)
 
     @Pointcut("execution(* com.github.joelws.release.tracker.service..*Execution.execute(..))")
-    fun loggableMethods() {
+    fun executionMethods() {
     }
 
-    @Before("loggableMethods()")
-    fun startLogging(joinPoint: JoinPoint) = logger.info("Starting ${joinPoint.signature.declaringTypeName}.${joinPoint.signature.name}, with: ${joinPoint.args.map { it }}")
+    @Pointcut("execution(* com.github.joelws.release.tracker.service..*Operation.execute(..))")
+    fun operationMethods() {
+    }
 
-    @AfterReturning("loggableMethods()", returning = "result")
-    fun exitLogging(joinPoint: JoinPoint, result: Any?) = logger.info("Exiting ${joinPoint.signature.declaringTypeName}.${joinPoint.signature.name}, with: $result")
+    @Before("operationMethods() || executionMethods()")
+    fun startLogging(joinPoint: JoinPoint) = logger.info("Starting ${joinPoint.target.javaClass.simpleName}.${joinPoint.signature.name}, with: ${joinPoint.args.map { it }.joinToString(" ")}")
+
+    @AfterReturning("operationMethods() || executionMethods()", returning = "result")
+    fun exitLogging(joinPoint: JoinPoint, result: Any?) = logger.info("Exiting ${joinPoint.target.javaClass.simpleName}.${joinPoint.signature.name}, with: $result")
 }
