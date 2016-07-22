@@ -2,6 +2,7 @@ package com.github.joelws.release.tracker.configuration
 
 import com.github.joelws.release.tracker.factory.ReleaseTrackerFactory
 import com.github.joelws.release.tracker.service.ServiceHelper
+import com.github.joelws.release.tracker.service.ServiceOperation
 import com.github.joelws.release.tracker.service.artifact.operation.*
 import com.github.joelws.release.tracker.service.release.operation.*
 import com.github.joelws.release.tracker.util.JsonAdapterImpl
@@ -27,33 +28,33 @@ open class ServiceOperationConfig {
     open fun serviceHelper() = ServiceHelper(jsonAdapter(), releaseTrackerFactory())
 
     @Bean
-    open fun createArtifactServiceOperation() = CreateArtifactServiceOperation(serviceHelper(), executionConfig.createArtifactServiceExecution())
+    open fun createArtifactServiceOperation(): ServiceOperation<String> = CreateArtifactServiceOperation(serviceHelper(), executionConfig.createArtifactServiceExecution())
 
     @Bean
-    open fun readArtifactServiceOperation() = ReadArtifactServiceOperation(serviceHelper(), executionConfig.readArtifactServiceExecution())
+    open fun readArtifactServiceOperation(): ServiceOperation<String> = ReadArtifactServiceOperation(serviceHelper(), executionConfig.readArtifactServiceExecution())
 
     @Bean
-    open fun updateArtifactServiceOperation() = UpdateArtifactServiceOperation()
+    open fun updateArtifactServiceOperation(): ServiceOperation<String> = UpdateArtifactServiceOperation()
 
     @Bean
-    open fun deleteArtifactServiceOperation() = DeleteArtifactServiceOperation(serviceHelper(), executionConfig.deleteArtifactServiceExecution())
+    open fun deleteArtifactServiceOperation(): ServiceOperation<String> = DeleteArtifactServiceOperation(serviceHelper(), executionConfig.deleteArtifactServiceExecution())
 
     @Bean
-    open fun listArtifactServiceOperation() = ListArtifactServiceOperation(serviceHelper(), executionConfig.listArtifactServiceExecution())
+    open fun listArtifactServiceOperation(): ServiceOperation<Nothing> = ListArtifactServiceOperation(serviceHelper(), executionConfig.listArtifactServiceExecution())
 
     @Bean
-    open fun createReleaseServiceOperation() = CreateReleaseServiceOperation(serviceHelper(), executionConfig.createReleaseServiceExecution())
+    open fun createReleaseServiceOperation(): ServiceOperation<String> = CreateReleaseServiceOperation(serviceHelper(), executionConfig.createReleaseServiceExecution())
 
     @Bean
-    open fun readReleaseServiceOperation() = ReadReleaseServiceOperation(serviceHelper(), executionConfig.readReleaseServiceExecution())
+    open fun readReleaseServiceOperation(): ServiceOperation<String> = ReadReleaseServiceOperation(serviceHelper(), executionConfig.readReleaseServiceExecution())
 
     @Bean
-    open fun updateReleaseServiceOperation() = UpdateReleaseServiceOperation(serviceHelper(), executionConfig.updateReleaseServiceExecution())
+    open fun updateReleaseServiceOperation(): ServiceOperation<String> = UpdateReleaseServiceOperation(serviceHelper(), executionConfig.updateReleaseServiceExecution())
 
     @Bean
-    open fun deleteReleaseServiceOperation() = DeleteReleaseServiceOperation(serviceHelper(), executionConfig.deleteReleaseServiceExecution())
+    open fun deleteReleaseServiceOperation(): ServiceOperation<String> = DeleteReleaseServiceOperation(executionConfig.deleteReleaseServiceExecution())
 
     @Bean
-    open fun listReleaseServiceOperation() = ListReleaseServiceOperation(serviceHelper(), executionConfig.listReleaseServiceExecution())
+    open fun listReleaseServiceOperation(): ServiceOperation<Nothing?> = ListReleaseServiceOperation(serviceHelper(), executionConfig.listReleaseServiceExecution())
 
 }

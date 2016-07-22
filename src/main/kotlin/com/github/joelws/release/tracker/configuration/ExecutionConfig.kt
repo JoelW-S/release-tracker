@@ -1,5 +1,8 @@
 package com.github.joelws.release.tracker.configuration
 
+import com.github.joelws.release.tracker.entity.artifact.Artifact
+import com.github.joelws.release.tracker.entity.release.Release
+import com.github.joelws.release.tracker.service.ServiceExecution
 import com.github.joelws.release.tracker.service.artifact.execution.CreateArtifactServiceExecution
 import com.github.joelws.release.tracker.service.artifact.execution.DeleteArtifactServiceExecution
 import com.github.joelws.release.tracker.service.artifact.execution.ListArtifactServiceExecution
@@ -18,31 +21,31 @@ open class ExecutionConfig {
     lateinit var daoConfiguration: DaoConfig
 
     @Bean
-    open fun createArtifactServiceExecution() = CreateArtifactServiceExecution(daoConfiguration.artifactDao())
+    open fun createArtifactServiceExecution(): ServiceExecution<Artifact, Artifact?> = CreateArtifactServiceExecution(daoConfiguration.artifactDao())
 
     @Bean
-    open fun readArtifactServiceExecution() = ReadArtifactServiceExecution(daoConfiguration.artifactDao())
+    open fun readArtifactServiceExecution(): ServiceExecution<Artifact, Artifact?> = ReadArtifactServiceExecution(daoConfiguration.artifactDao())
 
     @Bean
-    open fun deleteArtifactServiceExecution() = DeleteArtifactServiceExecution(daoConfiguration.artifactDao())
+    open fun deleteArtifactServiceExecution(): ServiceExecution<Artifact, Unit> = DeleteArtifactServiceExecution(daoConfiguration.artifactDao())
 
     @Bean
-    open fun listArtifactServiceExecution() = ListArtifactServiceExecution(daoConfiguration.artifactDao())
+    open fun listArtifactServiceExecution(): ServiceExecution<Nothing?, List<Artifact>> = ListArtifactServiceExecution(daoConfiguration.artifactDao())
 
     @Bean
-    open fun createReleaseServiceExecution() = CreateReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun createReleaseServiceExecution(): ServiceExecution<Release, Release?> = CreateReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun readReleaseServiceExecution() = ReadReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun readReleaseServiceExecution(): ServiceExecution<String?, Release?> = ReadReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun updateReleaseServiceExecution() = UpdateReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun updateReleaseServiceExecution(): ServiceExecution<Release, Release?> = UpdateReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun deleteReleaseServiceExecution() = DeleteReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun deleteReleaseServiceExecution(): ServiceExecution<String?, Unit> = DeleteReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun listReleaseServiceExecution() = ListReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun listReleaseServiceExecution(): ServiceExecution<Nothing?, List<Release>> = ListReleaseServiceExecution(daoConfiguration.releaseDao())
 
 
 }
