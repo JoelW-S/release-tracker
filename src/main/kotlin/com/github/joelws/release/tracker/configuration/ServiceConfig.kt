@@ -2,6 +2,7 @@ package com.github.joelws.release.tracker.configuration
 
 import com.github.joelws.release.tracker.interfaces.BusinessService
 import com.github.joelws.release.tracker.service.artifact.ArtifactService
+import com.github.joelws.release.tracker.service.environment.EnvironmentService
 import com.github.joelws.release.tracker.service.release.ReleaseService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -21,4 +22,6 @@ open class ServiceConfig {
     @Bean
     open fun releaseService(): BusinessService<String> = ReleaseService(serviceOperationConfig.createReleaseServiceOperation(), serviceOperationConfig.readReleaseServiceOperation(), serviceOperationConfig.updateReleaseServiceOperation(), serviceOperationConfig.deleteReleaseServiceOperation(), serviceOperationConfig.listReleaseServiceOperation())
 
+    @Bean
+    open fun environmentService(): BusinessService<String> = EnvironmentService(serviceOperationConfig.createEnvironmentServiceOperation(), serviceOperationConfig.readEnvironmentServiceOperation(), serviceOperationConfig.updateEnvironmentServiceOperation(), serviceOperationConfig.deleteEnvironmentServiceOperation(), serviceOperationConfig.listEnvironmentServiceOperation())
 }

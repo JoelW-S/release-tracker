@@ -4,6 +4,7 @@ import com.github.joelws.release.tracker.factory.ReleaseTrackerFactory
 import com.github.joelws.release.tracker.service.ServiceHelper
 import com.github.joelws.release.tracker.service.ServiceOperation
 import com.github.joelws.release.tracker.service.artifact.operation.*
+import com.github.joelws.release.tracker.service.environment.operation.*
 import com.github.joelws.release.tracker.service.release.operation.*
 import com.github.joelws.release.tracker.util.JsonAdapterImpl
 import org.springframework.beans.factory.annotation.Autowired
@@ -56,5 +57,20 @@ open class ServiceOperationConfig {
 
     @Bean
     open fun listReleaseServiceOperation(): ServiceOperation<Nothing?> = ListReleaseServiceOperation(serviceHelper(), executionConfig.listReleaseServiceExecution())
+
+    @Bean
+    open fun createEnvironmentServiceOperation(): ServiceOperation<String> = CreateEnvironmentServiceOperation(serviceHelper(), executionConfig.createEnvironmentServiceExecution())
+
+    @Bean
+    open fun readEnvironmentServiceOperation(): ServiceOperation<String> = ReadEnvironmentServiceOperation(serviceHelper(), executionConfig.readEnvironmentServiceExecution())
+
+    @Bean
+    open fun updateEnvironmentServiceOperation(): ServiceOperation<String> = UpdateEnvironmentServiceOperation(serviceHelper(), executionConfig.updateEnvironmentServiceExecution())
+
+    @Bean
+    open fun deleteEnvironmentServiceOperation(): ServiceOperation<String> = DeleteEnvironmentServiceOperation(executionConfig.deleteEnvironmentServiceExecution())
+
+    @Bean
+    open fun listEnvironmentServiceOperation(): ServiceOperation<Nothing?> = ListEnvironmentServiceOperation(serviceHelper(), executionConfig.listEnvironmentServiceExecution())
 
 }

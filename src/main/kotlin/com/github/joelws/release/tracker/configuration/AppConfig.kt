@@ -50,10 +50,14 @@ open class AppConfig {
                 endpointConfig.readReleaseEndpoint(),
                 endpointConfig.updateReleaseEndpoint(),
                 endpointConfig.deleteReleaseEndpoint(),
-                endpointConfig.listReleaseEndpoint()))
+                endpointConfig.listReleaseEndpoint(),
+                endpointConfig.createEnvironmentEndpoint(),
+                endpointConfig.readEnvironmentEndpoint(),
+                endpointConfig.updateEnvironmentEndpoint(),
+                endpointConfig.deleteEnvironmentEndpoint(),
+                endpointConfig.listEnvironmentEndpoint()))
         factory.features = listOf(LoggingFeature())
         return factory.create()
     }
-
 
 }

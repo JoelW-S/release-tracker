@@ -1,12 +1,14 @@
 package com.github.joelws.release.tracker.configuration
 
 import com.github.joelws.release.tracker.entity.artifact.Artifact
+import com.github.joelws.release.tracker.entity.environment.Environment
 import com.github.joelws.release.tracker.entity.release.Release
 import com.github.joelws.release.tracker.service.ServiceExecution
 import com.github.joelws.release.tracker.service.artifact.execution.CreateArtifactServiceExecution
 import com.github.joelws.release.tracker.service.artifact.execution.DeleteArtifactServiceExecution
 import com.github.joelws.release.tracker.service.artifact.execution.ListArtifactServiceExecution
 import com.github.joelws.release.tracker.service.artifact.execution.ReadArtifactServiceExecution
+import com.github.joelws.release.tracker.service.environment.execution.*
 import com.github.joelws.release.tracker.service.release.execution.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -47,5 +49,18 @@ open class ExecutionConfig {
     @Bean
     open fun listReleaseServiceExecution(): ServiceExecution<Nothing?, List<Release>> = ListReleaseServiceExecution(daoConfiguration.releaseDao())
 
+    @Bean
+    open fun createEnvironmentServiceExecution(): ServiceExecution<Environment, Environment?> = CreateEnvironmentServiceExecution(daoConfiguration.environmentDao())
 
+    @Bean
+    open fun readEnvironmentServiceExecution(): ServiceExecution<String?, Environment?> = ReadEnvironmentServiceExecution(daoConfiguration.environmentDao())
+
+    @Bean
+    open fun updateEnvironmentServiceExecution(): ServiceExecution<Environment, Environment?> = UpdateEnvironmentServiceExecution(daoConfiguration.environmentDao())
+
+    @Bean
+    open fun deleteEnvironmentServiceExecution(): ServiceExecution<String?, Unit> = DeleteEnvironmentServiceExecution(daoConfiguration.environmentDao())
+
+    @Bean
+    open fun listEnvironmentServiceExecution(): ServiceExecution<Nothing?, List<Environment>> = ListEnvironmentServiceExecution(daoConfiguration.environmentDao())
 }
