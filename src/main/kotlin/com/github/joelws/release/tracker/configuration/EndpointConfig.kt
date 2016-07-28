@@ -4,6 +4,7 @@ import com.github.joelws.release.tracker.endpoint.artifact.CreateArtifactEndpoin
 import com.github.joelws.release.tracker.endpoint.artifact.DeleteArtifactEndpoint
 import com.github.joelws.release.tracker.endpoint.artifact.ReadArtifactEndpoint
 import com.github.joelws.release.tracker.endpoint.artifact.UpdateArtifactEndpoint
+import com.github.joelws.release.tracker.endpoint.environment.*
 import com.github.joelws.release.tracker.endpoint.release.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
@@ -43,4 +44,20 @@ open class EndpointConfig {
 
     @Bean
     open fun listReleaseEndpoint() = ListReleaseEndpoint(serviceConfig.releaseService())
+
+    @Bean
+    open fun createEnvironmentEndpoint() = CreateEnvironmentEndpoint(serviceConfig.environmentService())
+
+    @Bean
+    open fun readEnvironmentEndpoint() = ReadEnvironmentEndpoint(serviceConfig.environmentService())
+
+    @Bean
+    open fun updateEnvironmentEndpoint() = UpdateEnvironmentEndpoint(serviceConfig.environmentService())
+
+    @Bean
+    open fun deleteEnvironmentEndpoint() = DeleteEnvironmentEndpoint(serviceConfig.environmentService())
+
+    @Bean
+    open fun listEnvironmentEndpoint() = ListEnvironmentEndpoint(serviceConfig.environmentService())
+
 }
