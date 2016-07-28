@@ -14,8 +14,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.test.annotation.DirtiesContext
+import org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_CLASS
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
@@ -23,13 +24,13 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener
 
 @RunWith(SpringJUnit4ClassRunner::class)
-@SpringApplicationConfiguration(Application::class, DbUnitConfig::class)
+@ContextConfiguration(classes = arrayOf(Application::class, DbUnitConfig::class))
 @TestExecutionListeners(DependencyInjectionTestExecutionListener::class,
         DirtiesContextTestExecutionListener::class,
         TransactionDbUnitTestExecutionListener::class)
 @TestPropertySource("/application-integration.properties")
 @DatabaseTearDown(type = DatabaseOperation.DELETE_ALL)
-@DirtiesContext
+@DirtiesContext(classMode = BEFORE_CLASS)
 open class ArtifactEndpointRoundTrip {
 
     @Value("\${rest.service.port}")

@@ -17,10 +17,10 @@ open class CreateReleaseServiceOperation(private val helper: ServiceHelper,
 
     override fun delegate(param: String?): Response {
 
-        val releaseModeladapter = helper.factory.getImpl(ReleaseModelAdapter::class.java)
+        val releaseModelAdapter = helper.factory.getImpl(ReleaseModelAdapter::class.java)
 
         val result = createReleaseServiceExecution
-                .execute(releaseModeladapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ReleaseModel::class.java)))
+                .execute(releaseModelAdapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ReleaseModel::class.java)))
 
         return if (result != null) {
 
