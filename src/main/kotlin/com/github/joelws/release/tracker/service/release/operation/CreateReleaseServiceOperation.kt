@@ -1,8 +1,9 @@
-package com.github.joelws.release.tracker.service.release.operation;
+package com.github.joelws.release.tracker.service.release.operation
 
 import com.github.joelws.release.tracker.conversion.ReleaseAdapter
 import com.github.joelws.release.tracker.conversion.ReleaseModelAdapter
 import com.github.joelws.release.tracker.entity.release.Release
+import com.github.joelws.release.tracker.interfaces.Adapter
 import com.github.joelws.release.tracker.model.release.ReleaseModel
 import com.github.joelws.release.tracker.response.RestResponse.BadRequest
 import com.github.joelws.release.tracker.response.RestResponse.SuccessWithEntity
@@ -16,17 +17,18 @@ open class CreateReleaseServiceOperation(private val helper: ServiceHelper,
                                          private val createReleaseServiceExecution: ServiceExecution<Release, Release?>) : ServiceOperation<String> {
 
     override fun delegate(param: String?): Response {
-
-        val releaseModelAdapter = helper.factory.getImpl(ReleaseModelAdapter::class.java)
+        @Suppress("UNCHECKED_CAST")
+        val releaseModelAdapter: Adapter<ReleaseModel, Release> = helper.adapterFactory.getAdapter(ReleaseModelAdapter::class.java) as Adapter<ReleaseModel, Release>
 
         val result = createReleaseServiceExecution
                 .execute(releaseModelAdapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ReleaseModel::class.java)))
 
         return if (result != null) {
 
-            val adapterForResponse = helper.factory.getImpl(ReleaseAdapter::class.java)
+            @Suppress("UNCHECKED_CAST")
+            val releaseAdapter: Adapter<Release, ReleaseModel> = helper.adapterFactory.getAdapter(ReleaseAdapter::class.java) as Adapter<Release, ReleaseModel>
 
-            val adaptedResult = adapterForResponse.adapt(result)
+            val adaptedResult = releaseAdapter.adapt(result)
 
             SuccessWithEntity(adaptedResult).build()
 

@@ -33,9 +33,13 @@ limitations under the License.
     fun operationMethods() {
     }
 
-    @Before("operationMethods() || executionMethods()")
+    @Pointcut("execution(* com.github.joelws.release.tracker.conversion..*Adapter.adapt(..))")
+    fun adapterMethods() {
+    }
+
+    @Before("operationMethods() || executionMethods() || adapterMethods()")
     fun startLogging(joinPoint: JoinPoint) = logger.info("Starting ${joinPoint.target.javaClass.simpleName}.${joinPoint.signature.name}, with: ${joinPoint.args.map { it }.joinToString(" ")}")
 
-    @AfterReturning("operationMethods() || executionMethods()", returning = "result")
+    @AfterReturning("operationMethods() || executionMethods() || adapterMethods()", returning = "result")
     fun exitLogging(joinPoint: JoinPoint, result: Any?) = logger.info("Exiting ${joinPoint.target.javaClass.simpleName}.${joinPoint.signature.name}, with: $result")
 }

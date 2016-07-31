@@ -13,7 +13,7 @@ open class JsonAdapterImpl : JsonAdapter {
         private val LOGGER = Logger.getLogger(JsonAdapterImpl::class.java)
     }
 
-    override fun getJsonFromObject(any: Any) = try {
+    override fun getJsonFromObject(any: Any): String? = try {
         jacksonObjectMapper().writeValueAsString(any)
     } catch (e: Exception) {
         LOGGER.info("Unable to map object to JSON: $any")
@@ -21,7 +21,7 @@ open class JsonAdapterImpl : JsonAdapter {
     }
 
 
-    override fun <T> getObjectFromJson(jsonString: String?, klazz: Class<T>) = try {
+    override fun <T> getObjectFromJson(jsonString: String?, klazz: Class<T>): T = try {
         jacksonObjectMapper().readValue(jsonString, klazz)
     } catch (e: IOException) {
         LOGGER.info("Unable to map JSON to object: $jsonString")

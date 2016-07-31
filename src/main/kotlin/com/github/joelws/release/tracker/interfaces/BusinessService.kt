@@ -4,7 +4,7 @@ import org.springframework.transaction.annotation.Transactional
 
 import javax.ws.rs.core.Response
 
-interface BusinessService<I> {
+interface BusinessService<in I> {
 
     @Transactional
     fun create(json: String): Response
