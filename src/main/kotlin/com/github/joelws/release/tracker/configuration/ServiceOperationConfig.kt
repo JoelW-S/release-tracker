@@ -1,6 +1,6 @@
 package com.github.joelws.release.tracker.configuration
 
-import com.github.joelws.release.tracker.factory.ReleaseTrackerFactory
+import com.github.joelws.release.tracker.factory.AdapterFactoryImpl
 import com.github.joelws.release.tracker.service.ServiceHelper
 import com.github.joelws.release.tracker.service.ServiceOperation
 import com.github.joelws.release.tracker.service.artifact.operation.*
@@ -13,17 +13,24 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 
 @Configuration
-@Import(ExecutionConfig::class)
+@Import(ExecutionConfig::class, AdapterConfig::class)
 open class ServiceOperationConfig {
 
     @Autowired
     lateinit var executionConfig: ExecutionConfig
 
+    @Autowired
+    lateinit var adapterConfig: AdapterConfig
+
     @Bean
     open fun jsonAdapter() = JsonAdapterImpl()
 
     @Bean
-    open fun releaseTrackerFactory() = ReleaseTrackerFactory()
+    open fun releaseTrackerFactory() = AdapterFactoryImpl(adapterConfig.artifactModelAdapter(),
+            adapterConfig.artifactAdapter(), adapterConfig.releaseModelAdapter(),
+            adapterConfig.releaseAdapter(),
+            adapterConfig.environmentModelAdapter(),
+            adapterConfig.environmentAdapter())
 
     @Bean
     open fun serviceHelper() = ServiceHelper(jsonAdapter(), releaseTrackerFactory())

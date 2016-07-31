@@ -3,6 +3,7 @@ package com.github.joelws.release.tracker.service.artifact.operation
 import com.github.joelws.release.tracker.conversion.ArtifactAdapter
 import com.github.joelws.release.tracker.conversion.ArtifactModelAdapter
 import com.github.joelws.release.tracker.entity.artifact.Artifact
+import com.github.joelws.release.tracker.interfaces.Adapter
 import com.github.joelws.release.tracker.model.artifact.ArtifactModel
 import com.github.joelws.release.tracker.response.RestResponse.NotFound
 import com.github.joelws.release.tracker.response.RestResponse.SuccessWithEntity
@@ -17,16 +18,19 @@ open class ReadArtifactServiceOperation(private val helper: ServiceHelper,
 
     override fun delegate(param: String?): Response {
 
-        val fromArtifactDtoToArtifactAdapter = helper.factory.getImpl(ArtifactModelAdapter::class.java)
+        @Suppress("UNCHECKED_CAST")
+        val artifactModelAdapter: Adapter<ArtifactModel, Artifact> = helper.adapterFactory.getAdapter(ArtifactModelAdapter::class.java) as Adapter<ArtifactModel, Artifact>
 
-        val artifactDto = helper.jsonAdapter.getObjectFromJson(param, ArtifactModel::class.java)
+        val artifactModel = helper.jsonAdapter.getObjectFromJson(param, ArtifactModel::class.java)
 
-        val result = readArtifactServiceExecution.execute(fromArtifactDtoToArtifactAdapter.adapt(artifactDto))
+        val result = readArtifactServiceExecution.execute(artifactModelAdapter.adapt(artifactModel))
 
         val response = if (result != null) {
-            val fromArtifactToArtifactDtoAdapter = helper.factory.getImpl(ArtifactAdapter::class.java)
 
-            val adaptedResult = fromArtifactToArtifactDtoAdapter.adapt(result)
+            @Suppress("UNCHECKED_CAST")
+            val artifactAdapter: Adapter<Artifact, ArtifactModel> = helper.adapterFactory.getAdapter(ArtifactAdapter::class.java) as Adapter<Artifact, ArtifactModel>
+
+            val adaptedResult = artifactAdapter.adapt(result)
 
             SuccessWithEntity(adaptedResult)
         } else {

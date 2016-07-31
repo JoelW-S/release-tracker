@@ -2,6 +2,7 @@ package com.github.joelws.release.tracker.service.artifact.operation
 
 import com.github.joelws.release.tracker.conversion.ArtifactModelAdapter
 import com.github.joelws.release.tracker.entity.artifact.Artifact
+import com.github.joelws.release.tracker.interfaces.Adapter
 import com.github.joelws.release.tracker.model.artifact.ArtifactModel
 import com.github.joelws.release.tracker.response.RestResponse.Success
 import com.github.joelws.release.tracker.response.build
@@ -15,7 +16,8 @@ open class DeleteArtifactServiceOperation(val helper: ServiceHelper,
 
     override fun delegate(param: String?): Response {
 
-        val artifactModelAdapter = helper.factory.getImpl(ArtifactModelAdapter::class.java)
+        @Suppress("UNCHECKED_CAST")
+        val artifactModelAdapter: Adapter<ArtifactModel, Artifact> = helper.adapterFactory.getAdapter(ArtifactModelAdapter::class.java) as Adapter<ArtifactModel, Artifact>
 
         val artifactInQuestion = artifactModelAdapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ArtifactModel::class.java))
 

@@ -2,6 +2,8 @@ package com.github.joelws.release.tracker.service.environment.operation
 
 import com.github.joelws.release.tracker.conversion.EnvironmentAdapter
 import com.github.joelws.release.tracker.entity.environment.Environment
+import com.github.joelws.release.tracker.interfaces.Adapter
+import com.github.joelws.release.tracker.model.environment.EnvironmentModel
 import com.github.joelws.release.tracker.response.RestResponse.NotFound
 import com.github.joelws.release.tracker.response.RestResponse.SuccessWithEntity
 import com.github.joelws.release.tracker.response.build
@@ -33,9 +35,11 @@ limitations under the License.
 
         return if (result != null) {
 
-            val adapter = helper.factory.getImpl(EnvironmentAdapter::class.java)
+            @Suppress("UNCHECKED_CAST")
 
-            val adaptedResult = adapter.adapt(result)
+            val environmentAdapter: Adapter<Environment, EnvironmentModel> = helper.adapterFactory.getAdapter(EnvironmentAdapter::class.java) as Adapter<Environment, EnvironmentModel>
+
+            val adaptedResult = environmentAdapter.adapt(result)
 
             SuccessWithEntity(adaptedResult).build()
 

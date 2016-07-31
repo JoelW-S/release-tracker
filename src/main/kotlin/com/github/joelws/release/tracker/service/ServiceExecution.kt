@@ -1,5 +1,5 @@
 package com.github.joelws.release.tracker.service
 
-interface ServiceExecution<In, Out> {
+interface ServiceExecution<in In, out Out> {
     fun execute(param: In): Out
 }

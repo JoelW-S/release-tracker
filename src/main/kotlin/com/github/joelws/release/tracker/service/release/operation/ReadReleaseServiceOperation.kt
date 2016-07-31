@@ -2,6 +2,8 @@ package com.github.joelws.release.tracker.service.release.operation
 
 import com.github.joelws.release.tracker.conversion.ReleaseAdapter
 import com.github.joelws.release.tracker.entity.release.Release
+import com.github.joelws.release.tracker.interfaces.Adapter
+import com.github.joelws.release.tracker.model.release.ReleaseModel
 import com.github.joelws.release.tracker.response.RestResponse.NotFound
 import com.github.joelws.release.tracker.response.RestResponse.SuccessWithEntity
 import com.github.joelws.release.tracker.response.build
@@ -19,9 +21,10 @@ open class ReadReleaseServiceOperation(private val helper: ServiceHelper,
 
         return if (result != null) {
 
-            val adapter = helper.factory.getImpl(ReleaseAdapter::class.java)
+            @Suppress("UNCHECKED_CAST")
+            val releaseAdapter: Adapter<Release, ReleaseModel> = helper.adapterFactory.getAdapter(ReleaseAdapter::class.java) as Adapter<Release, ReleaseModel>
 
-            val adaptedResult = adapter.adapt(result)
+            val adaptedResult = releaseAdapter.adapt(result)
 
             SuccessWithEntity(adaptedResult).build()
 

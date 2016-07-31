@@ -3,6 +3,7 @@ package com.github.joelws.release.tracker.service.environment.operation
 import com.github.joelws.release.tracker.conversion.EnvironmentAdapter
 import com.github.joelws.release.tracker.conversion.EnvironmentModelAdapter
 import com.github.joelws.release.tracker.entity.environment.Environment
+import com.github.joelws.release.tracker.interfaces.Adapter
 import com.github.joelws.release.tracker.model.environment.EnvironmentModel
 import com.github.joelws.release.tracker.response.RestResponse.BadRequest
 import com.github.joelws.release.tracker.response.RestResponse.SuccessWithEntity
@@ -17,15 +18,17 @@ open class CreateEnvironmentServiceOperation(private val helper: ServiceHelper,
 
     override fun delegate(param: String?): Response {
 
-        val environmentModelAdapter = helper.factory.getImpl(EnvironmentModelAdapter::class.java)
+        @Suppress("UNCHECKED_CAST")
+        val environmentModelAdapter: Adapter<EnvironmentModel, Environment> = helper.adapterFactory.getAdapter(EnvironmentModelAdapter::class.java) as Adapter<EnvironmentModel, Environment>
 
         val result = createEnvironmentServiceExecution.execute(environmentModelAdapter.adapt(helper.jsonAdapter.getObjectFromJson(param, EnvironmentModel::class.java)))
 
         return if (result != null) {
 
-            val adapterForResponse = helper.factory.getImpl(EnvironmentAdapter::class.java)
+            @Suppress("UNCHECKED_CAST")
+            val environmentAdapter: Adapter<Environment, EnvironmentModel> = helper.adapterFactory.getAdapter(EnvironmentAdapter::class.java) as Adapter<Environment, EnvironmentModel>
 
-            val adaptedResult = adapterForResponse.adapt(result)
+            val adaptedResult = environmentAdapter.adapt(result)
 
             SuccessWithEntity(adaptedResult).build()
 

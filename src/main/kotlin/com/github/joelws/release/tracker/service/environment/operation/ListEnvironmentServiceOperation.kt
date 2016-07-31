@@ -2,6 +2,8 @@ package com.github.joelws.release.tracker.service.environment.operation
 
 import com.github.joelws.release.tracker.conversion.EnvironmentAdapter
 import com.github.joelws.release.tracker.entity.environment.Environment
+import com.github.joelws.release.tracker.interfaces.Adapter
+import com.github.joelws.release.tracker.model.environment.EnvironmentModel
 import com.github.joelws.release.tracker.response.RestResponse.NotFound
 import com.github.joelws.release.tracker.response.RestResponse.SuccessWithEntity
 import com.github.joelws.release.tracker.response.build
@@ -32,8 +34,10 @@ limitations under the License.
         val resultList = listEnvironmentServiceExecution.execute(null)
 
         return if (resultList.isNotEmpty()) {
-            val adapter = helper.factory.getImpl(EnvironmentAdapter::class.java)
-            val adaptedResultList = resultList.map { adapter.adapt(it) }
+
+            @Suppress("UNCHECKED_CAST")
+            val environmentAdapter: Adapter<Environment, EnvironmentModel> = helper.adapterFactory.getAdapter(EnvironmentAdapter::class.java) as Adapter<Environment, EnvironmentModel>
+            val adaptedResultList = resultList.map { environmentAdapter.adapt(it) }
             SuccessWithEntity(adaptedResultList).build()
         } else {
             NotFound("No environments exist").build()
