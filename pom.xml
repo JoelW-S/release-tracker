@@ -10,7 +10,7 @@
         <version>1.3.5.RELEASE</version>
     </parent>
 
-    <groupId>com.github.joelws</groupId>
+    <groupId>com.joelws</groupId>
     <artifactId>release-tracker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
