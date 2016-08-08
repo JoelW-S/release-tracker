@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <ARTIFACT GROUP_ID="com.example" ARTIFACT_ID="example-project" VERSION="1.0"/>
+    <ARTIFACT GROUP_ID="com.example" ARTIFACT_ID="example-project" VERSION="1.1"/>
+    <ARTIFACT GROUP_ID="com.example" ARTIFACT_ID="funky-example-project" VERSION="1.0-SNAPSHOT"/>
+
+    <RELEASE NAME="ExampleHotfix"/>
+    <RELEASE NAME="ExampleRelease"/>
+    <RELEASE NAME="ReleaseWithHotfix"/>
+    <ENVIRONMENT/>
+    <RELEASE_HOTFIX RELEASE_NAME="ReleaseWithHotfix" HOTFIXES_NAME="ExampleHotfix"/>
+
+    <RELEASE_ARTIFACT RELEASE_NAME="ExampleHotfix" ARTIFACTS_ARTIFACT_ID="example-project"
+                      ARTIFACTS_GROUP_ID="com.example" ARTIFACTS_VERSION="1.0"/>
+
+</dataset>
