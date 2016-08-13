@@ -9,6 +9,7 @@ import com.joelws.release.tracker.handler.RuntimeExceptionHandler
 import org.apache.cxf.endpoint.Server
 import org.apache.cxf.feature.LoggingFeature
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
@@ -41,7 +42,10 @@ open class AppConfig {
     open fun releaseTrackerServer(): Server {
         val factory = JAXRSServerFactoryBean()
         factory.address = serverAddress
-        factory.providers = listOf(jsonProvider(), RuntimeExceptionHandler(), ReleaseTrackerExceptionHandler())
+        factory.providers = listOf(jsonProvider(),
+                RuntimeExceptionHandler(),
+                ReleaseTrackerExceptionHandler(),
+                CrossOriginResourceSharingFilter())
         factory.setServiceBeans(listOf(endpointConfig.createArtifactEndpoint(),
                 endpointConfig.readArtifactEndpoint(),
                 endpointConfig.updateArtifactEndpoint(),
