@@ -9,11 +9,11 @@ open class ReleaseAdapter : Adapter<Release, ReleaseModel> {
 
     override fun adapt(incoming: Release): ReleaseModel {
 
-        val artifactToArtifactDtoAdapter = ArtifactAdapter()
-        val hotfixToHotfixDtoAdapter = HotfixAdapter()
+        val artifactAdapter = ArtifactAdapter()
+        val hotfixAdapter = HotfixAdapter()
 
-        val out = ReleaseModel(name = incoming.name!!, artifacts = incoming.artifacts.mapNotNull { artifactToArtifactDtoAdapter.adapt(it) },
-                hotfixes = incoming.hotfixes.map { hotfixToHotfixDtoAdapter.adapt(it) }.toSet())
+        val out = ReleaseModel(name = incoming.name!!, artifacts = incoming.artifacts.mapNotNull { artifactAdapter.adapt(it) },
+                hotfixes = incoming.hotfixes.map { hotfixAdapter.adapt(it) }.toSet())
 
         return out
 

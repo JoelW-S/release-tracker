@@ -8,8 +8,8 @@ open class ReleaseModelAdapter : Adapter<ReleaseModel, Release> {
 
     override fun adapt(incoming: ReleaseModel): Release {
 
-        val artifactDtoToArtifactAdapter = ArtifactModelAdapter()
-        val hotfixDtoToHotfixAdapter = HotfixModelAdapter()
+        val artifactModelAdapter = ArtifactModelAdapter()
+        val hotfixModelAdapter = HotfixModelAdapter()
 
         val inArtifactList = incoming.artifacts
         val inHotfixSet = incoming.hotfixes
@@ -18,10 +18,10 @@ open class ReleaseModelAdapter : Adapter<ReleaseModel, Release> {
 
         out.name = incoming.name
 
-        out.artifacts = inArtifactList.map { artifactDtoToArtifactAdapter.adapt(it) }.toMutableList()
+        out.artifacts = inArtifactList.map { artifactModelAdapter.adapt(it) }.toMutableList()
 
 
-        out.hotfixes = inHotfixSet.map { hotfixDtoToHotfixAdapter.adapt(it) }.toMutableSet()
+        out.hotfixes = inHotfixSet.map { hotfixModelAdapter.adapt(it) }.toMutableSet()
 
         return out
 
