@@ -10,7 +10,7 @@ open class DeleteArtifactServiceExecution(private val artifactDao: ArtifactDao) 
     override fun execute(param: Artifact) {
 
         val result = artifactDao.read(param.id)
-        if (result != null) {
+        if (result.nonEmpty()) {
             artifactDao.delete(param.id)
         }
     }

@@ -6,7 +6,7 @@ import com.joelws.release.tracker.service.ServiceOperation
 import com.joelws.release.tracker.service.artifact.operation.*
 import com.joelws.release.tracker.service.environment.operation.*
 import com.joelws.release.tracker.service.release.operation.*
-import com.joelws.release.tracker.util.JsonAdapterImpl
+import org.funktionale.option.Option.None
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,9 +23,6 @@ open class ServiceOperationConfig {
     lateinit var adapterConfig: AdapterConfig
 
     @Bean
-    open fun jsonAdapter() = JsonAdapterImpl()
-
-    @Bean
     open fun releaseTrackerFactory() = AdapterFactoryImpl(adapterConfig.artifactModelAdapter(),
             adapterConfig.artifactAdapter(), adapterConfig.releaseModelAdapter(),
             adapterConfig.releaseAdapter(),
@@ -33,7 +30,7 @@ open class ServiceOperationConfig {
             adapterConfig.environmentAdapter())
 
     @Bean
-    open fun serviceHelper() = ServiceHelper(jsonAdapter(), releaseTrackerFactory())
+    open fun serviceHelper() = ServiceHelper(releaseTrackerFactory())
 
     @Bean
     open fun createArtifactServiceOperation(): ServiceOperation<String> = CreateArtifactServiceOperation(serviceHelper(), executionConfig.createArtifactServiceExecution())
@@ -48,7 +45,7 @@ open class ServiceOperationConfig {
     open fun deleteArtifactServiceOperation(): ServiceOperation<String> = DeleteArtifactServiceOperation(serviceHelper(), executionConfig.deleteArtifactServiceExecution())
 
     @Bean
-    open fun listArtifactServiceOperation(): ServiceOperation<Nothing> = ListArtifactServiceOperation(serviceHelper(), executionConfig.listArtifactServiceExecution())
+    open fun listArtifactServiceOperation(): ServiceOperation<None> = ListArtifactServiceOperation(serviceHelper(), executionConfig.listArtifactServiceExecution())
 
     @Bean
     open fun createReleaseServiceOperation(): ServiceOperation<String> = CreateReleaseServiceOperation(serviceHelper(), executionConfig.createReleaseServiceExecution())
@@ -63,7 +60,7 @@ open class ServiceOperationConfig {
     open fun deleteReleaseServiceOperation(): ServiceOperation<String> = DeleteReleaseServiceOperation(executionConfig.deleteReleaseServiceExecution())
 
     @Bean
-    open fun listReleaseServiceOperation(): ServiceOperation<Nothing?> = ListReleaseServiceOperation(serviceHelper(), executionConfig.listReleaseServiceExecution())
+    open fun listReleaseServiceOperation(): ServiceOperation<None> = ListReleaseServiceOperation(serviceHelper(), executionConfig.listReleaseServiceExecution())
 
     @Bean
     open fun createEnvironmentServiceOperation(): ServiceOperation<String> = CreateEnvironmentServiceOperation(serviceHelper(), executionConfig.createEnvironmentServiceExecution())
@@ -78,6 +75,6 @@ open class ServiceOperationConfig {
     open fun deleteEnvironmentServiceOperation(): ServiceOperation<String> = DeleteEnvironmentServiceOperation(executionConfig.deleteEnvironmentServiceExecution())
 
     @Bean
-    open fun listEnvironmentServiceOperation(): ServiceOperation<Nothing?> = ListEnvironmentServiceOperation(serviceHelper(), executionConfig.listEnvironmentServiceExecution())
+    open fun listEnvironmentServiceOperation(): ServiceOperation<None> = ListEnvironmentServiceOperation(serviceHelper(), executionConfig.listEnvironmentServiceExecution())
 
 }

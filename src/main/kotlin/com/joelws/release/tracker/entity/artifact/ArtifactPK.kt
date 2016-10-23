@@ -7,8 +7,8 @@ import javax.persistence.Embeddable
 
 @Embeddable
 data class ArtifactPK(@Column(name = "group_id")
-                                  var groupId: String? = null,
+                      var groupId: String = "",
                       @Column(name = "artifact_id")
-                                  var artifactId: String? = null,
+                      var artifactId: String = "",
                       @Column(name = "version")
-                                  var version: String? = null) : Serializable
+                      var version: String = "") : Serializable

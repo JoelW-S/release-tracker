@@ -9,9 +9,9 @@ open class ArtifactAdapter : Adapter<Artifact, ArtifactModel> {
 
     override fun adapt(incoming: Artifact): ArtifactModel {
 
-        val out = ArtifactModel(groupId = incoming.id?.groupId!!,
-                artifactId = incoming.id?.artifactId!!,
-                version = incoming.id?.version!!)
+        val out = ArtifactModel(groupId = incoming.id.groupId,
+                artifactId = incoming.id.artifactId,
+                version = incoming.id.version)
         return out
     }
 }

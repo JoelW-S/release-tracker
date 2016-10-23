@@ -1,5 +1,6 @@
 package com.joelws.release.tracker.dao
 
+import org.funktionale.option.toOption
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -42,7 +43,7 @@ class GenericDaoImplTest {
 
         verify(mockEntityManager).persist(testObject)
 
-        assertEquals(testObject, result)
+        assertEquals(testObject.toOption(), result)
 
     }
 
@@ -56,7 +57,7 @@ class GenericDaoImplTest {
 
         verify(mockEntityManager).find(EntityForTestPurpose::class.java, testObject.field)
 
-        assertEquals(testObject, result)
+        assertEquals(testObject.toOption(), result)
     }
 
     @Test
@@ -68,7 +69,7 @@ class GenericDaoImplTest {
 
         verify(mockEntityManager).merge(testObject)
 
-        assertEquals(testObject, result)
+        assertEquals(testObject.toOption(), result)
 
     }
 

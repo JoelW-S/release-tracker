@@ -3,37 +3,38 @@ package com.joelws.release.tracker.service.release.operation
 import com.joelws.release.tracker.conversion.ReleaseAdapter
 import com.joelws.release.tracker.conversion.ReleaseModelAdapter
 import com.joelws.release.tracker.entity.release.Release
-import com.joelws.release.tracker.interfaces.Adapter
 import com.joelws.release.tracker.model.release.ReleaseModel
-import com.joelws.release.tracker.response.RestResponse.BadRequest
+import com.joelws.release.tracker.response.ErrorMessage
+import com.joelws.release.tracker.response.RestResponse
 import com.joelws.release.tracker.response.RestResponse.SuccessWithEntity
-import com.joelws.release.tracker.response.build
 import com.joelws.release.tracker.service.ServiceExecution
 import com.joelws.release.tracker.service.ServiceHelper
 import com.joelws.release.tracker.service.ServiceOperation
-import javax.ws.rs.core.Response
+import com.joelws.release.tracker.util.getObjectFromJson
+import org.funktionale.option.Option
+import org.funktionale.option.Option.None
 
 open class CreateReleaseServiceOperation(private val helper: ServiceHelper,
-                                         private val createReleaseServiceExecution: ServiceExecution<Release, Release?>) : ServiceOperation<String> {
+                                         private val createReleaseServiceExecution: ServiceExecution<Release, Option<Release>>) : ServiceOperation<String> {
 
-    override fun delegate(param: String?): Response {
-        @Suppress("UNCHECKED_CAST")
-        val releaseModelAdapter: Adapter<ReleaseModel, Release> = helper.adapterFactory.getAdapter(ReleaseModelAdapter::class.java) as Adapter<ReleaseModel, Release>
+    override fun delegate(param: String): RestResponse {
+        val releaseModelAdapter = helper.adapterFactory.getAdapter(ReleaseModelAdapter::class.java)
 
         val result = createReleaseServiceExecution
-                .execute(releaseModelAdapter.adapt(helper.jsonAdapter.getObjectFromJson(param, ReleaseModel::class.java)))
+                .execute(releaseModelAdapter.adapt(getObjectFromJson<ReleaseModel>(param)))
 
-        return if (result != null) {
+        return when (result) {
 
-            @Suppress("UNCHECKED_CAST")
-            val releaseAdapter: Adapter<Release, ReleaseModel> = helper.adapterFactory.getAdapter(ReleaseAdapter::class.java) as Adapter<Release, ReleaseModel>
+            is Option.Some<Release> -> {
+                val releaseAdapter = helper.adapterFactory.getAdapter(ReleaseAdapter::class.java)
 
-            val adaptedResult = releaseAdapter.adapt(result)
+                val adaptedResult = result.map { release -> releaseAdapter.adapt(release) }.get()
 
-            SuccessWithEntity(adaptedResult).build()
+                SuccessWithEntity(adaptedResult)
 
-        } else {
-            BadRequest("Release already exists").build()
+            }
+            is None -> ErrorMessage.RELEASE_FOUND.response
+
         }
     }
 }

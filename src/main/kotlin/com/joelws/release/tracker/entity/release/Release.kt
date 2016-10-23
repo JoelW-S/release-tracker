@@ -7,7 +7,7 @@ import javax.persistence.*
 @Entity
 data class Release(@Id
                    @Column(name = "name")
-                   var name: String? = null,
+                   var name: String = "",
 
                    @ManyToMany(
                            fetch = javax.persistence.FetchType.EAGER,

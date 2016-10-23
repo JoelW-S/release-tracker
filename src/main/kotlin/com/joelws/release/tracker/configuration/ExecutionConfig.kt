@@ -10,6 +10,8 @@ import com.joelws.release.tracker.service.artifact.execution.ListArtifactService
 import com.joelws.release.tracker.service.artifact.execution.ReadArtifactServiceExecution
 import com.joelws.release.tracker.service.environment.execution.*
 import com.joelws.release.tracker.service.release.execution.*
+import org.funktionale.option.Option
+import org.funktionale.option.Option.None
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -23,44 +25,44 @@ open class ExecutionConfig {
     lateinit var daoConfiguration: DaoConfig
 
     @Bean
-    open fun createArtifactServiceExecution(): ServiceExecution<Artifact, Artifact?> = CreateArtifactServiceExecution(daoConfiguration.artifactDao())
+    open fun createArtifactServiceExecution(): ServiceExecution<Artifact, Option<Artifact>> = CreateArtifactServiceExecution(daoConfiguration.artifactDao())
 
     @Bean
-    open fun readArtifactServiceExecution(): ServiceExecution<Artifact, Artifact?> = ReadArtifactServiceExecution(daoConfiguration.artifactDao())
+    open fun readArtifactServiceExecution(): ServiceExecution<Artifact, Option<Artifact>> = ReadArtifactServiceExecution(daoConfiguration.artifactDao())
 
     @Bean
     open fun deleteArtifactServiceExecution(): ServiceExecution<Artifact, Unit> = DeleteArtifactServiceExecution(daoConfiguration.artifactDao())
 
     @Bean
-    open fun listArtifactServiceExecution(): ServiceExecution<Nothing?, List<Artifact>> = ListArtifactServiceExecution(daoConfiguration.artifactDao())
+    open fun listArtifactServiceExecution(): ServiceExecution<None, List<Artifact>> = ListArtifactServiceExecution(daoConfiguration.artifactDao())
 
     @Bean
-    open fun createReleaseServiceExecution(): ServiceExecution<Release, Release?> = CreateReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun createReleaseServiceExecution(): ServiceExecution<Release, Option<Release>> = CreateReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun readReleaseServiceExecution(): ServiceExecution<String?, Release?> = ReadReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun readReleaseServiceExecution(): ServiceExecution<String, Option<Release>> = ReadReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun updateReleaseServiceExecution(): ServiceExecution<Release, Release?> = UpdateReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun updateReleaseServiceExecution(): ServiceExecution<Release, Option<Release>> = UpdateReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun deleteReleaseServiceExecution(): ServiceExecution<String?, Unit> = DeleteReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun deleteReleaseServiceExecution(): ServiceExecution<String, Unit> = DeleteReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun listReleaseServiceExecution(): ServiceExecution<Nothing?, List<Release>> = ListReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun listReleaseServiceExecution(): ServiceExecution<None, List<Release>> = ListReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun createEnvironmentServiceExecution(): ServiceExecution<Environment, Environment?> = CreateEnvironmentServiceExecution(daoConfiguration.environmentDao())
+    open fun createEnvironmentServiceExecution(): ServiceExecution<Environment, Option<Environment>> = CreateEnvironmentServiceExecution(daoConfiguration.environmentDao())
 
     @Bean
-    open fun readEnvironmentServiceExecution(): ServiceExecution<String?, Environment?> = ReadEnvironmentServiceExecution(daoConfiguration.environmentDao())
+    open fun readEnvironmentServiceExecution(): ServiceExecution<String, Option<Environment>> = ReadEnvironmentServiceExecution(daoConfiguration.environmentDao())
 
     @Bean
-    open fun updateEnvironmentServiceExecution(): ServiceExecution<Environment, Environment?> = UpdateEnvironmentServiceExecution(daoConfiguration.environmentDao())
+    open fun updateEnvironmentServiceExecution(): ServiceExecution<Environment, Option<Environment>> = UpdateEnvironmentServiceExecution(daoConfiguration.environmentDao())
 
     @Bean
-    open fun deleteEnvironmentServiceExecution(): ServiceExecution<String?, Unit> = DeleteEnvironmentServiceExecution(daoConfiguration.environmentDao())
+    open fun deleteEnvironmentServiceExecution(): ServiceExecution<String, Unit> = DeleteEnvironmentServiceExecution(daoConfiguration.environmentDao())
 
     @Bean
-    open fun listEnvironmentServiceExecution(): ServiceExecution<Nothing?, List<Environment>> = ListEnvironmentServiceExecution(daoConfiguration.environmentDao())
+    open fun listEnvironmentServiceExecution(): ServiceExecution<None, List<Environment>> = ListEnvironmentServiceExecution(daoConfiguration.environmentDao())
 }

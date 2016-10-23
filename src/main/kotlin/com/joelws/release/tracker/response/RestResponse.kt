@@ -5,11 +5,26 @@ import javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE
 import javax.ws.rs.core.Response
 
 sealed class RestResponse {
-    class Success : RestResponse()
+    object Success : RestResponse()
     class SuccessWithEntity(val entity: Any) : RestResponse()
-    class BadRequest(val error: String = "400 error has occurred") : RestResponse()
-    class NotFound(val error: String = "404 error has occurred") : RestResponse()
-    class ServerError(val error: String = "500 error has occurred") : RestResponse()
+    class BadRequest(val error: String) : RestResponse()
+    class NotFound(val error: String) : RestResponse()
+    class ServerError(val error: String = "Unhandled error") : RestResponse()
+}
+
+enum class ErrorMessage(val response: RestResponse) {
+
+    ARTIFACT_FOUND(BadRequest("Artifact already exists")),
+    RELEASE_FOUND(BadRequest("Release already exists")),
+    RELEASE_NOT_FOUND(NotFound("Release doesn't exist")),
+    RELEASES_NOT_FOUND(NotFound("No releases exist")),
+    ENVIRONMENT_FOUND(BadRequest("Environment already exists")),
+    ARTIFACT_NOT_FOUND(NotFound("Artifact doesn't exist")),
+    ARTIFACTS_NOT_FOUND(NotFound("No artifacts could be found")),
+    ENVIRONMENT_NOT_FOUND(NotFound("Environment doesn't exist")),
+    ENVIRONMENTS_NOT_FOUND(NotFound("No environments exist")),
+    UNSUPPORTED_OPERATION(BadRequest("Unsupported operation")),
+    UNKNOWN_ERROR(ServerError())
 }
 
 
@@ -23,7 +38,7 @@ private val notFound = buildResponse(404)
 
 private val serverError = buildResponse(500)
 
-fun RestResponse.build() = when (this) {
+fun RestResponse.build(): Response = when (this) {
     is Success -> success
     is SuccessWithEntity -> successWithEntity(this.entity)
     is BadRequest -> badRequest(this)

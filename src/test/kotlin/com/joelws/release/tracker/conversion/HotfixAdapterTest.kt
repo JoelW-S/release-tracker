@@ -9,7 +9,7 @@ import org.junit.Test
 
 class HotfixAdapterTest {
 
-    private val from = Release()
+
 
     private val mockArtifact = Artifact(ArtifactPK(artifactId = "artifactId",
             groupId = "groupId",
@@ -21,11 +21,7 @@ class HotfixAdapterTest {
     fun testAdapt() {
 
         val artifactList = mutableListOf(mockArtifact)
-
-        from.apply {
-            name = "R1-HF1"
-            artifacts = artifactList
-        }
+        val from = Release(name = "R1-HF1", artifacts = artifactList)
 
         val result = adapter.adapt(from)
 

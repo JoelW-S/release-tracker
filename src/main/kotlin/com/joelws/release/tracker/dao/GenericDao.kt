@@ -1,13 +1,15 @@
 package com.joelws.release.tracker.dao
 
-interface GenericDao<T, PK> {
+import org.funktionale.option.Option
 
-    fun create(entity: T?): T?
+interface GenericDao<T : Any, PK> {
 
-    fun read(identifier: PK?): T?
+    fun create(entity: T): Option<T>
 
-    fun update(entity: T?): T?
+    fun read(identifier: PK): Option<T>
 
-    fun delete(identifier: PK?)
+    fun update(entity: T): Option<T>
+
+    fun delete(identifier: PK)
 
 }

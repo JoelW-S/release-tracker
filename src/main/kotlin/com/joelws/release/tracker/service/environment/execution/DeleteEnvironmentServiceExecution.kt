@@ -1,7 +1,9 @@
 package com.joelws.release.tracker.service.environment.execution
 
 import com.joelws.release.tracker.dao.environment.EnvironmentDao
+import com.joelws.release.tracker.entity.environment.Environment
 import com.joelws.release.tracker.service.ServiceExecution
+import org.funktionale.option.Option.Some
 
 /*
 Copyright 2016 Joel Whittaker-Smith
@@ -17,11 +19,13 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/open class DeleteEnvironmentServiceExecution(private val environmentDao: EnvironmentDao) : ServiceExecution<String?, Unit> {
+*/open class DeleteEnvironmentServiceExecution(private val environmentDao: EnvironmentDao) : ServiceExecution<String, Unit> {
 
-    override fun execute(param: String?) {
-        environmentDao.read(param)?.let {
-            environmentDao.delete(param)
+    override fun execute(param: String) {
+        val maybeEnvironment = environmentDao.read(param)
+
+        when (maybeEnvironment) {
+            is Some<Environment> -> environmentDao.delete(param)
         }
     }
 }

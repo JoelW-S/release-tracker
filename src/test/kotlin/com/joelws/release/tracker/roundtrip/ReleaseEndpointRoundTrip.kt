@@ -262,9 +262,9 @@ open class ReleaseEndpointRoundTrip {
                 .`when`()
                 .delete("/release/{name}")
                 .then()
-                .statusCode(400)
+                .statusCode(500)
                 .contentType(JSON)
-                .body("error", `is`("400 error has occurred"))
+                .body("error", `is`("Unhandled error"))
     }
 
     @Test

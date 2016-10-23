@@ -11,7 +11,7 @@ import org.junit.Test
 class ReleaseAdapterTest {
 
 
-    private val mockRelease = Release()
+
 
     private val mockArtifact = Artifact(ArtifactPK(artifactId = "artifactId",
             groupId = "groupId",
@@ -27,11 +27,7 @@ class ReleaseAdapterTest {
 
         val hotfixSet = mutableSetOf(mockHotfixRelease)
 
-        mockRelease.apply {
-            name = "R1"
-            artifacts = artifactList
-            hotfixes = hotfixSet
-        }
+        val mockRelease = Release(name = "R1", artifacts = artifactList, hotfixes = hotfixSet)
 
         val result = adapter.adapt(mockRelease)
 
