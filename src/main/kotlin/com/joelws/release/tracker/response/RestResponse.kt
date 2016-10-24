@@ -15,6 +15,7 @@ sealed class RestResponse {
 enum class ErrorMessage(val response: RestResponse) {
 
     ARTIFACT_FOUND(BadRequest("Artifact already exists")),
+    ENTITY_DEPENDENCY(BadRequest("Entity has a dependency")),
     RELEASE_FOUND(BadRequest("Release already exists")),
     RELEASE_NOT_FOUND(NotFound("Release doesn't exist")),
     RELEASES_NOT_FOUND(NotFound("No releases exist")),
