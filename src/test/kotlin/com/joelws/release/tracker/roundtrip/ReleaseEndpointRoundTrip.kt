@@ -262,9 +262,9 @@ open class ReleaseEndpointRoundTrip {
                 .`when`()
                 .delete("/release/{name}")
                 .then()
-                .statusCode(500)
+                .statusCode(400)
                 .contentType(JSON)
-                .body("error", `is`("Unhandled error"))
+                .body("error", `is`("Entity has a dependency"))
     }
 
     @Test
