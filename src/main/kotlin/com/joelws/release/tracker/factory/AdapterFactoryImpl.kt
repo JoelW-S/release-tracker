@@ -9,7 +9,7 @@ import com.joelws.release.tracker.interfaces.Adapter
 import com.joelws.release.tracker.model.artifact.ArtifactModel
 import com.joelws.release.tracker.model.environment.EnvironmentModel
 import com.joelws.release.tracker.model.release.ReleaseModel
-import com.joelws.release.tracker.response.RestResponse.ServerError
+import com.joelws.release.tracker.response.ErrorMessage
 
 open class AdapterFactoryImpl(private val artifactModelAdapter: Adapter<ArtifactModel, Artifact>,
                               private val artifactAdapter: Adapter<Artifact, ArtifactModel>,
@@ -17,15 +17,17 @@ open class AdapterFactoryImpl(private val artifactModelAdapter: Adapter<Artifact
                               private val releaseAdapter: Adapter<Release, ReleaseModel>,
                               private val environmentModelAdapter: Adapter<EnvironmentModel, Environment>,
                               private val environmentAdapter: Adapter<Environment, EnvironmentModel>) : AdapterFactory {
-    override fun getAdapter(klazz: Class<out Adapter<*, *>>): Adapter<*, *> {
+
+    override fun <In, Out> getAdapter(klazz: Class<out Adapter<In, Out>>): Adapter<In, Out> {
+        @Suppress("UNCHECKED_CAST")
         return when (klazz) {
-            ArtifactModelAdapter::class.java -> artifactModelAdapter
-            ArtifactAdapter::class.java -> artifactAdapter
-            ReleaseModelAdapter::class.java -> releaseModelAdapter
-            ReleaseAdapter::class.java -> releaseAdapter
-            EnvironmentModelAdapter::class.java -> environmentModelAdapter
-            EnvironmentAdapter::class.java -> environmentAdapter
-            else -> throw ReleaseTrackerException(ServerError("No such adapter exists"))
+            ArtifactModelAdapter::class.java -> artifactModelAdapter as Adapter<In, Out>
+            ArtifactAdapter::class.java -> artifactAdapter as Adapter<In, Out>
+            ReleaseModelAdapter::class.java -> releaseModelAdapter as Adapter<In, Out>
+            ReleaseAdapter::class.java -> releaseAdapter as Adapter<In, Out>
+            EnvironmentModelAdapter::class.java -> environmentModelAdapter as Adapter<In, Out>
+            EnvironmentAdapter::class.java -> environmentAdapter as Adapter<In, Out>
+            else -> throw ReleaseTrackerException(ErrorMessage.INCORRECT_ADAPTER)
         }
     }
 

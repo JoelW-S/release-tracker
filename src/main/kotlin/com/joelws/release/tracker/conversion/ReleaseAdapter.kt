@@ -12,7 +12,7 @@ open class ReleaseAdapter : Adapter<Release, ReleaseModel> {
         val artifactAdapter = ArtifactAdapter()
         val hotfixAdapter = HotfixAdapter()
 
-        val out = ReleaseModel(name = incoming.name!!, artifacts = incoming.artifacts.mapNotNull { artifactAdapter.adapt(it) },
+        val out = ReleaseModel(name = incoming.name, artifacts = incoming.artifacts.map { artifactAdapter.adapt(it) },
                 hotfixes = incoming.hotfixes.map { hotfixAdapter.adapt(it) }.toSet())
 
         return out

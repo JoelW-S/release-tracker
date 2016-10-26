@@ -9,13 +9,13 @@ open class HotfixModelAdapter : Adapter<ReleaseModel, Release> {
 
     override fun adapt(incoming: ReleaseModel): Release {
 
-        val artifactDtoToArtifactAdapter = ArtifactModelAdapter()
+        val artifactModelAdapter = ArtifactModelAdapter()
         val out = Release()
         val inArtifactList = incoming.artifacts
 
         out.name = incoming.name
 
-        out.artifacts = inArtifactList.map { artifactDtoToArtifactAdapter.adapt(it) }.toMutableList()
+        out.artifacts = inArtifactList.map { artifactModelAdapter.adapt(it) }.toMutableList()
 
         return out
     }

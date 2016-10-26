@@ -2,34 +2,31 @@ package com.joelws.release.tracker.service.artifact.operation
 
 import com.joelws.release.tracker.conversion.ArtifactAdapter
 import com.joelws.release.tracker.entity.artifact.Artifact
-import com.joelws.release.tracker.interfaces.Adapter
-import com.joelws.release.tracker.model.artifact.ArtifactModel
-import com.joelws.release.tracker.response.RestResponse.NotFound
+import com.joelws.release.tracker.response.ErrorMessage
+import com.joelws.release.tracker.response.RestResponse
 import com.joelws.release.tracker.response.RestResponse.SuccessWithEntity
-import com.joelws.release.tracker.response.build
 import com.joelws.release.tracker.service.ServiceExecution
 import com.joelws.release.tracker.service.ServiceHelper
 import com.joelws.release.tracker.service.ServiceOperation
-import javax.ws.rs.core.Response
+import org.funktionale.option.Option.None
 
 class ListArtifactServiceOperation(private val helper: ServiceHelper,
-                                   private val listArtifactServiceExecution: ServiceExecution<Nothing?, List<Artifact>>) : ServiceOperation<Nothing> {
+                                   private val listArtifactServiceExecution: ServiceExecution<None, List<Artifact>>) : ServiceOperation<None> {
 
-    override fun delegate(param: Nothing?): Response {
+    override fun delegate(param: None): RestResponse {
 
         val result = listArtifactServiceExecution.execute(param)
 
-        return if (!result.isEmpty()) {
+        return if (result.isNotEmpty()) {
 
-            @Suppress("UNCHECKED_CAST")
-            val artifactAdapter: Adapter<Artifact, ArtifactModel> = helper.adapterFactory.getAdapter(ArtifactAdapter::class.java) as Adapter<Artifact, ArtifactModel>
+            val artifactAdapter = helper.adapterFactory.getAdapter(ArtifactAdapter::class.java)
 
-            val adaptedResultList = result.map { artifactAdapter.adapt(it) }
+            val adaptedResultList = result.map { artifact -> artifactAdapter.adapt(artifact) }
 
-            SuccessWithEntity(adaptedResultList).build()
+            SuccessWithEntity(adaptedResultList)
 
         } else {
-            NotFound("No artifacts could be found").build()
+            ErrorMessage.ARTIFACTS_NOT_EXIST.response
         }
 
     }

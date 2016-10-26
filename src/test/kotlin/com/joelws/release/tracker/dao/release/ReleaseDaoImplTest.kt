@@ -19,7 +19,7 @@ class ReleaseDaoImplTest {
 
     private var subject = ReleaseDaoImpl()
 
-    private var testRelease = Release()
+    private lateinit var testRelease: Release
 
     @Before
     fun setUp() {

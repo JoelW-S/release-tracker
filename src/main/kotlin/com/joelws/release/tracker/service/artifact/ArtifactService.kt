@@ -1,22 +1,7 @@
 package com.joelws.release.tracker.service.artifact
 
-import com.joelws.release.tracker.interfaces.BusinessService
+import com.joelws.release.tracker.service.AbstractService
 import com.joelws.release.tracker.service.ServiceOperation
+import org.funktionale.option.Option.None
 
-open class ArtifactService(private val createArtifactServiceOperation: ServiceOperation<String>,
-                           private val readArtifactServiceOperation: ServiceOperation<String>,
-                           private val updateArtifactServiceOperation: ServiceOperation<String>,
-                           private val deleteArtifactServiceOperation: ServiceOperation<String>,
-                           private val listArtifactServiceOperation: ServiceOperation<Nothing>) : BusinessService<String> {
-
-    override fun create(json: String) = createArtifactServiceOperation.execute(json)
-
-    override fun read(identifier: String) = readArtifactServiceOperation.execute(identifier)
-
-    override fun update(json: String) = updateArtifactServiceOperation.execute(json)
-
-    override fun delete(identifier: String) = deleteArtifactServiceOperation.execute(identifier)
-
-    override fun list() = listArtifactServiceOperation.execute(null)
-
-}
+open class ArtifactService(createServiceOperation: ServiceOperation<String>, readServiceOperation: ServiceOperation<String>, updateServiceOperation: ServiceOperation<String>, deleteServiceOperation: ServiceOperation<String>, listServiceOperation: ServiceOperation<None>) : AbstractService<String>(createServiceOperation, readServiceOperation, updateServiceOperation, deleteServiceOperation, listServiceOperation)

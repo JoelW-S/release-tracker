@@ -4,4 +4,4 @@ import javax.persistence.EmbeddedId
 import javax.persistence.Entity
 
 @Entity
-data class Artifact(@EmbeddedId var id: ArtifactPK? = null)
+data class Artifact(@EmbeddedId var id: ArtifactPK = ArtifactPK())

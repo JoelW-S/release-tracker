@@ -1,9 +1,4 @@
-package com.joelws.release.tracker.service.environment.execution
-
-import com.joelws.release.tracker.dao.environment.EnvironmentDao
-import com.joelws.release.tracker.entity.environment.Environment
-import com.joelws.release.tracker.service.ServiceExecution
-import org.funktionale.option.Option
+@file:JvmName("Utils")
 
 /*
 Copyright 2016 Joel Whittaker-Smith
@@ -19,7 +14,19 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/open class ReadEnvironmentServiceExecution(private val environmentDao: EnvironmentDao) : ServiceExecution<String, Option<Environment>> {
+*/
 
-    override fun execute(param: String): Option<Environment> = environmentDao.read(param)
+package com.joelws.release.tracker.util
+
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.joelws.release.tracker.exception.ReleaseTrackerException
+import com.joelws.release.tracker.response.ErrorMessage
+
+
+inline fun <reified T : Any> getObjectFromJson(jsonString: String?): T {
+    try {
+        return jacksonObjectMapper().readValue(jsonString, T::class.java)
+    } catch (e: Exception) {
+        throw ReleaseTrackerException(ErrorMessage.INCORRECT_JSON)
+    }
 }

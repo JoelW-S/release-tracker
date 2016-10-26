@@ -3,6 +3,7 @@ package com.joelws.release.tracker.service.environment.execution
 import com.joelws.release.tracker.dao.environment.EnvironmentDao
 import com.joelws.release.tracker.entity.environment.Environment
 import com.joelws.release.tracker.service.ServiceExecution
+import org.funktionale.option.Option.None
 
 /*
 Copyright 2016 Joel Whittaker-Smith
@@ -18,7 +19,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/open class ListEnvironmentServiceExecution(private val environmentDao: EnvironmentDao) : ServiceExecution<Nothing?, List<Environment>> {
+*/open class ListEnvironmentServiceExecution(private val environmentDao: EnvironmentDao) : ServiceExecution<None, List<Environment>> {
 
-    override fun execute(param: Nothing?): List<Environment> = environmentDao.list()
+    override fun execute(param: None): List<Environment> = environmentDao.list()
 }

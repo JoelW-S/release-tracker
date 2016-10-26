@@ -1,5 +1,5 @@
 package com.joelws.release.tracker.exception
 
-import com.joelws.release.tracker.response.RestResponse
+import com.joelws.release.tracker.response.ErrorMessage
 
-open class ReleaseTrackerException(val restResponse: RestResponse) : RuntimeException()
+open class ReleaseTrackerException(val errorMessage: ErrorMessage) : RuntimeException()

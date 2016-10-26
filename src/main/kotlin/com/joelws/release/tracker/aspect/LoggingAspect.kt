@@ -25,6 +25,10 @@ limitations under the License.
 
     private val logger = Logger.getLogger(LoggingAspect::class.java)
 
+    @Pointcut("execution(* com.joelws.release.tracker.service..*Service.*(..))")
+    fun serviceMethods() {
+    }
+
     @Pointcut("execution(* com.joelws.release.tracker.service..*Execution.execute(..))")
     fun executionMethods() {
     }
@@ -37,9 +41,9 @@ limitations under the License.
     fun adapterMethods() {
     }
 
-    @Before("operationMethods() || executionMethods() || adapterMethods()")
+    @Before("serviceMethods() || operationMethods() || executionMethods() || adapterMethods()")
     fun startLogging(joinPoint: JoinPoint) = logger.info("Starting ${joinPoint.target.javaClass.simpleName}.${joinPoint.signature.name}, with: ${joinPoint.args.map { it }.joinToString(" ")}")
 
-    @AfterReturning("operationMethods() || executionMethods() || adapterMethods()", returning = "result")
+    @AfterReturning("serviceMethods() || operationMethods() || executionMethods() || adapterMethods()", returning = "result")
     fun exitLogging(joinPoint: JoinPoint, result: Any?) = logger.info("Exiting ${joinPoint.target.javaClass.simpleName}.${joinPoint.signature.name}, with: $result")
 }

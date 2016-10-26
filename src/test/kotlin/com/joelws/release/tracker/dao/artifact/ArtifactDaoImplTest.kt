@@ -20,7 +20,7 @@ class ArtifactDaoImplTest {
 
     private var subject = ArtifactDaoImpl()
 
-    private var testArtifact = Artifact()
+    private lateinit var testArtifact: Artifact
 
     @Before
     fun setUp() {

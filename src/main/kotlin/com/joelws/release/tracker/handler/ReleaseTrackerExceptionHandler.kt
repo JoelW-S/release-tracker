@@ -8,5 +8,5 @@ import javax.ws.rs.ext.ExceptionMapper
 
 open class ReleaseTrackerExceptionHandler : ExceptionMapper<ReleaseTrackerException> {
 
-    override fun toResponse(exception: ReleaseTrackerException): Response = exception.restResponse.build()
+    override fun toResponse(exception: ReleaseTrackerException): Response = exception.errorMessage.response.build()
 }

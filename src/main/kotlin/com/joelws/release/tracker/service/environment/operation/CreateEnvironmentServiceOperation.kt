@@ -3,37 +3,38 @@ package com.joelws.release.tracker.service.environment.operation
 import com.joelws.release.tracker.conversion.EnvironmentAdapter
 import com.joelws.release.tracker.conversion.EnvironmentModelAdapter
 import com.joelws.release.tracker.entity.environment.Environment
-import com.joelws.release.tracker.interfaces.Adapter
 import com.joelws.release.tracker.model.environment.EnvironmentModel
-import com.joelws.release.tracker.response.RestResponse.BadRequest
+import com.joelws.release.tracker.response.ErrorMessage
+import com.joelws.release.tracker.response.RestResponse
 import com.joelws.release.tracker.response.RestResponse.SuccessWithEntity
-import com.joelws.release.tracker.response.build
 import com.joelws.release.tracker.service.ServiceExecution
 import com.joelws.release.tracker.service.ServiceHelper
 import com.joelws.release.tracker.service.ServiceOperation
-import javax.ws.rs.core.Response
+import com.joelws.release.tracker.util.getObjectFromJson
+import org.funktionale.option.Option
+import org.funktionale.option.Option.None
+import org.funktionale.option.Option.Some
 
 open class CreateEnvironmentServiceOperation(private val helper: ServiceHelper,
-                                             private val createEnvironmentServiceExecution: ServiceExecution<Environment, Environment?>) : ServiceOperation<String> {
+                                             private val createEnvironmentServiceExecution: ServiceExecution<Environment, Option<Environment>>) : ServiceOperation<String> {
 
-    override fun delegate(param: String?): Response {
+    override fun delegate(param: String): RestResponse {
 
-        @Suppress("UNCHECKED_CAST")
-        val environmentModelAdapter: Adapter<EnvironmentModel, Environment> = helper.adapterFactory.getAdapter(EnvironmentModelAdapter::class.java) as Adapter<EnvironmentModel, Environment>
+        val environmentModelAdapter = helper.adapterFactory.getAdapter(EnvironmentModelAdapter::class.java)
 
-        val result = createEnvironmentServiceExecution.execute(environmentModelAdapter.adapt(helper.jsonAdapter.getObjectFromJson(param, EnvironmentModel::class.java)))
+        val result = createEnvironmentServiceExecution.execute(environmentModelAdapter.adapt(getObjectFromJson<EnvironmentModel>(param)))
 
-        return if (result != null) {
+        return when (result) {
 
-            @Suppress("UNCHECKED_CAST")
-            val environmentAdapter: Adapter<Environment, EnvironmentModel> = helper.adapterFactory.getAdapter(EnvironmentAdapter::class.java) as Adapter<Environment, EnvironmentModel>
+            is Some<Environment> -> {
+                val environmentAdapter = helper.adapterFactory.getAdapter(EnvironmentAdapter::class.java)
 
-            val adaptedResult = environmentAdapter.adapt(result)
+                val adaptedResult = result.map { environment -> environmentAdapter.adapt(environment) }.get()
 
-            SuccessWithEntity(adaptedResult).build()
+                SuccessWithEntity(adaptedResult)
+            }
+            is None -> ErrorMessage.ENVIRONMENT_EXIST.response
 
-        } else {
-            BadRequest("Environment already exists").build()
         }
     }
 }

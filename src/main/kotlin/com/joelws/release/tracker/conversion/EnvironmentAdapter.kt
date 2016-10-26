@@ -11,7 +11,7 @@ open class EnvironmentAdapter : Adapter<Environment, EnvironmentModel> {
 
         val releaseAdapter = ReleaseAdapter()
 
-        val out = EnvironmentModel(name = incoming.environmentName!!, release = releaseAdapter.adapt(incoming.release!!))
+        val out = EnvironmentModel(name = incoming.environmentName, release = releaseAdapter.adapt(incoming.release))
 
         return out
     }

@@ -24,6 +24,6 @@ limitations under the License.
 @Entity
 data class Environment(@Id
                        @Column(name = "env_name")
-                       var environmentName: String? = null,
+                       var environmentName: String = "",
                        @OneToOne(targetEntity = Release::class)
-                       val release: Release? = null)
+                       val release: Release = Release())

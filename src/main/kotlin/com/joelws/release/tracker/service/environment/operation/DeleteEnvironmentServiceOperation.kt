@@ -1,10 +1,9 @@
 package com.joelws.release.tracker.service.environment.operation
 
+import com.joelws.release.tracker.response.RestResponse
 import com.joelws.release.tracker.response.RestResponse.Success
-import com.joelws.release.tracker.response.build
 import com.joelws.release.tracker.service.ServiceExecution
 import com.joelws.release.tracker.service.ServiceOperation
-import javax.ws.rs.core.Response
 
 /*
 Copyright 2016 Joel Whittaker-Smith
@@ -20,14 +19,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/open class DeleteEnvironmentServiceOperation(private val deleteEnvironmentServiceExecution: ServiceExecution<String?, Unit>) : ServiceOperation<String> {
+*/open class DeleteEnvironmentServiceOperation(private val deleteEnvironmentServiceExecution: ServiceExecution<String, Unit>) : ServiceOperation<String> {
 
-    override fun delegate(param: String?): Response {
+    override fun delegate(param: String): RestResponse {
 
         deleteEnvironmentServiceExecution
                 .execute(param)
 
-        return Success().build()
+        return Success
     }
 }
 
