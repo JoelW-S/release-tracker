@@ -15,11 +15,9 @@ open class DeleteReleaseServiceExecution(private val releaseDao: ReleaseDao, pri
 
         val maybeRelease = releaseDao.read(param)
 
-
         when (maybeRelease) {
-            is Some<Release> -> {
-                checkIfDependency(maybeRelease.get())
-            }
+            is Some<Release> -> checkIfDependency(maybeRelease.get())
+
             is None -> throw ReleaseTrackerException(ErrorMessage.RELEASE_NOT_EXIST)
         }
 
