@@ -2,7 +2,10 @@ package com.joelws.release.tracker.service.environment.execution
 
 import com.joelws.release.tracker.dao.environment.EnvironmentDao
 import com.joelws.release.tracker.entity.environment.Environment
+import com.joelws.release.tracker.exception.ReleaseTrackerException
+import com.joelws.release.tracker.response.ErrorMessage
 import com.joelws.release.tracker.service.ServiceExecution
+import org.funktionale.option.Option.None
 import org.funktionale.option.Option.Some
 
 /*
@@ -26,6 +29,7 @@ limitations under the License.
 
         when (maybeEnvironment) {
             is Some<Environment> -> environmentDao.delete(param)
+            is None -> throw ReleaseTrackerException(ErrorMessage.ENVIRONMENT_NOT_EXIST)
         }
     }
 }

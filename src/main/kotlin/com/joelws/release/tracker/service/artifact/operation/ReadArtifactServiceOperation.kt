@@ -34,7 +34,7 @@ open class ReadArtifactServiceOperation(private val helper: ServiceHelper,
                 result.map { artifact -> artifactAdapter.adapt(artifact) }.map { artifactModel -> SuccessWithEntity(artifactModel) }.get()
 
             }
-            is None -> ErrorMessage.ARTIFACT_NOT_FOUND.response
+            is None -> ErrorMessage.ARTIFACT_NOT_EXIST.response
 
         }
     }

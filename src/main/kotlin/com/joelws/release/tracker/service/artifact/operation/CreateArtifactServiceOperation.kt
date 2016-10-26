@@ -31,11 +31,11 @@ open class CreateArtifactServiceOperation(private val helper: ServiceHelper,
 
         return when (result) {
             is Some<Artifact> ->
-                result.map { artifactAdapter.adapt(it) }
-                        .map { SuccessWithEntity(it) }
+                result.map { artifact -> artifactAdapter.adapt(artifact) }
+                        .map { artifactModel -> SuccessWithEntity(artifactModel) }
                         .get()
 
-            is None -> ErrorMessage.ARTIFACT_FOUND.response
+            is None -> ErrorMessage.ARTIFACT_EXIST.response
 
         }
 

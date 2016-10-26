@@ -20,21 +20,13 @@ package com.joelws.release.tracker.util
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.joelws.release.tracker.exception.ReleaseTrackerException
-import com.joelws.release.tracker.response.RestResponse.ServerError
+import com.joelws.release.tracker.response.ErrorMessage
 
-
-fun getJsonFromObject(any: Any): String {
-    try {
-        return jacksonObjectMapper().writeValueAsString(any)
-    } catch (e: Exception) {
-        throw ReleaseTrackerException(ServerError("Can't map $any to JSON"))
-    }
-}
 
 inline fun <reified T : Any> getObjectFromJson(jsonString: String?): T {
     try {
         return jacksonObjectMapper().readValue(jsonString, T::class.java)
     } catch (e: Exception) {
-        throw ReleaseTrackerException(ServerError("Incorrect JSON has been sent"))
+        throw ReleaseTrackerException(ErrorMessage.INCORRECT_JSON)
     }
 }

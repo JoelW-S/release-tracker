@@ -264,7 +264,7 @@ open class ReleaseEndpointRoundTrip {
                 .then()
                 .statusCode(400)
                 .contentType(JSON)
-                .body("error", `is`("Entity has a dependency"))
+                .body("error", `is`("Release exists as another release's hotfix"))
     }
 
     @Test

@@ -23,7 +23,7 @@ open class ListReleaseServiceOperation(private val helper: ServiceHelper,
             val adaptedResultList = resultList.map { release -> releaseAdapter.adapt(release) }
             SuccessWithEntity(adaptedResultList)
         } else {
-            ErrorMessage.RELEASES_NOT_FOUND.response
+            ErrorMessage.RELEASES_NOT_EXIST.response
         }
     }
 }

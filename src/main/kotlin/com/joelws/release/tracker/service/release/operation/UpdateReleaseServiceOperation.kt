@@ -32,7 +32,7 @@ open class UpdateReleaseServiceOperation(private val helper: ServiceHelper,
                 SuccessWithEntity(adaptedResult)
 
             }
-            is None -> ErrorMessage.RELEASE_NOT_FOUND.response
+            is None -> ErrorMessage.RELEASE_NOT_EXIST.response
 
         }
     }

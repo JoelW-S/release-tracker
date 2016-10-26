@@ -42,7 +42,7 @@ limitations under the License.
 
                 SuccessWithEntity(adaptedResult)
             }
-            is None -> ErrorMessage.ENVIRONMENT_NOT_FOUND.response
+            is None -> ErrorMessage.ENVIRONMENT_NOT_EXIST.response
         }
     }
 }

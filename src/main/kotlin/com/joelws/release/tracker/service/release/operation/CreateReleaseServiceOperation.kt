@@ -13,6 +13,7 @@ import com.joelws.release.tracker.service.ServiceOperation
 import com.joelws.release.tracker.util.getObjectFromJson
 import org.funktionale.option.Option
 import org.funktionale.option.Option.None
+import org.funktionale.option.Option.Some
 
 open class CreateReleaseServiceOperation(private val helper: ServiceHelper,
                                          private val createReleaseServiceExecution: ServiceExecution<Release, Option<Release>>) : ServiceOperation<String> {
@@ -25,7 +26,7 @@ open class CreateReleaseServiceOperation(private val helper: ServiceHelper,
 
         return when (result) {
 
-            is Option.Some<Release> -> {
+            is Some<Release> -> {
                 val releaseAdapter = helper.adapterFactory.getAdapter(ReleaseAdapter::class.java)
 
                 val adaptedResult = result.map { release -> releaseAdapter.adapt(release) }.get()
@@ -33,7 +34,7 @@ open class CreateReleaseServiceOperation(private val helper: ServiceHelper,
                 SuccessWithEntity(adaptedResult)
 
             }
-            is None -> ErrorMessage.RELEASE_FOUND.response
+            is None -> ErrorMessage.RELEASE_EXIST.response
 
         }
     }

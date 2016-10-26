@@ -31,7 +31,7 @@ open class ExecutionConfig {
     open fun readArtifactServiceExecution(): ServiceExecution<Artifact, Option<Artifact>> = ReadArtifactServiceExecution(daoConfiguration.artifactDao())
 
     @Bean
-    open fun deleteArtifactServiceExecution(): ServiceExecution<Artifact, Unit> = DeleteArtifactServiceExecution(daoConfiguration.artifactDao())
+    open fun deleteArtifactServiceExecution(): ServiceExecution<Artifact, Unit> = DeleteArtifactServiceExecution(daoConfiguration.artifactDao(), daoConfiguration.releaseDao())
 
     @Bean
     open fun listArtifactServiceExecution(): ServiceExecution<None, List<Artifact>> = ListArtifactServiceExecution(daoConfiguration.artifactDao())
@@ -46,7 +46,7 @@ open class ExecutionConfig {
     open fun updateReleaseServiceExecution(): ServiceExecution<Release, Option<Release>> = UpdateReleaseServiceExecution(daoConfiguration.releaseDao())
 
     @Bean
-    open fun deleteReleaseServiceExecution(): ServiceExecution<String, Unit> = DeleteReleaseServiceExecution(daoConfiguration.releaseDao())
+    open fun deleteReleaseServiceExecution(): ServiceExecution<String, Unit> = DeleteReleaseServiceExecution(daoConfiguration.releaseDao(), daoConfiguration.environmentDao())
 
     @Bean
     open fun listReleaseServiceExecution(): ServiceExecution<None, List<Release>> = ListReleaseServiceExecution(daoConfiguration.releaseDao())

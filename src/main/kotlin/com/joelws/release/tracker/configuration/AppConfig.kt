@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.joelws.release.tracker.aspect.LoggingAspect
-import com.joelws.release.tracker.handler.DataIntegrityViolationExceptionHandler
 import com.joelws.release.tracker.handler.ReleaseTrackerExceptionHandler
 import com.joelws.release.tracker.handler.RuntimeExceptionHandler
 import org.apache.cxf.endpoint.Server
@@ -45,7 +44,6 @@ open class AppConfig {
         factory.address = serverAddress
         factory.providers = listOf(jsonProvider(),
                 RuntimeExceptionHandler(),
-                DataIntegrityViolationExceptionHandler(),
                 ReleaseTrackerExceptionHandler(),
                 CrossOriginResourceSharingFilter())
         factory.setServiceBeans(listOf(endpointConfig.createArtifactEndpoint(),

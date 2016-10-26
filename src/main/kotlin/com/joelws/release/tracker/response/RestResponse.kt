@@ -14,17 +14,21 @@ sealed class RestResponse {
 
 enum class ErrorMessage(val response: RestResponse) {
 
-    ARTIFACT_FOUND(BadRequest("Artifact already exists")),
-    ENTITY_DEPENDENCY(BadRequest("Entity has a dependency")),
-    RELEASE_FOUND(BadRequest("Release already exists")),
-    RELEASE_NOT_FOUND(NotFound("Release doesn't exist")),
-    RELEASES_NOT_FOUND(NotFound("No releases exist")),
-    ENVIRONMENT_FOUND(BadRequest("Environment already exists")),
-    ARTIFACT_NOT_FOUND(NotFound("Artifact doesn't exist")),
-    ARTIFACTS_NOT_FOUND(NotFound("No artifacts could be found")),
-    ENVIRONMENT_NOT_FOUND(NotFound("Environment doesn't exist")),
-    ENVIRONMENTS_NOT_FOUND(NotFound("No environments exist")),
+    ARTIFACT_EXIST(BadRequest("Artifact already exists")),
+    ARTIFACT_DEPENDENCY(BadRequest("Artifact exists in a Release")),
+    RELEASE_EXIST(BadRequest("Release already exists")),
+    RELEASE_DEPENDENCY(BadRequest("Release exists in an Environment")),
+    RELEASE_IS_HOTFIX(BadRequest("Release exists as another release's hotfix")),
+    RELEASE_NOT_EXIST(NotFound("Release doesn't exist")),
+    RELEASES_NOT_EXIST(NotFound("No releases exist")),
+    ENVIRONMENT_EXIST(BadRequest("Environment already exists")),
+    ARTIFACT_NOT_EXIST(NotFound("Artifact doesn't exist")),
+    ARTIFACTS_NOT_EXIST(NotFound("No artifacts could be found")),
+    ENVIRONMENT_NOT_EXIST(NotFound("Environment doesn't exist")),
+    ENVIRONMENTS_NOT_EXIST(NotFound("No environments exist")),
     UNSUPPORTED_OPERATION(BadRequest("Unsupported operation")),
+    INCORRECT_JSON(BadRequest("Incorrect JSON has been sent")),
+    INCORRECT_ADAPTER(ServerError("No such adapter exists")),
     UNKNOWN_ERROR(ServerError())
 }
 

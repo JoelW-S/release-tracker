@@ -33,7 +33,7 @@ open class CreateEnvironmentServiceOperation(private val helper: ServiceHelper,
 
                 SuccessWithEntity(adaptedResult)
             }
-            is None -> ErrorMessage.ENVIRONMENT_FOUND.response
+            is None -> ErrorMessage.ENVIRONMENT_EXIST.response
 
         }
     }

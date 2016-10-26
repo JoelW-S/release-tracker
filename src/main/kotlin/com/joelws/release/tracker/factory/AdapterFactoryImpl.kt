@@ -9,7 +9,7 @@ import com.joelws.release.tracker.interfaces.Adapter
 import com.joelws.release.tracker.model.artifact.ArtifactModel
 import com.joelws.release.tracker.model.environment.EnvironmentModel
 import com.joelws.release.tracker.model.release.ReleaseModel
-import com.joelws.release.tracker.response.RestResponse.ServerError
+import com.joelws.release.tracker.response.ErrorMessage
 
 open class AdapterFactoryImpl(private val artifactModelAdapter: Adapter<ArtifactModel, Artifact>,
                               private val artifactAdapter: Adapter<Artifact, ArtifactModel>,
@@ -27,7 +27,7 @@ open class AdapterFactoryImpl(private val artifactModelAdapter: Adapter<Artifact
             ReleaseAdapter::class.java -> releaseAdapter as Adapter<In, Out>
             EnvironmentModelAdapter::class.java -> environmentModelAdapter as Adapter<In, Out>
             EnvironmentAdapter::class.java -> environmentAdapter as Adapter<In, Out>
-            else -> throw ReleaseTrackerException(ServerError("No such adapter exists"))
+            else -> throw ReleaseTrackerException(ErrorMessage.INCORRECT_ADAPTER)
         }
     }
 

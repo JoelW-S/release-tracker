@@ -37,7 +37,7 @@ limitations under the License.
             val adaptedResultList = resultList.map { environment -> environmentAdapter.adapt(environment) }
             SuccessWithEntity(adaptedResultList)
         } else {
-            ErrorMessage.ENVIRONMENTS_NOT_FOUND.response
+            ErrorMessage.ENVIRONMENTS_NOT_EXIST.response
         }
     }
 }

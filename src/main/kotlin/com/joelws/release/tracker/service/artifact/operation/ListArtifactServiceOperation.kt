@@ -26,7 +26,7 @@ class ListArtifactServiceOperation(private val helper: ServiceHelper,
             SuccessWithEntity(adaptedResultList)
 
         } else {
-            ErrorMessage.ARTIFACTS_NOT_FOUND.response
+            ErrorMessage.ARTIFACTS_NOT_EXIST.response
         }
 
     }
