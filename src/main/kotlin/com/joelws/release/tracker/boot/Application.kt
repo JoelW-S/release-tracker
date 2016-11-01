@@ -6,16 +6,17 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.orm.jpa.EntityScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
-import org.springframework.context.annotation.ImportResource
 import org.springframework.transaction.annotation.EnableTransactionManagement
+import ratpack.spring.config.EnableRatpack
 
 @Configuration
 @EntityScan(basePackages = arrayOf("com.joelws.release.tracker.entity"))
 @Import(AppConfig::class)
 @EnableAutoConfiguration(exclude = arrayOf(AppConfig::class))
 @EnableTransactionManagement
-@ImportResource("classpath:META-INF/cxf/cxf.xml", "classpath:META-INF/cxf/cxf-servlet.xml")
+@EnableRatpack
 open class Application {
+
 
     companion object {
         @JvmStatic

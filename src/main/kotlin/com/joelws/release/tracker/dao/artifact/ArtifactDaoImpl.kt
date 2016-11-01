@@ -5,6 +5,7 @@ import com.joelws.release.tracker.entity.artifact.Artifact
 import com.joelws.release.tracker.entity.artifact.ArtifactPK
 
 import org.springframework.stereotype.Repository
+
 @Repository
 open class ArtifactDaoImpl : GenericDaoImpl<Artifact, ArtifactPK>(), ArtifactDao {
 

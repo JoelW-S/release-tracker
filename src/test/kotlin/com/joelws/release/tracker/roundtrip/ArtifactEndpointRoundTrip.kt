@@ -13,6 +13,7 @@ import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_CLASS
@@ -22,6 +23,7 @@ import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener
+import ratpack.server.RatpackServer
 
 @RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration(classes = arrayOf(Application::class, DbUnitConfig::class))
@@ -33,11 +35,15 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @DirtiesContext(classMode = BEFORE_CLASS)
 open class ArtifactEndpointRoundTrip {
 
+    @Autowired
+    private lateinit var server: RatpackServer
+
     @Value("\${rest.service.port}")
-    var servicePort: Int? = null
+    private var servicePort: Int? = null
 
     @Before
     fun setup() {
+        server.start()
         port = servicePort!!
     }
 
@@ -95,9 +101,7 @@ open class ArtifactEndpointRoundTrip {
                 .`when`()
                 .put("/artifact")
                 .then()
-                .statusCode(400)
-                .contentType(JSON)
-                .body("error", `is`("Unsupported operation"))
+                .statusCode(405)
     }
 
     @Test

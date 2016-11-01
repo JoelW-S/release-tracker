@@ -25,5 +25,4 @@ open class DeleteArtifactServiceOperation(val helper: ServiceHelper,
 
     }
 
-
 }

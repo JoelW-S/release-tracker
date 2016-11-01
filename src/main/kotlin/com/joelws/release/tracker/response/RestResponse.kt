@@ -1,8 +1,8 @@
 package com.joelws.release.tracker.response
 
 import com.joelws.release.tracker.response.RestResponse.*
-import javax.ws.rs.core.MediaType.APPLICATION_JSON_TYPE
-import javax.ws.rs.core.Response
+import ratpack.handling.Context
+import ratpack.jackson.Jackson.json
 
 sealed class RestResponse {
     object Success : RestResponse()
@@ -32,8 +32,10 @@ enum class ErrorMessage(val response: RestResponse) {
     UNKNOWN_ERROR(ServerError())
 }
 
-
-private val success = Response.ok().build()
+private val jsonContentType = "application/json"
+private val success: (Context) -> Unit = { ctx ->
+    ctx.response.send(jsonContentType)
+}
 
 private val successWithEntity = buildResponse(200)
 
@@ -43,14 +45,27 @@ private val notFound = buildResponse(404)
 
 private val serverError = buildResponse(500)
 
-fun RestResponse.build(): Response = when (this) {
-    is Success -> success
-    is SuccessWithEntity -> successWithEntity(this.entity)
-    is BadRequest -> badRequest(this)
-    is NotFound -> notFound(this)
-    is ServerError -> serverError(this)
+fun RestResponse.build(): (Context) -> Unit {
+    return when (this) {
+        is Success -> success
+        is SuccessWithEntity -> successWithEntity(this.entity)
+        is BadRequest -> badRequest(this)
+        is NotFound -> notFound(this)
+        is ServerError -> serverError(this)
+    }
 }
 
-private fun buildResponse(statusCode: Int): (Any) -> Response {
-    return { entity: Any -> Response.status(statusCode).type(APPLICATION_JSON_TYPE).entity(entity).build() }
+private fun buildResponse(statusCode: Int): (Any) -> (Context) -> Unit {
+
+    return { entity: Any ->
+        { context: Context ->
+            context.apply {
+                response.status(statusCode)
+                response.contentType(jsonContentType)
+                render(json(entity))
+            }
+        }
+    }
 }
+
+

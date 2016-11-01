@@ -1,15 +1,15 @@
 package com.joelws.release.tracker.configuration
 
-import com.joelws.release.tracker.endpoint.artifact.CreateArtifactEndpoint
-import com.joelws.release.tracker.endpoint.artifact.DeleteArtifactEndpoint
-import com.joelws.release.tracker.endpoint.artifact.ReadArtifactEndpoint
-import com.joelws.release.tracker.endpoint.artifact.UpdateArtifactEndpoint
-import com.joelws.release.tracker.endpoint.environment.*
-import com.joelws.release.tracker.endpoint.release.*
+import com.joelws.release.tracker.endpoint.artifact.ArtifactEndpoint
+import com.joelws.release.tracker.endpoint.environment.EnvironmentEndpoint
+import com.joelws.release.tracker.endpoint.release.ReleaseEndpoint
+import com.joelws.release.tracker.exception.ReleaseTrackerErrorHandler
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
+import ratpack.func.Action
+import ratpack.handling.Chain
 
 @Configuration
 @Import(ServiceConfig::class)
@@ -19,45 +19,18 @@ open class EndpointConfig {
     lateinit var serviceConfig: ServiceConfig
 
     @Bean
-    open fun createArtifactEndpoint() = CreateArtifactEndpoint(serviceConfig.artifactService())
+    open fun serverErrorHandler(): Action<Chain> = Action { chain ->
+        chain.register { r ->
+            r.add(ReleaseTrackerErrorHandler())
+        }.insert(artifactEndpoint())
+                .insert(releaseEndpoint())
+                .insert(envEndpoint())
+    }
 
-    @Bean
-    open fun readArtifactEndpoint() = ReadArtifactEndpoint(serviceConfig.artifactService())
+    private fun artifactEndpoint(): Action<Chain> = ArtifactEndpoint(serviceConfig.artifactService()).endpoints
 
-    @Bean
-    open fun updateArtifactEndpoint() = UpdateArtifactEndpoint(serviceConfig.artifactService())
+    private fun releaseEndpoint(): Action<Chain> = ReleaseEndpoint(serviceConfig.releaseService()).endpoints
 
-    @Bean
-    open fun deleteArtifactEndpoint() = DeleteArtifactEndpoint(serviceConfig.artifactService())
-
-    @Bean
-    open fun createReleaseEndpoint() = CreateReleaseEndpoint(serviceConfig.releaseService())
-
-    @Bean
-    open fun readReleaseEndpoint() = ReadReleaseEndpoint(serviceConfig.releaseService())
-
-    @Bean
-    open fun updateReleaseEndpoint() = UpdateReleaseEndpoint(serviceConfig.releaseService())
-
-    @Bean
-    open fun deleteReleaseEndpoint() = DeleteReleaseEndpoint(serviceConfig.releaseService())
-
-    @Bean
-    open fun listReleaseEndpoint() = ListReleaseEndpoint(serviceConfig.releaseService())
-
-    @Bean
-    open fun createEnvironmentEndpoint() = CreateEnvironmentEndpoint(serviceConfig.environmentService())
-
-    @Bean
-    open fun readEnvironmentEndpoint() = ReadEnvironmentEndpoint(serviceConfig.environmentService())
-
-    @Bean
-    open fun updateEnvironmentEndpoint() = UpdateEnvironmentEndpoint(serviceConfig.environmentService())
-
-    @Bean
-    open fun deleteEnvironmentEndpoint() = DeleteEnvironmentEndpoint(serviceConfig.environmentService())
-
-    @Bean
-    open fun listEnvironmentEndpoint() = ListEnvironmentEndpoint(serviceConfig.environmentService())
-
+    private fun envEndpoint(): Action<Chain> = EnvironmentEndpoint(serviceConfig.environmentService()).endpoints
 }
+

@@ -3,7 +3,7 @@ package com.joelws.release.tracker.service
 import com.joelws.release.tracker.interfaces.BusinessService
 import com.joelws.release.tracker.response.build
 import org.funktionale.option.Option.None
-import javax.ws.rs.core.Response
+import ratpack.handling.Context
 
 /*
 Copyright 2016 Joel Whittaker-Smith
@@ -24,13 +24,13 @@ limitations under the License.
                                        protected val updateServiceOperation: ServiceOperation<String>,
                                        protected val deleteServiceOperation: ServiceOperation<T>,
                                        protected val listServiceOperation: ServiceOperation<None>) : BusinessService<T> {
-    override fun create(json: String): Response = createServiceOperation.execute(json).build()
+    override fun create(json: String): (Context) -> Unit = createServiceOperation.execute(json).build()
 
-    override fun read(identifier: T): Response = readServiceOperation.execute(identifier).build()
+    override fun read(identifier: T): (Context) -> Unit = readServiceOperation.execute(identifier).build()
 
-    override fun update(json: String): Response = updateServiceOperation.execute(json).build()
+    override fun update(json: String): (Context) -> Unit = updateServiceOperation.execute(json).build()
 
-    override fun delete(identifier: T): Response = deleteServiceOperation.execute(identifier).build()
+    override fun delete(identifier: T): (Context) -> Unit = deleteServiceOperation.execute(identifier).build()
 
-    override fun list(): Response = listServiceOperation.execute(None).build()
+    override fun list(): (Context) -> Unit = listServiceOperation.execute(None).build()
 }
